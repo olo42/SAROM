@@ -5,18 +5,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-  <h4>Operation @Html.DisplayFor(model => model.Name)</h4>
-  <hr />
   <div>
-    @Html.DisplayNameFor(model => model.AlertDate): @Html.DisplayFor(model => model.AlertDate) - @Html.DisplayFor(model => model.AlertTime) |
-    @Html.DisplayNameFor(model => model.State3): @Html.DisplayFor(model => model.State3) |
-    @Html.DisplayNameFor(model => model.State4): @Html.DisplayFor(model => model.State4)
+    <h4>Operation @Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.AlertDate) - @Html.DisplayFor(model => model.AlertTime)</h4>
+    <hr />
+    <div>
+      <a asp-controller="OperationActions" asp-action="Create" asp-route-id="@Model.Id">Create Action</a> |
+      <a asp-controller="Units" asp-action="Index" asp-route-id="@Model.Id">Units</a> |
+      <a asp-action="Index">Back to List</a>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Operation Log
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.OperationActions.TakeLast(5).OrderBy(i => i.Id))
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+              <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+              <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+              <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
-  <hr />
-  <div>
-    <a asp-controller="OperationActions" asp-action="Index" asp-route-id="@Model.Id">Actions</a> |
-    <a asp-controller="Units" asp-action="Index" asp-route-id="@Model.Id">Units</a> |
-    <a asp-action="Index">Back to List</a>
-  </div>
-</div>

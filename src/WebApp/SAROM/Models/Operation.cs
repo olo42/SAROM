@@ -4,6 +4,11 @@ namespace SAROM.Models
 {
   public class Operation
   {
+    public Operation()
+    {
+      this.OperationActions = new List<OperationAction>();
+      this.Units = new List<Unit>();
+    }
     public string AlertDate { get; set; }
     public string AlertTime { get; set; }
     public string ClosingReport { get; set; }
