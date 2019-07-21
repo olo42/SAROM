@@ -4,12 +4,27 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-SAROM-22E4C186-14DC-4203-8832-0833FABC1BC7</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+    <AssemblyVersion>2019.7.21.0</AssemblyVersion>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
