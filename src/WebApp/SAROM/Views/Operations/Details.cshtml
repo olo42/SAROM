@@ -1,0 +1,22 @@
+﻿@model SAROM.Models.Operation
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+  <h4>Operation @Html.DisplayFor(model => model.Name)</h4>
+  <hr />
+  <div>
+    @Html.DisplayNameFor(model => model.AlertDate): @Html.DisplayFor(model => model.AlertDate) - @Html.DisplayFor(model => model.AlertTime) |
+    @Html.DisplayNameFor(model => model.State3): @Html.DisplayFor(model => model.State3) |
+    @Html.DisplayNameFor(model => model.State4): @Html.DisplayFor(model => model.State4)
+  </div>
+  <hr />
+  <div>
+    <a asp-controller="OperationActions" asp-action="Index" asp-route-id="@Model.Id">Actions</a> |
+    <a asp-controller="Units" asp-action="Index" asp-route-id="@Model.Id">Units</a> |
+    <a asp-action="Index">Back to List</a>
+  </div>
+</div>

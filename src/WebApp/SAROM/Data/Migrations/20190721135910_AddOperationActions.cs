@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SAROM.Migrations
+namespace SAROM.Data.Migrations
 {
     public partial class AddOperationActions : Migration
     {

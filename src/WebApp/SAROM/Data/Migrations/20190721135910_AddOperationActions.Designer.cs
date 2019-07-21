@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAROM.Models;
 
-namespace SAROM.Migrations
+namespace SAROM.Data.Migrations
 {
     [DbContext(typeof(OperationContext))]
     [Migration("20190721135910_AddOperationActions")]

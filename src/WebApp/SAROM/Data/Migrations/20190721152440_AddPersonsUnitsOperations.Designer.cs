@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAROM.Models;
 
-namespace SAROM.Migrations
+namespace SAROM.Data.Migrations
 {
     [DbContext(typeof(OperationContext))]
-    partial class OperationContextModelSnapshot : ModelSnapshot
+    [Migration("20190721152440_AddPersonsUnitsOperations")]
+    partial class AddPersonsUnitsOperations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,19 +25,9 @@ namespace SAROM.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AlertDate");
-
-                    b.Property<string>("AlertTime");
-
                     b.Property<string>("ClosingReport");
 
                     b.Property<bool>("IsClosed");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("State3");
-
-                    b.Property<string>("State4");
 
                     b.HasKey("Id");
 
