@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using SAROM.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SAROM.Models;
 
 namespace SAROM
 {
@@ -43,6 +44,9 @@ namespace SAROM
           .AddEntityFrameworkStores<ApplicationDbContext>();
 
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+        services.AddDbContext<OperationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("OperationContext")));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
