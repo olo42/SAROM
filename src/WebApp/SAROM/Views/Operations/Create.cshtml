@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Operation</h4>
+<h3>Create Operation</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,12 +18,12 @@
         </div>
         <div class="form-group">
           <label asp-for="AlertDate" class="control-label"></label>
-          <input asp-for="AlertDate" class="form-control" type="date" />
+          <input asp-for="AlertDate" class="form-control" />
           <span asp-validation-for="AlertDate" class="text-danger"></span>
         </div>
         <div class="form-group">
           <label asp-for="AlertTime" class="control-label"></label>
-          <input asp-for="AlertTime" class="form-control" type="time" />
+          <input asp-for="AlertTime" class="form-control" />
           <span asp-validation-for="AlertTime" class="text-danger"></span>
         </div>
         <div class="form-group">

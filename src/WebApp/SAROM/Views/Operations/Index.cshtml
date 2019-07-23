@@ -45,11 +45,7 @@
         @Html.DisplayFor(modelItem => item.IsClosed)
       </td>
       <td align="right">
-        @if (item.IsClosed != true)
-        {
-          <a asp-action="Close" asp-route-id="@item.Id"> Close</a>
-        }
-        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+        <a asp-action="Details" asp-route-id="@item.Id">Show</a>
       </td>
     </tr>
     }

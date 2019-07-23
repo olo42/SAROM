@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SAROM.Models;
-
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAROM.Controllers
 {
@@ -20,53 +15,6 @@ namespace SAROM.Controllers
       _context = context;
     }
 
-    // GET: Operations
-    public async Task<IActionResult> Index()
-    {
-      return View(await _context.Operation.ToListAsync());
-    }
-
-    // GET: Operations/Details/5
-    public async Task<IActionResult> Details(string id)
-    {
-      if (id == null)
-      {
-        return NotFound();
-      }
-
-      var operation = await _context.Operation
-        .Include(o => o.OperationActions)
-        .FirstOrDefaultAsync(m => m.Id == id);
-      if (operation == null)
-      {
-        return NotFound();
-      }
-
-      return View(operation);
-    }
-
-    // GET: Operations/Create
-    public IActionResult Create()
-    {
-      return View();
-    }
-
-    // POST: Operations/Create
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] Operation operation)
-    {
-      if (ModelState.IsValid)
-      {
-        _context.Add(operation);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-      }
-      return View(operation);
-    }
-
     // GET: Operations/Edit/5
     public async Task<IActionResult> Close(string id)
     {
@@ -75,7 +23,7 @@ namespace SAROM.Controllers
         return NotFound();
       }
 
-      var operation = await _context.Operation.FindAsync(id);
+      var operation = FindOperation(id);
       if (operation == null)
       {
         return NotFound();
@@ -84,22 +32,25 @@ namespace SAROM.Controllers
     }
 
     // POST: Operations/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Close(string id, [Bind("Id,ClosingReport")] Operation operation)
+    public async Task<IActionResult> Close(string id, string closingReport)
     {
-      if (id != operation.Id)
+      Operation operation = FindOperation(id);
+      if (operation == null)
       {
         return NotFound();
       }
 
-      VerifyClosingReport(operation.ClosingReport);
+      VerifyClosingReport(closingReport);
 
       if (ModelState.IsValid)
       {
         operation.IsClosed = true;
+        operation.ClosingReport = closingReport;
+
         try
         {
           _context.Update(operation);
@@ -121,20 +72,66 @@ namespace SAROM.Controllers
       return View(operation);
     }
 
+    // GET: Operations/Create
+    public IActionResult Create()
+    {
+      return View();
+    }
+
+    // POST: Operations/Create
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] Operation operation)
+    {
+      if (ModelState.IsValid)
+      {
+        _context.Add(operation);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+      }
+      return View(operation);
+    }
+
     // POST: Operations/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-      var operation = await _context.Operation.FindAsync(id);
+      var operation = FindOperation(id);
       _context.Operation.Remove(operation);
       await _context.SaveChangesAsync();
       return RedirectToAction(nameof(Index));
     }
 
-    private bool OperationExists(string id)
+    // GET: Operations/Details/5
+    public async Task<IActionResult> Details(string id)
     {
-      return _context.Operation.Any(e => e.Id == id);
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      var operation = await _context.Operation
+        .Include(o => o.OperationActions)
+        .FirstOrDefaultAsync(m => m.Id == id);
+      if (operation == null)
+      {
+        return NotFound();
+      }
+
+      return View(operation);
+    }
+
+    // GET: Operations
+    public async Task<IActionResult> Index()
+    {
+      return View(
+        await _context.Operation
+          .OrderByDescending(o => o.AlertDate)
+          .ThenByDescending(a => a.AlertTime)
+          .ToListAsync());
     }
 
     [AcceptVerbs("Get", "Post")]
@@ -143,13 +140,23 @@ namespace SAROM.Controllers
       string key = "ClosingReport";
       if (string.IsNullOrEmpty(closingReport))
       {
-        ModelState.AddModelError(key, "Closing report cant be empty!");
+        ModelState.AddModelError(key, "Closing report can't be empty!");
       }
       else
       {
         if (ModelState.ContainsKey("{key}"))
           ModelState["{key}"].Errors.Clear();
       }
+    }
+
+    private Operation FindOperation(string id)
+    {
+      return _context.Operation.Find(id);
+    }
+
+    private bool OperationExists(string id)
+    {
+      return _context.Operation.Any(e => e.Id == id);
     }
   }
 }

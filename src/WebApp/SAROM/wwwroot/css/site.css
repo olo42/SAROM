@@ -58,10 +58,10 @@ header {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: yellow;
+  /*background-color: yellow;*/
 }
 
 .footer .container {
-  color: red;
+  /*color: red;*/
   font-size:small;
 }
