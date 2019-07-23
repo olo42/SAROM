@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<SAROM.Models.Operation>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-  ViewData["Title"] = "Index";
+  ViewData["Title"] = Localizer["Einsätze"];
+
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Operations</h3>
+<h3>@Localizer["Einsätze"]</h3>
 
 <p>
-  <a asp-action="Create">Create New</a>
+  <a asp-action="Create">@Localizer["Neuen Einsatz anlegen"]</a>
 </p>
 <table class="table">
   <thead>
@@ -22,32 +24,30 @@
       <th>
         @Html.DisplayNameFor(model => model.AlertTime)
       </th>
-      <th>
-        @Html.DisplayNameFor(model => model.IsClosed)
-      </th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     @foreach (var item in Model)
     {
-    <tr>
-      <td>
-        @Html.DisplayFor(modelItem => item.Name)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.AlertDate)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.AlertTime)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.IsClosed)
-      </td>
-      <td align="right">
-        <a asp-action="Details" asp-route-id="@item.Id">Show</a>
-      </td>
-    </tr>
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.AlertDate)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.AlertTime)
+        </td>
+        <td>
+          @(item.IsClosed == true ? @Localizer["beendet"] : @Localizer["offen"])
+        </td>
+        <td align="right">
+          <a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a>
+        </td>
+      </tr>
     }
   </tbody>
 </table>

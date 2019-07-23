@@ -1,11 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@ViewData["Title"] - SAROM</title>
+  <title>SAROM - @ViewData["Title"]</title>
 
   <environment include="Development">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -25,7 +27,7 @@
       <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SAROM</a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -36,10 +38,10 @@
           {
             <ul class="navbar-nav flex-grow-1">
               <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Operations" asp-action="Index">Operations</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Master Data</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Stammdaten"]</a>
               </li>
             </ul>
           }

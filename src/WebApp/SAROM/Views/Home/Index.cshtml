@@ -1,9 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+  ViewData["Title"] = "Search and Rescue Operation Management";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome!</h1>
-    <p>SAROM - Search and Rescue Operation Manager</p>
-    <img src="~/img/LogoODRZ.png" width="350" style="padding-top: 20px;" />
+  <h1 class="display-4">@Localizer["Willkommen!"]</h1>
+  <p>SAROM - Search and Rescue Operation Manager</p>
+  <img src="~/img/LogoODRZ.png" width="350" style="padding-top: 20px;" />
 </div>
