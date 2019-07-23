@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SAROM.Models;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace SAROM.Controllers
 {
   public class OperationsController : Controller
@@ -33,8 +35,8 @@ namespace SAROM.Controllers
       }
 
       var operation = await _context.Operation
-          .Include(o => o.OperationActions)
-          .FirstOrDefaultAsync(m => m.Id == id);
+        .Include(o => o.OperationActions)
+        .FirstOrDefaultAsync(m => m.Id == id);
       if (operation == null)
       {
         return NotFound();
@@ -66,7 +68,7 @@ namespace SAROM.Controllers
     }
 
     // GET: Operations/Edit/5
-    public async Task<IActionResult> Edit(string id)
+    public async Task<IActionResult> Close(string id)
     {
       if (id == null)
       {
@@ -86,15 +88,18 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("Id,Name,AlertDate,AlertTime")] Operation operation)
+    public async Task<IActionResult> Close(string id, [Bind("Id,ClosingReport")] Operation operation)
     {
       if (id != operation.Id)
       {
         return NotFound();
       }
 
+      VerifyClosingReport(operation.ClosingReport);
+
       if (ModelState.IsValid)
       {
+        operation.IsClosed = true;
         try
         {
           _context.Update(operation);
@@ -116,24 +121,6 @@ namespace SAROM.Controllers
       return View(operation);
     }
 
-    // GET: Operations/Delete/5
-    public async Task<IActionResult> Delete(string id)
-    {
-      if (id == null)
-      {
-        return NotFound();
-      }
-
-      var operation = await _context.Operation
-          .FirstOrDefaultAsync(m => m.Id == id);
-      if (operation == null)
-      {
-        return NotFound();
-      }
-
-      return View(operation);
-    }
-
     // POST: Operations/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
@@ -148,6 +135,21 @@ namespace SAROM.Controllers
     private bool OperationExists(string id)
     {
       return _context.Operation.Any(e => e.Id == id);
+    }
+
+    [AcceptVerbs("Get", "Post")]
+    public void VerifyClosingReport(string closingReport)
+    {
+      string key = "ClosingReport";
+      if (string.IsNullOrEmpty(closingReport))
+      {
+        ModelState.AddModelError(key, "Closing report cant be empty!");
+      }
+      else
+      {
+        if (ModelState.ContainsKey("{key}"))
+          ModelState["{key}"].Errors.Clear();
+      }
     }
   }
 }
