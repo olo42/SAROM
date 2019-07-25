@@ -52,7 +52,9 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("Id,State3,State4")] Operation operation)
+    public async Task<IActionResult> Edit(
+      string id,
+      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,State3,State4")] Operation operation)
     {
       if (id != operation.Id)
       {
@@ -77,7 +79,7 @@ namespace SAROM.Controllers
             throw;
           }
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Details), new { @id = id });
       }
       return View(operation);
     }

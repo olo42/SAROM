@@ -10,40 +10,90 @@
 <div>
   <h3>@Localizer["Einsatz"] @Html.DisplayFor(model => model.Name)</h3>
   <hr />
-  <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["Einsatzdetails"]</a> |
-    <a asp-controller="OperationActions" asp-action="Create" asp-route-id="@Model.Id">@Localizer["Log"]</a> |
-    <a asp-controller="Units" asp-action="Index" asp-route-id="@Model.Id">@Localizer["Einheiten"]</a> |
-    <a asp-action="Index">@Localizer["Zurück zur Übersicht"]</a>
+  <div style="padding-bottom: 20px;">
+    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a> |
+    <a asp-action="Index" asp-controller="Units">@Localizer["Kräfte"]</a> |
+    <a asp-action="Index">@Localizer["zurück zur Übersicht"]</a>
   </div>
-  <h4 style="margin-top: 30px;">@Localizer["Einsatztagebuch"]</h4>
+  <div class="d-flex flex-row justify-content-between">
+    <div>
+      <dl>
+        <dt>@Localizer["EinsatzNr."]</dt>
+        <dd>@Model.Number</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>@Localizer["Alarmierung"]</dt>
+        <dd>@Model.AlertDate<br />@Model.AlertTime</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>@Localizer["Kontakt POL"]</dt>
+        <dd>HK Peters<br />(0172 593 33 21)</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>@Localizer["Kontakt Leitstelle"]</dt>
+        <dd>@Model.Headquarter<br />H. Matthies</dd>
+      </dl>
+    </div>
+  </div>
+  <h4 style="margin-left: 0.2rem;">@Localizer["Einsatzprotokoll"]</h4>
   <div class="row">
-    <div class="col-5">
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="border-top: 0; padding-left: 0px;">
-              @Localizer["Beschreibung"]
-            </th>
-            <th style="border-top: 0; padding-left: 0px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var item in Model.OperationActions.TakeLast(5).OrderBy(i => i.Id))
-          {
-            <tr>
-              <td>
-                @Html.DisplayFor(modelItem => item.Message)
-              </td>
-              <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="col-md-12">
+      <form asp-action="Create" asp-controller="OperationActions" class="form-horizontal">
+        <input type="hidden" id="OperationId" name="OperationId" value="@Model.Id" />
+        <div class="form-group">
+          <input name="message" class="form-control" />
+        </div>
+        <div class="form-group">
+          <input type="submit" value="@Localizer["Speichern"]" class="btn btn-sm btn-primary" />
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<table class="table">
+  <tbody>
+    @foreach (var item in Model.OperationActions.TakeLast(5).OrderBy(i => i.Id))
+    {
+      <tr>
+        <td>
+          16:23
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td align="right">
+          <a class="form-control-sm" asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> |
+          <a class="form-control-sm" asp-action="Delete" asp-route-id="@item.Id">@Localizer["löschen"]</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+@*<div class="col-5">
+    <h4>@Localizer["Einheiten"]</h4>
+    <table class="table">
+      <tbody>
+        @foreach (var item in Model.Units)
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.PagerNumber)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.PagerNumber)
+            </td>
+            <td>
+              <a asp-action="Details" asp-controller="Unit" asp-route-id="@item.Id">@Localizer["ansehen"]</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>*@

@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAROM.Models;
 
-namespace SAROM.Migrations
+namespace SAROM.Migrations.Operation
 {
     [DbContext(typeof(OperationContext))]
-    partial class OperationContextModelSnapshot : ModelSnapshot
+    [Migration("20190725170348_AddMoreFieldsToOperation")]
+    partial class AddMoreFieldsToOperation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
