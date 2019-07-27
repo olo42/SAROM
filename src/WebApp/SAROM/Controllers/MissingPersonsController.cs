@@ -47,10 +47,9 @@ namespace SAROM.Controllers
     // GET: MissingPersons/Create
     public IActionResult Create(string id)
     {
-      var missingPerson = new MissingPerson();
-      missingPerson.OperationId = id;
+      ViewBag.OperationId = id;
 
-      return View(missingPerson);
+      return View();
     }
 
     // POST: MissingPersons/Create

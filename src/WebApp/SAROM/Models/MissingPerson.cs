@@ -11,7 +11,7 @@ namespace SAROM.Models
     [Display(Name = "Bekleidung")]
     public string Clothes { get; set; }
 
-    [Display(Name = "Datum")]
+    [Display(Name = "Geburtsdatum")]
     [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
 
@@ -36,8 +36,11 @@ namespace SAROM.Models
     public string Medications { get; set; }
 
     [Display(Name = "Vermisst seit")]
+    [DataType(DataType.DateTime)]
+    [Required]
     public DateTime MissingSince { get; set; }
 
+    [Required]
     [Display(Name = "Name")]
     public string Name { get; set; }
 
