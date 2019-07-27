@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAROM.Models;
 
-namespace SAROM.Migrations
+namespace SAROM.Migrations.Operation
 {
     [DbContext(typeof(OperationContext))]
-    partial class OperationContextModelSnapshot : ModelSnapshot
+    [Migration("20190726181441_MissingPerson")]
+    partial class MissingPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,8 +47,6 @@ namespace SAROM.Migrations
                     b.Property<DateTime>("MissingSince");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("OperationId");
 
                     b.Property<string>("Size");
 

@@ -13,6 +13,7 @@
   <div style="padding-bottom: 20px;">
     <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a> |
     <a asp-action="Index" asp-controller="Units">@Localizer["Kräfte"]</a> |
+    <a asp-action="Index" asp-controller="MissingPersons" asp-route-id="@Model.Id">@Localizer["Vermisste"]</a> |
     <a asp-action="Index">@Localizer["zurück zur Übersicht"]</a>
   </div>
   <div class="d-flex flex-row justify-content-between">

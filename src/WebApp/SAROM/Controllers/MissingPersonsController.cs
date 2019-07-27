@@ -9,22 +9,24 @@ using SAROM.Models;
 
 namespace SAROM.Controllers
 {
-  public class OperationActionsController : Controller
+  public class MissingPersonsController : Controller
   {
     private readonly OperationContext _context;
 
-    public OperationActionsController(OperationContext context)
+    public MissingPersonsController(OperationContext context)
     {
       _context = context;
     }
 
-    // GET: OperationActions
+    // GET: MissingPersons
     public async Task<IActionResult> Index(string id)
     {
-      return View(await _context.OperationAction.Where(p => p.OperationId == id).ToListAsync());
+      ViewBag.OperationId = id;
+
+      return View(await _context.MissingPerson.Where(m => m.OperationId == id).ToListAsync());
     }
 
-    // GET: OperationActions/Details/5
+    // GET: MissingPersons/Details/5
     public async Task<IActionResult> Details(string id)
     {
       if (id == null)
@@ -32,41 +34,42 @@ namespace SAROM.Controllers
         return NotFound();
       }
 
-      var operationAction = await _context.OperationAction
+      var missingPerson = await _context.MissingPerson
           .FirstOrDefaultAsync(m => m.Id == id);
-      if (operationAction == null)
+      if (missingPerson == null)
       {
         return NotFound();
       }
 
-      return View(operationAction);
+      return View(missingPerson);
     }
 
-    // GET: OperationActions/Create
+    // GET: MissingPersons/Create
     public IActionResult Create(string id)
     {
-      var operationAction = new OperationAction();
-      operationAction.OperationId = id;
-      return View(operationAction);
+      var missingPerson = new MissingPerson();
+      missingPerson.OperationId = id;
+
+      return View(missingPerson);
     }
 
-    // POST: OperationActions/Create
+    // POST: MissingPersons/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("OperationId,Message")] OperationAction operationAction)
+    public async Task<IActionResult> Create([Bind("Ailments,Clothes,DateOfBirth,EyesColour,FurtherInformation,Gender,HairColor,KnownPlaces,Medications,MissingSince,Name,OperationId,Size,SkinType,SpecialCharacteristics,Weight")] MissingPerson missingPerson)
     {
       if (ModelState.IsValid)
       {
-        _context.Add(operationAction);
+        _context.Add(missingPerson);
         await _context.SaveChangesAsync();
-        return RedirectToAction("Details", "Operations", new { id = operationAction.OperationId });
+        return RedirectToAction(nameof(Index), new { id = missingPerson.OperationId });
       }
-      return View(operationAction);
+      return View(missingPerson);
     }
 
-    // GET: OperationActions/Edit/5
+    // GET: MissingPersons/Edit/5
     public async Task<IActionResult> Edit(string id)
     {
       if (id == null)
@@ -74,22 +77,22 @@ namespace SAROM.Controllers
         return NotFound();
       }
 
-      var operationAction = await _context.OperationAction.FindAsync(id);
-      if (operationAction == null)
+      var missingPerson = await _context.MissingPerson.FindAsync(id);
+      if (missingPerson == null)
       {
         return NotFound();
       }
-      return View(operationAction);
+      return View(missingPerson);
     }
 
-    // POST: OperationActions/Edit/5
+    // POST: MissingPersons/Edit/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("Id,Message")] OperationAction operationAction)
+    public async Task<IActionResult> Edit(string id, [Bind("Ailments,Clothes,DateOfBirth,EyesColour,FurtherInformation,Gender,HairColor,Id,KnownPlaces,Medications,MissingSince,Name,OperationId,Size,SkinType,SpecialCharacteristics,Weight")] MissingPerson missingPerson)
     {
-      if (id != operationAction.Id)
+      if (id != missingPerson.Id)
       {
         return NotFound();
       }
@@ -98,12 +101,12 @@ namespace SAROM.Controllers
       {
         try
         {
-          _context.Update(operationAction);
+          _context.Update(missingPerson);
           await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-          if (!OperationActionExists(operationAction.Id))
+          if (!MissingPersonExists(missingPerson.Id))
           {
             return NotFound();
           }
@@ -114,10 +117,10 @@ namespace SAROM.Controllers
         }
         return RedirectToAction(nameof(Index));
       }
-      return View(operationAction);
+      return View(missingPerson);
     }
 
-    // GET: OperationActions/Delete/5
+    // GET: MissingPersons/Delete/5
     public async Task<IActionResult> Delete(string id)
     {
       if (id == null)
@@ -125,30 +128,30 @@ namespace SAROM.Controllers
         return NotFound();
       }
 
-      var operationAction = await _context.OperationAction
+      var missingPerson = await _context.MissingPerson
           .FirstOrDefaultAsync(m => m.Id == id);
-      if (operationAction == null)
+      if (missingPerson == null)
       {
         return NotFound();
       }
 
-      return View(operationAction);
+      return View(missingPerson);
     }
 
-    // POST: OperationActions/Delete/5
+    // POST: MissingPersons/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-      var operationAction = await _context.OperationAction.FindAsync(id);
-      _context.OperationAction.Remove(operationAction);
+      var missingPerson = await _context.MissingPerson.FindAsync(id);
+      _context.MissingPerson.Remove(missingPerson);
       await _context.SaveChangesAsync();
       return RedirectToAction(nameof(Index));
     }
 
-    private bool OperationActionExists(string id)
+    private bool MissingPersonExists(string id)
     {
-      return _context.OperationAction.Any(e => e.Id == id);
+      return _context.MissingPerson.Any(e => e.Id == id);
     }
   }
 }
