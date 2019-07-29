@@ -21,6 +21,15 @@ namespace SAROM.Models
     [Display(Name="Leitstelle")]
     public string Headquarter { get; set; }
 
+    [Display(Name = "Kontakt Leitstelle")]
+    public string HeadquarterContact { get; set; }
+
+    [Display(Name = "Kontakt Polizei")]
+    public string PoliceContact { get; set; }
+
+    [Display(Name = "Telefon Polizei")]
+    public string PoliceContactPhone { get; set; }
+
     [Display(Name = "Uhrzeit")]
     [DataType(DataType.Time)]
     public string AlertTime { get; set; }

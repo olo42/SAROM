@@ -24,19 +24,28 @@
     <div>
       <dl>
         <dt>@Localizer["Alarmierung"]</dt>
-        <dd>@Model.AlertDate<br />@Model.AlertTime</dd>
+        <dd>
+          @Model.AlertDate <br />
+          @Model.AlertTime
+        </dd>
       </dl>
     </div>
     <div>
       <dl>
         <dt>@Localizer["Kontakt POL"]</dt>
-        <dd>HK Peters<br />(0172 593 33 21)</dd>
+        <dd>
+          @Model.PoliceContact <br />
+          @Model.PoliceContactPhone
+        </dd>
       </dl>
     </div>
     <div>
       <dl>
-        <dt>@Localizer["Kontakt Leitstelle"]</dt>
-        <dd>@Model.Headquarter<br />H. Matthies</dd>
+        <dt>@Localizer["Leitstelle"]</dt>
+        <dd>
+          @Model.Headquarter <br />
+          @Model.HeadquarterContact
+        </dd>
       </dl>
     </div>
   </div>

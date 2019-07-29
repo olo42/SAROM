@@ -54,7 +54,7 @@ namespace SAROM.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
       string id,
-      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,State3,State4")] Operation operation)
+      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone")] Operation operation)
     {
       if (id != operation.Id)
       {
@@ -79,7 +79,7 @@ namespace SAROM.Controllers
             throw;
           }
         }
-        return RedirectToAction(nameof(Details), new { @id = id });
+        return RedirectToAction(nameof(Details), new { id });
       }
       return View(operation);
     }
