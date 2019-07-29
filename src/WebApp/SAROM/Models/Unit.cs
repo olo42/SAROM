@@ -7,6 +7,7 @@ namespace SAROM.Models
     public string GroupLeader { get; set; }
     public string Id { get; set; }
     public string Name { get; set; }
+    public string OperationId { get; set; }
     public string PagerNumber { get; set; }
     public List<Person> People { get; set; }
   }

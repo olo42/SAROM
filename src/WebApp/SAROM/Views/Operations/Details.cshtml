@@ -10,7 +10,7 @@
   <hr />
   <div style="padding-bottom: 20px;">
     <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a> |
-    <a asp-action="Index" asp-controller="Units">@Localizer["Kräfte"]</a> |
+    <a asp-action="Index" asp-controller="Units" asp-route-id="@Model.Id">@Localizer["Kräfte"]</a> |
     <a asp-action="Index" asp-controller="MissingPersons" asp-route-id="@Model.Id">@Localizer["Vermisste"]</a> |
     <a asp-action="Index">@Localizer["zurück zur Übersicht"]</a>
   </div>
@@ -54,8 +54,27 @@
     <div class="col-md-12">
       <form asp-action="Create" asp-controller="OperationActions" class="form-horizontal">
         <input type="hidden" id="OperationId" name="OperationId" value="@Model.Id" />
+        @if (@Model.Units.Count > 0)
+        {
+          <div class="form-group">
+            <select name="unit" asp-items="@(new SelectList(@Model.Units, "Name", "Name"))" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <select name="commonOperation" class="form-control">
+              <option disabled selected>@Localizer["Standardaktionen"]</option>
+              <option value="Meldung">@Localizer["Meldung"]</option>
+              <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
+              <option value="Eingetroffen">@Localizer["Eingetroffen"]</option>
+              <option value="Suchgebiet zugewiesen">@Localizer["Suchgebiet zugewiesen"]</option>
+              <option value="Suche startet">@Localizer["Suche startet"]</option>
+              <option value="Person gefunden">@Localizer["Person gefunden"]</option>
+              <option value="Suche beendet">@Localizer["Suche beendet"]</option>
+              <option value="Rückt ab">@Localizer["Rückt ab"]</option>
+            </select>
+          </div>
+        }
         <div class="form-group">
-          <input name="message" class="form-control" />
+          <input name="message" class="form-control" placeholder="@Localizer["Protokolleintrag / Kommentar"]" />
         </div>
         <div class="form-group">
           <input type="submit" value="@Localizer["Speichern"]" class="btn btn-sm btn-primary" />

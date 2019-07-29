@@ -168,6 +168,7 @@ namespace SAROM.Controllers
 
       var operation = await _context.Operation
         .Include(o => o.OperationActions)
+        .Include(o => o.Units)
         .FirstOrDefaultAsync(m => m.Id == id);
       if (operation == null)
       {

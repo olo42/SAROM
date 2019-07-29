@@ -29,7 +29,11 @@
                 <span asp-validation-for="PagerNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+              @{
+                var operationId = ViewBag.OperationId;
+              }
+              <input type="hidden" asp-for="@operationId" />
+              <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

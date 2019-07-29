@@ -55,10 +55,17 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("OperationId,Message")] OperationAction operationAction)
+    public async Task<IActionResult> Create([Bind("OperationId,Message")] OperationAction operationAction, string commonOperation, string unit)
     {
       if (ModelState.IsValid)
       {
+        // TODO: Validate if operationAction is set, unit is required
+        if(!string.IsNullOrEmpty(commonOperation) && !string.IsNullOrEmpty(unit))
+        {
+          var artificialMessage = commonOperation + " " + unit + ": " + operationAction.Message;
+          operationAction.Message = artificialMessage;
+        }
+
         _context.Add(operationAction);
         await _context.SaveChangesAsync();
         return RedirectToAction("Details", "Operations", new { id = operationAction.OperationId });
