@@ -4,11 +4,16 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-SAROM-22E4C186-14DC-4203-8832-0833FABC1BC7</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ApplicationIcon />
+    <ApplicationIcon>rescue-dog.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
-    <StartupObject />
+    <StartupObject>SAROM.Program</StartupObject>
     <AssemblyVersion>2019.7.21.0</AssemblyVersion>
+    <NeutralLanguage>de</NeutralLanguage>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\favicon.ico" />
+  </ItemGroup>
 
 
   <ItemGroup>
@@ -24,6 +29,12 @@
     <None Update="install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="rescue-dog.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="start.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="uninstall.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -33,6 +44,13 @@
   <ItemGroup>
     <Folder Include="Models\CustomValidations\" />
     <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
