@@ -10,8 +10,7 @@
   <h3>@Localizer["Vermisste"]</h3>
 
   <p>
-    <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["Neu hinzfügen"]</a> | 
-    <a href="#">drucken</a> | 
+    <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["erfassen"]</a> | 
     <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück zum Einsatz"]</a>
   </p>
 <table class="table">
@@ -43,8 +42,8 @@
         @Html.DisplayFor(modelItem => item.MissingSince)
       </td>
       <td>
-        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> |
         <a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a> |
+        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> |
         <a asp-action="Delete" asp-route-id="@item.Id">@Localizer["löschen"]</a>
       </td>
     </tr>
