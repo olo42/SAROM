@@ -36,14 +36,6 @@ namespace SAROM.Models
 
     public List<OperationAction> OperationActions { get; set; }
 
-    [Display(Name = "Status 3")]
-    [DataType(DataType.Time)]
-    public string State3 { get; set; }
-
-    [Display(Name = "Status 4")]
-    [DataType(DataType.Time)]
-    public string State4 { get; set; }
-
     public List<Unit> Units { get; set; }
   }
 }
