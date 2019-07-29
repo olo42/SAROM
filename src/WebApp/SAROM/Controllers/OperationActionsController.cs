@@ -21,7 +21,10 @@ namespace SAROM.Controllers
     // GET: OperationActions
     public async Task<IActionResult> Index(string id)
     {
-      return View(await _context.OperationAction.Where(p => p.OperationId == id).ToListAsync());
+      return View(await _context.OperationAction
+        .Where(p => p.OperationId == id)
+        .OrderByDescending(p => p.Created)
+        .ToListAsync());
     }
 
     // GET: OperationActions/Details/5
@@ -62,9 +65,12 @@ namespace SAROM.Controllers
         // TODO: Validate if operationAction is set, unit is required
         if(!string.IsNullOrEmpty(commonOperation) && !string.IsNullOrEmpty(unit))
         {
-          var artificialMessage = commonOperation + " " + unit + ": " + operationAction.Message;
+          var message = string.IsNullOrEmpty(operationAction.Message) ? string.Empty : ": " + operationAction.Message;
+          var artificialMessage = unit + " " +  commonOperation + message;
           operationAction.Message = artificialMessage;
         }
+
+        operationAction.Created = DateTime.Now;
 
         _context.Add(operationAction);
         await _context.SaveChangesAsync();

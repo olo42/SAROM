@@ -9,7 +9,7 @@
   <h3>@Localizer["Einsatz"] @Html.DisplayFor(model => model.Name)</h3>
   <hr />
   <div style="padding-bottom: 20px;">
-    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a> |
+    <a asp-action="Index" asp-controller="OperationActions" asp-route-id="@Model.Id">@Localizer["Protokoll"]</a> |
     <a asp-action="Index" asp-controller="Units" asp-route-id="@Model.Id">@Localizer["Kräfte"]</a> |
     <a asp-action="Index" asp-controller="MissingPersons" asp-route-id="@Model.Id">@Localizer["Vermisste"]</a> |
     <a asp-action="Index">@Localizer["zurück zur Übersicht"]</a>
@@ -25,8 +25,8 @@
       <dl>
         <dt>@Localizer["Alarmierung"]</dt>
         <dd>
-          @Model.AlertDate <br />
-          @Model.AlertTime
+          @Convert.ToDateTime(@Model.AlertDate).ToShortDateString() <br />
+          @Model.AlertTime @Localizer["Uhr"]
         </dd>
       </dl>
     </div>
@@ -41,10 +41,11 @@
     </div>
     <div>
       <dl>
-        <dt>@Localizer["Leitstelle"]</dt>
+        <dt></dt>
         <dd>
-          @Model.Headquarter <br />
-          @Model.HeadquarterContact
+          <a asp-action="Edit" class="form-control-sm" asp-route-id="@Model.Id">@Localizer["Einsatz bearbeiten"]</a> <br />
+          <a href="#" class="form-control-sm">@Localizer["Einsatz exportieren"]</a> <br />
+          <a asp-action="Close" class="form-control-sm" asp-route-id="@Model.Id" style="color: red;">@Localizer["Einsatz schließen"]</a>
         </dd>
       </dl>
     </div>
@@ -57,11 +58,17 @@
         @if (@Model.Units.Count > 0)
         {
           <div class="form-group">
-            <select name="unit" asp-items="@(new SelectList(@Model.Units, "Name", "Name"))" class="form-control"></select>
+            <select name="unit" class="form-control">
+              <option disabled selected>@Localizer["Einheit"]</option>
+              @foreach(var unit in Model.Units)
+              {
+                <option value="@unit.Name">@unit.Name</option>
+              }
+            </select>
           </div>
           <div class="form-group">
             <select name="commonOperation" class="form-control">
-              <option disabled selected>@Localizer["Standardaktionen"]</option>
+              <option disabled selected>@Localizer["Aktion"]</option>
               <option value="Meldung">@Localizer["Meldung"]</option>
               <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
               <option value="Eingetroffen">@Localizer["Eingetroffen"]</option>
@@ -86,11 +93,11 @@
 
 <table class="table">
   <tbody>
-    @foreach (var item in Model.OperationActions.TakeLast(5).OrderBy(i => i.Id))
+    @foreach (var item in Model.OperationActions.TakeLast(5).OrderByDescending(i => i.Created))
     {
       <tr>
         <td>
-          16:23
+          @item.Created.ToShortTimeString()
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.Message)

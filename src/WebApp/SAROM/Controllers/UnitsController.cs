@@ -63,7 +63,7 @@ namespace SAROM.Controllers
       {
         _context.Add(unit);
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { id = unit.OperationId });
       }
       return View(unit);
     }
