@@ -40,6 +40,7 @@ namespace SAROM.Controllers
       {
         return NotFound();
       }
+      ViewBag.OperationId = unit.OperationId;
 
       return View(unit);
     }
@@ -57,7 +58,7 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,GroupLeader,PagerNumber,OperationId")] Unit unit)
+    public async Task<IActionResult> Create([Bind("Name,GroupLeader,PagerNumber,OperationId,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
     {
       if (ModelState.IsValid)
       {
@@ -81,6 +82,9 @@ namespace SAROM.Controllers
       {
         return NotFound();
       }
+
+      ViewBag.OperationId = unit.OperationId;
+
       return View(unit);
     }
 
@@ -89,7 +93,7 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,Name,PagerNumber")] Unit unit)
+    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,Name,PagerNumber,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
     {
       if (id != unit.Id)
       {

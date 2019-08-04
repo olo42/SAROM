@@ -92,14 +92,14 @@
           var operationId = ViewBag.OperationId;
         }
         <input type="hidden" asp-for="@operationId" />
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />
       </div>
     </form>
   </div>
 </div>
 
 <div>
-  <a asp-action="Index">Back to List</a>
+  <a asp-action="Index">@Localizer["Zurück zur Übersicht"]</a>
 </div>
 
 @section Scripts {

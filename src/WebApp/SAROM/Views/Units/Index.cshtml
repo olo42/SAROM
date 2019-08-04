@@ -8,15 +8,12 @@
 <h3>@Localizer["Einsatzkräfte"]</h3>
 
 <p>
-  <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["erfassen"]</a> |
-  <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück zum Einsatz"]</a>
+  <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["Erfassen"]</a> |
+  <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück"]</a>
 </p>
 <table class="table">
   <thead>
     <tr>
-      <th>
-        @Html.DisplayNameFor(model => model.GroupLeader)
-      </th>
       <th>
         @Html.DisplayNameFor(model => model.Name)
       </th>
@@ -30,9 +27,6 @@
     @foreach (var item in Model)
     {
       <tr>
-        <td>
-          @Html.DisplayFor(modelItem => item.GroupLeader)
-        </td>
         <td>
           @Html.DisplayFor(modelItem => item.Name)
         </td>
