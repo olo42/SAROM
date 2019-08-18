@@ -66,7 +66,7 @@ namespace SAROM.Controllers
         if(!string.IsNullOrEmpty(commonOperation) && !string.IsNullOrEmpty(unit))
         {
           var message = string.IsNullOrEmpty(operationAction.Message) ? string.Empty : ": " + operationAction.Message;
-          var artificialMessage = unit + " " +  commonOperation + message;
+          var artificialMessage = unit + ": " +  commonOperation + message;
           operationAction.Message = artificialMessage;
         }
 

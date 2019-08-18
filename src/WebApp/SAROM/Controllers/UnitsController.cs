@@ -23,7 +23,10 @@ namespace SAROM.Controllers
     {
       ViewBag.OperationId = id;
 
-      return View(await _context.Unit.Where(u => u.OperationId == id).ToListAsync());
+      return View(await _context.Unit
+        .OrderBy(u => u.Name)
+        .Where(u => u.OperationId == id)
+        .ToListAsync());
     }
 
     // GET: Units/Details/5
@@ -64,6 +67,13 @@ namespace SAROM.Controllers
       {
         _context.Add(unit);
         await _context.SaveChangesAsync();
+
+        var operationAction = new OperationAction();
+        operationAction.OperationId = unit.OperationId;
+
+        OperationActionsController operationActionsController = new OperationActionsController(_context);
+        await operationActionsController.Create(operationAction, "Einheit eingetroffen/ erfasst", unit.Name); // TODO: I18n
+
         return RedirectToAction(nameof(Index), new { id = unit.OperationId });
       }
       return View(unit);
@@ -93,7 +103,7 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,Name,PagerNumber,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
+    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,OperationId,Name,PagerNumber,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
     {
       if (id != unit.Id)
       {
@@ -118,7 +128,7 @@ namespace SAROM.Controllers
             throw;
           }
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { id = unit.OperationId });
       }
       return View(unit);
     }
