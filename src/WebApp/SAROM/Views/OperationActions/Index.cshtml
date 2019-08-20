@@ -33,7 +33,8 @@
     {
     <tr>
       <td>
-        @Html.DisplayFor(modelItem => item.Created)
+        @item.Created.ToShortDateString()
+        @item.Created.ToShortTimeString()
       </td>
       <td>
         @Html.DisplayFor(modelItem => item.Action)

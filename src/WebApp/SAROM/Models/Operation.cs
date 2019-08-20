@@ -13,6 +13,7 @@ namespace SAROM.Models
 
     [Display(Name = "Datum")]
     [DataType(DataType.Date)]
+    [Required]
     public string AlertDate { get; set; }
 
     [Display(Name="Einsatznummer")]
@@ -32,6 +33,7 @@ namespace SAROM.Models
 
     [Display(Name = "Uhrzeit")]
     [DataType(DataType.Time)]
+    [Required]
     public string AlertTime { get; set; }
 
     [Display(Name = "Abschlussbericht")]

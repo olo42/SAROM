@@ -63,6 +63,13 @@ namespace SAROM.Controllers
       {
         _context.Add(missingPerson);
         await _context.SaveChangesAsync();
+
+        OperationActionsController operationActionsController = new OperationActionsController(_context);
+        await operationActionsController.Create(missingPerson.OperationId, 
+          "Vermisstendaten erfasst", 
+          string.Empty, 
+          $"{missingPerson.Name}, vermisst seit {missingPerson.MissingSince}"); // TODO: I18n
+
         return RedirectToAction(nameof(Index), new { id = missingPerson.OperationId });
       }
       return View(missingPerson);
@@ -114,7 +121,7 @@ namespace SAROM.Controllers
             throw;
           }
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { id = missingPerson.OperationId });
       }
       return View(missingPerson);
     }

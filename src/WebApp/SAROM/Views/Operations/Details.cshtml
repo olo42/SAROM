@@ -44,7 +44,7 @@
         <dt></dt>
         <dd>
           <a asp-action="Edit" class="form-control-sm" asp-route-id="@Model.Id">@Localizer["Einsatz bearbeiten"]</a> <br />
-          <a href="#" class="form-control-sm">@Localizer["Einsatz exportieren"]</a> <br />
+          @*<a href="#" class="form-control-sm">@Localizer["Einsatz exportieren"]</a> <br />*@
           <a asp-action="Close" class="form-control-sm" asp-route-id="@Model.Id" style="color: red;">@Localizer["Einsatz schließen"]</a>
         </dd>
       </dl>

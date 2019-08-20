@@ -13,7 +13,8 @@
       @Html.DisplayNameFor(model => model.MissingSince)
     </dt>
     <dd class="col-9">
-      @Html.DisplayFor(model => model.MissingSince)
+      @Model.MissingSince.ToShortDateString()
+      @Model.MissingSince.ToShortTimeString()
     </dd>
     <dt class="col-3">
       @Html.DisplayNameFor(model => model.DateOfBirth)
@@ -96,6 +97,5 @@
   </dl>
 </div>
 <div>
-  <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a> |
-  <a asp-action="Index" asp-route-id="@Model.OperationId">@Localizer["zurück zur Übersicht"]</a>
+  <a asp-action="Index" asp-route-id="@Model.OperationId">@Localizer["zurück"]</a>
 </div>

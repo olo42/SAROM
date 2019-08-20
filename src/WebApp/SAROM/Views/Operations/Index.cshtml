@@ -9,8 +9,8 @@
 <h3>@Localizer["Einsätze"]</h3>
 
 <p>
-  <a asp-action="Create">@Localizer["Neuen Einsatz anlegen"]</a> |
-  <a href="#">@Localizer["Einsatz importieren"]</a>
+  <a asp-action="Create">@Localizer["Neuen Einsatz anlegen"]</a> @*|
+  <a href="#">@Localizer["Einsatz importieren"]</a>*@
 </p>
 <table class="table">
   <thead>
@@ -42,10 +42,19 @@
           @Html.DisplayFor(modelItem => item.AlertTime)
         </td>
         <td>
-          @(item.IsClosed == true ? @Localizer["beendet"] : @Localizer["offen"])
+          @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
         </td>
         <td align="right">
-          <a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a>
+          @if (item.IsClosed == false)
+          {
+            <a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a>
+          }
+          else
+          {
+            <a href="#">@Localizer["drucken"]</a> <span>|</span> 
+            <a href="#">@Localizer["exportieren"]</a>
+          }
+
         </td>
       </tr>
     }

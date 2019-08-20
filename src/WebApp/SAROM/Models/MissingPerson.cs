@@ -12,8 +12,7 @@ namespace SAROM.Models
     public string Clothes { get; set; }
 
     [Display(Name = "Geburtsdatum")]
-    [DataType(DataType.Date)]
-    public DateTime DateOfBirth { get; set; }
+    public string DateOfBirth { get; set; }
 
     [Display(Name = "Augenfarbe")]
     public string EyesColour { get; set; }

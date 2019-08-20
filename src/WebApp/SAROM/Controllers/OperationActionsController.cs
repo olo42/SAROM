@@ -60,7 +60,7 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(string operationId, string oAction, string unitName, string message = "")
+    public async Task<IActionResult> Create(string operationId, string oAction, string unitName = "", string message = "")
     {
       if(ParameterCombinationIsValid(oAction, unitName, message))
       {

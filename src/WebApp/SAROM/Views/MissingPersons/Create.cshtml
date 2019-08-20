@@ -3,9 +3,10 @@
 @{
   ViewData["Title"] = "Create";
   Layout = "~/Views/Shared/_Layout.cshtml";
+  var operationId = ViewBag.OperationId;
 }
 
-<h3>@Localizer["Vermisste erfassen"]</h3>
+<h3>@Localizer["Vermisstendaten erfassen"]</h3>
 
 <hr />
 <div class="row">
@@ -88,10 +89,7 @@
         <span asp-validation-for="FurtherInformation" class="text-danger"></span>
       </div>
       <div class="form-group">
-        @{
-          var operationId = ViewBag.OperationId;
-        }
-        <input type="hidden" asp-for="@operationId" />
+        <input type="hidden" asp-for="OperationId" value="@operationId" />
         <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />
       </div>
     </form>
@@ -99,7 +97,7 @@
 </div>
 
 <div>
-  <a asp-action="Index">@Localizer["Zurück zur Übersicht"]</a>
+  <a asp-action="Index" asp-route-id="@operationId">@Localizer["Zurück"]</a>
 </div>
 
 @section Scripts {
