@@ -55,28 +55,26 @@
     <div class="col-md-12">
       <form asp-action="Create" asp-controller="OperationActions" class="form-horizontal">
         <input type="hidden" id="OperationId" name="OperationId" value="@Model.Id" />
+        <div class="form-group">
+          <select name="oAction" class="form-control">
+            <option disabled selected>@Localizer["Aktion"]</option>
+            <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
+            <option value="Meldung">@Localizer["Meldung"]</option>
+            <option value="Suche startet">@Localizer["Meldung Suche startet"]</option>
+            <option value="Person gefunden">@Localizer["Meldung Person gefunden"]</option>
+            <option value="Suche beendet">@Localizer["Meldung Suche beendet"]</option>
+            <option value="Rückt ab">@Localizer["Meldung Rückt ab"]</option>
+          </select>
+        </div>
         @if (@Model.Units.Count > 0)
         {
           <div class="form-group">
-            <select name="unit" class="form-control">
+            <select name="unitname" class="form-control">
               <option disabled selected>@Localizer["Einheit"]</option>
-              @foreach(var unit in Model.Units)
+              @foreach (var unit in Model.Units)
               {
                 <option value="@unit.Name">@unit.Name</option>
               }
-            </select>
-          </div>
-          <div class="form-group">
-            <select name="commonOperation" class="form-control">
-              <option disabled selected>@Localizer["Aktion"]</option>
-              <option value="Meldung">@Localizer["Meldung"]</option>
-              <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
-              <option value="Eingetroffen">@Localizer["Eingetroffen"]</option>
-              <option value="Suchgebiet zugewiesen">@Localizer["Suchgebiet zugewiesen"]</option>
-              <option value="Suche startet">@Localizer["Suche startet"]</option>
-              <option value="Person gefunden">@Localizer["Person gefunden"]</option>
-              <option value="Suche beendet">@Localizer["Suche beendet"]</option>
-              <option value="Rückt ab">@Localizer["Rückt ab"]</option>
             </select>
           </div>
         }
@@ -95,18 +93,14 @@
   <tbody>
     @foreach (var item in Model.OperationActions.TakeLast(5).OrderByDescending(i => i.Created))
     {
-      <tr>
-        <td>
-          @item.Created.ToShortTimeString()
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td align="right">
-          <a class="form-control-sm" asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> |
-          <a class="form-control-sm" asp-action="Delete" asp-route-id="@item.Id">@Localizer["löschen"]</a>
-        </td>
-      </tr>
+    <tr class="d-flex">
+      <td class="col-1">@item.Created.ToShortTimeString()</td>
+      <td class="col-11">
+        <i>@Html.DisplayFor(modelItem => item.Action)</i>
+        <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
+        @Html.DisplayFor(modelItem => item.Message)
+      </td>
+    </tr>
     }
   </tbody>
 </table>

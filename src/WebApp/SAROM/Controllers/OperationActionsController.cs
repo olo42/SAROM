@@ -21,6 +21,8 @@ namespace SAROM.Controllers
     // GET: OperationActions
     public async Task<IActionResult> Index(string id)
     {
+      ViewBag.OperationId = id;
+
       return View(await _context.OperationAction
         .Where(p => p.OperationId == id)
         .OrderByDescending(p => p.Created)
@@ -58,25 +60,44 @@ namespace SAROM.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("OperationId,Message")] OperationAction operationAction, string commonOperation, string unit)
+    public async Task<IActionResult> Create(string operationId, string oAction, string unitName, string message = "")
     {
-      if (ModelState.IsValid)
+      if(ParameterCombinationIsValid(oAction, unitName, message))
       {
-        // TODO: Validate if operationAction is set, unit is required
-        if(!string.IsNullOrEmpty(commonOperation) && !string.IsNullOrEmpty(unit))
-        {
-          var message = string.IsNullOrEmpty(operationAction.Message) ? string.Empty : ": " + operationAction.Message;
-          var artificialMessage = unit + ": " +  commonOperation + message;
-          operationAction.Message = artificialMessage;
-        }
-
-        operationAction.Created = DateTime.Now;
+      var operationAction = new OperationAction
+      {
+        Created = DateTime.Now,
+        OperationId = operationId,
+        Action = oAction,
+        UnitName = unitName,
+        Message = message
+      };
 
         _context.Add(operationAction);
         await _context.SaveChangesAsync();
-        return RedirectToAction("Details", "Operations", new { id = operationAction.OperationId });
       }
-      return View(operationAction);
+
+      return RedirectToAction("Details", "Operations", new { id = operationId });
+    }
+
+    private bool ParameterCombinationIsValid(string oAction, string unitName, string message)
+    {
+      if (string.IsNullOrEmpty(oAction) && string.IsNullOrEmpty(unitName) && string.IsNullOrEmpty(message))
+      {
+        return false;
+      }
+
+      if (!string.IsNullOrEmpty(oAction) && (string.IsNullOrEmpty(unitName) && string.IsNullOrEmpty(message)))
+      {
+        return false;
+      }
+
+      if (!string.IsNullOrEmpty(unitName) && (string.IsNullOrEmpty(oAction) && string.IsNullOrEmpty(message)))
+      {
+        return false;
+      }
+
+      return true;
     }
 
     // GET: OperationActions/Edit/5

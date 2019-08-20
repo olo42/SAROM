@@ -68,11 +68,8 @@ namespace SAROM.Controllers
         _context.Add(unit);
         await _context.SaveChangesAsync();
 
-        var operationAction = new OperationAction();
-        operationAction.OperationId = unit.OperationId;
-
         OperationActionsController operationActionsController = new OperationActionsController(_context);
-        await operationActionsController.Create(operationAction, "Einheit eingetroffen/ erfasst", unit.Name); // TODO: I18n
+        await operationActionsController.Create(unit.OperationId, "Einheit eingetroffen / erfasst", unit.Name); // TODO: I18n
 
         return RedirectToAction(nameof(Index), new { id = unit.OperationId });
       }
