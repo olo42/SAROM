@@ -44,7 +44,7 @@
         <dt></dt>
         <dd>
           <a asp-action="Edit" class="form-control-sm" asp-route-id="@Model.Id">@Localizer["Einsatz bearbeiten"]</a> <br />
-          @*<a href="#" class="form-control-sm">@Localizer["Einsatz exportieren"]</a> <br />*@
+          <a href="#" class="form-control-sm" id="printButton" name="printButton">@Localizer["Einsatz drucken"]</a> <br />
           <a asp-action="Close" class="form-control-sm" asp-route-id="@Model.Id" style="color: red;">@Localizer["Einsatz schließen"]</a>
         </dd>
       </dl>
@@ -59,11 +59,18 @@
           <select name="oAction" class="form-control">
             <option disabled selected>@Localizer["Aktion"]</option>
             <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
-            <option value="Meldung">@Localizer["Meldung"]</option>
-            <option value="Suche startet">@Localizer["Meldung Suche startet"]</option>
-            <option value="Person gefunden">@Localizer["Meldung Person gefunden"]</option>
-            <option value="Suche beendet">@Localizer["Meldung Suche beendet"]</option>
-            <option value="Rückt ab">@Localizer["Meldung Rückt ab"]</option>
+            <optgroup label="Meldungen">
+              <option value="Meldung">@Localizer["Meldung"]</option>
+              <option value="Suche startet">@Localizer["Suche startet"]</option>
+              <option value="Person gefunden">@Localizer["Person gefunden"]</option>
+              <option value="Suche beendet">@Localizer["Suche beendet"]</option>
+              <option value="Rückt ab">@Localizer["Rückt ab"]</option>
+            </optgroup>
+            <optgroup label="Standardmaßnahmen">
+              <option value="Gebäude / Einrichtung durchsucht">@Localizer["Gebäude / Einrichtung durchsucht"]</option>
+              <option value="Transpot durch RDS">@Localizer["Transpot durch RDS"]</option>
+              <option value="Umliegende KH abgefragt">@Localizer["Umliegende KH abgefragt"]</option>
+            </optgroup>
           </select>
         </div>
         @if (@Model.Units.Count > 0)
@@ -104,24 +111,12 @@
     }
   </tbody>
 </table>
-@*<div class="col-5">
-    <h4>@Localizer["Einheiten"]</h4>
-    <table class="table">
-      <tbody>
-        @foreach (var item in Model.Units)
-        {
-          <tr>
-            <td>
-              @Html.DisplayFor(modelItem => item.PagerNumber)
-            </td>
-            <td>
-              @Html.DisplayFor(modelItem => item.PagerNumber)
-            </td>
-            <td>
-              <a asp-action="Details" asp-controller="Unit" asp-route-id="@item.Id">@Localizer["ansehen"]</a>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>*@
+
+ @section Scripts {
+   <script>
+$("#printButton").click(function () {
+        window.open("/Operations/Print/@Model.Id", "_blank",
+            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=600, height=800");
+    });
+   </script>
+ }

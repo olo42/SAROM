@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Close Operation @Model.Name</h3>
+  <h3>@Localizer["Einsatz"] @Model.Name @Localizer["abschließen"] </h3>
 
 <hr />
 <div class="row">
@@ -20,14 +20,14 @@
           <span asp-validation-for="ClosingReport" class="text-danger"></span>
         </div>
         <div class="form-group">
-          <input type="submit" value="Close" class="btn btn-primary" />
+          <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />
         </div>
       </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+  <a asp-action="Details" asp-route-id="@Model.Id">@Localizer["zurück"] </a>
 </div>
 
 @section Scripts {

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SAROM.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SAROM.Controllers
 {
@@ -27,59 +27,6 @@ namespace SAROM.Controllers
       if (operation == null)
       {
         return NotFound();
-      }
-      return View(operation);
-    }
-
-    // GET: Operations/Edit/5
-    public async Task<IActionResult> Edit(string id)
-    {
-      if (id == null)
-      {
-        return NotFound();
-      }
-
-      var operation = await _context.Operation.FindAsync(id);
-      if (operation == null)
-      {
-        return NotFound();
-      }
-      return View(operation);
-    }
-
-    // POST: Operations/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(
-      string id,
-      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone")] Operation operation)
-    {
-      if (id != operation.Id)
-      {
-        return NotFound();
-      }
-
-      if (ModelState.IsValid)
-      {
-        try
-        {
-          _context.Update(operation);
-          await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-          if (!OperationExists(operation.Id))
-          {
-            return NotFound();
-          }
-          else
-          {
-            throw;
-          }
-        }
-        return RedirectToAction(nameof(Details), new { id });
       }
       return View(operation);
     }
@@ -179,6 +126,59 @@ namespace SAROM.Controllers
       return View(operation);
     }
 
+    // GET: Operations/Edit/5
+    public async Task<IActionResult> Edit(string id)
+    {
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      var operation = await _context.Operation.FindAsync(id);
+      if (operation == null)
+      {
+        return NotFound();
+      }
+      return View(operation);
+    }
+
+    // POST: Operations/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+      string id,
+      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone")] Operation operation)
+    {
+      if (id != operation.Id)
+      {
+        return NotFound();
+      }
+
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          _context.Update(operation);
+          await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+          if (!OperationExists(operation.Id))
+          {
+            return NotFound();
+          }
+          else
+          {
+            throw;
+          }
+        }
+        return RedirectToAction(nameof(Details), new { id });
+      }
+      return View(operation);
+    }
+
     // GET: Operations
     public async Task<IActionResult> Index()
     {
@@ -187,6 +187,26 @@ namespace SAROM.Controllers
           .OrderByDescending(o => o.AlertDate)
           .ThenByDescending(a => a.AlertTime)
           .ToListAsync());
+    }
+
+    public async Task<IActionResult> Print(string id)
+    {
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      var operation = await _context.Operation
+        .Include(o => o.OperationActions)
+        .Include(o => o.Units)
+        .Include(o => o.MissingPeople)
+        .FirstOrDefaultAsync(m => m.Id == id);
+      if (operation == null)
+      {
+        return NotFound();
+      }
+
+      return View(operation);
     }
 
     [AcceptVerbs("Get", "Post")]

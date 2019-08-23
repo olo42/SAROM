@@ -11,6 +11,9 @@ namespace SAROM.Models
       this.Units = new List<Unit>();
     }
 
+    [Display(Name = "Einsatzleiter")]
+    public string OperationLeader { get; set; }
+
     [Display(Name = "Datum")]
     [DataType(DataType.Date)]
     [Required]
@@ -48,5 +51,7 @@ namespace SAROM.Models
     public List<OperationAction> OperationActions { get; set; }
 
     public List<Unit> Units { get; set; }
+
+    public List<MissingPerson> MissingPeople { get; set; }
   }
 }
