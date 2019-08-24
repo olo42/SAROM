@@ -149,7 +149,7 @@ namespace SAROM.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
       string id,
-      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone")] Operation operation)
+      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone,OperationLeader")] Operation operation)
     {
       if (id != operation.Id)
       {
