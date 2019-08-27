@@ -115,13 +115,21 @@ namespace SAROM.Controllers
       }
 
       var operation = await _context.Operation
-        .Include(o => o.OperationActions)
         .Include(o => o.Units)
         .FirstOrDefaultAsync(m => m.Id == id);
+
       if (operation == null)
       {
         return NotFound();
       }
+
+      var actions = _context.OperationAction
+        .Where(a => a.OperationId == operation.Id)
+        .OrderByDescending(a => a.Created)
+        .Take(8)
+        .ToList();
+
+      operation.OperationActions = actions;
 
       return View(operation);
     }

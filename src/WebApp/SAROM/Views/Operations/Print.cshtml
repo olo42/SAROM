@@ -36,7 +36,7 @@
   <div class="container">
     <main role="main" class="pb-3">
       <br />
-      <h4>@Html.DisplayFor(model => model.Name)</h4>
+      <h4>@Localizer["Einsatz"] @Html.DisplayFor(model => model.Name)</h4>
       <hr />
 
       @*<a href="#" onclick="window.print()">Drucken</a>*@
@@ -181,7 +181,7 @@
       <br />
       <div class="page-break"></div>
       <div>
-        <h5>@Localizer["Vermisste"]</h5>
+        <h5>@Localizer["Vermisst"]</h5>
         <hr />
         @foreach (var item in Model.MissingPeople)
         {

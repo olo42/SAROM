@@ -98,7 +98,7 @@
 
 <table class="table">
   <tbody>
-    @foreach (var item in Model.OperationActions.TakeLast(5).OrderByDescending(i => i.Created))
+    @foreach (var item in Model.OperationActions)
     {
     <tr class="d-flex">
       <td class="col-1">@item.Created.ToShortTimeString()</td>
