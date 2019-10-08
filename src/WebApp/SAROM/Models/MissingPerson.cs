@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SAROM.Models
 {
-  public class MissingPerson
+  public class MissingPerson : IValidatableObject
   {
     [Display(Name = "Erkrankungen")]
     public string Ailments { get; set; }
@@ -56,5 +57,15 @@ namespace SAROM.Models
 
     [Display(Name = "Gewicht")]
     public string Weight { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+      if (MissingSince >= DateTime.Now)
+      {
+        yield return new ValidationResult(
+            $"MissingSince must be earlier than now.",
+            new[] { "MissingSince" });
+      }
+    }
   }
 }
