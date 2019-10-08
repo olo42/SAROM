@@ -11,28 +11,10 @@ namespace SAROM.Models
       this.Units = new List<Unit>();
     }
 
-    [Display(Name = "Einsatzleiter")]
-    public string OperationLeader { get; set; }
-
     [Display(Name = "Datum")]
     [DataType(DataType.Date)]
     [Required]
     public string AlertDate { get; set; }
-
-    [Display(Name="Einsatznummer")]
-    public string Number { get; set; }
-
-    [Display(Name="Leitstelle")]
-    public string Headquarter { get; set; }
-
-    [Display(Name = "Kontakt Leitstelle")]
-    public string HeadquarterContact { get; set; }
-
-    [Display(Name = "Kontakt Polizei")]
-    public string PoliceContact { get; set; }
-
-    [Display(Name = "Telefon Polizei")]
-    public string PoliceContactPhone { get; set; }
 
     [Display(Name = "Uhrzeit")]
     [DataType(DataType.Time)]
@@ -42,16 +24,34 @@ namespace SAROM.Models
     [Display(Name = "Abschlussbericht")]
     public string ClosingReport { get; set; }
 
+    [Display(Name = "Leitstelle")]
+    public string Headquarter { get; set; }
+
+    [Display(Name = "Kontakt Leitstelle")]
+    public string HeadquarterContact { get; set; }
+
     public string Id { get; set; }
 
     public bool IsClosed { get; set; }
 
+    public List<MissingPerson> MissingPeople { get; set; }
+
     public string Name { get; set; }
+
+    [Display(Name = "Einsatznummer")]
+    public string Number { get; set; }
 
     public List<OperationAction> OperationActions { get; set; }
 
-    public List<Unit> Units { get; set; }
+    [Display(Name = "Einsatzleiter")]
+    public string OperationLeader { get; set; }
 
-    public List<MissingPerson> MissingPeople { get; set; }
+    [Display(Name = "Kontakt Polizei")]
+    public string PoliceContact { get; set; }
+
+    [Display(Name = "Telefon Polizei")]
+    public string PoliceContactPhone { get; set; }
+
+    public List<Unit> Units { get; set; }
   }
 }
