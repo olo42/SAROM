@@ -9,6 +9,9 @@
     <StartupObject>SAROM.Program</StartupObject>
     <AssemblyVersion>2019.7.21.0</AssemblyVersion>
     <NeutralLanguage>de</NeutralLanguage>
+    <Authors>Oliver Appel</Authors>
+    <Description>Search and Rescue Operation Management</Description>
+    <Version>0.9.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
