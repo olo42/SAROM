@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SAROM.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAROM.Controllers
 {
@@ -53,7 +50,7 @@ namespace SAROM.Controllers
     }
 
     // POST: MissingPersons/Create
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -65,9 +62,9 @@ namespace SAROM.Controllers
         await _context.SaveChangesAsync();
 
         OperationActionsController operationActionsController = new OperationActionsController(_context);
-        await operationActionsController.Create(missingPerson.OperationId, 
-          "Vermisstendaten erfasst", 
-          string.Empty, 
+        await operationActionsController.Create(missingPerson.OperationId,
+          "Vermisstendaten erfasst",
+          string.Empty,
           $"{missingPerson.Name}, vermisst seit {missingPerson.MissingSince}"); // TODO: I18n
 
         return RedirectToAction(nameof(Index), new { id = missingPerson.OperationId });
@@ -92,7 +89,7 @@ namespace SAROM.Controllers
     }
 
     // POST: MissingPersons/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]

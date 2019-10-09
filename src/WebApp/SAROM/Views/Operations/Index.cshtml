@@ -31,39 +31,38 @@
   <tbody>
     @foreach (var item in Model)
     {
-      <tr>
-        <td>
-          @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.AlertDate)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.AlertTime)
-        </td>
-        <td>
-          @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
-        </td>
-        <td align="right">
-          @if (item.IsClosed == false)
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.Name)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.AlertDate)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.AlertTime)
+      </td>
+      <td>
+        @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
+      </td>
+      <td align="right">
+        @if (item.IsClosed == false)
           {
-            <a asp-action="Details" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
+        <a asp-action="Details" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
           }
           else
           {
-            <a href="#" onClick="print('@item.Id')">@Localizer["drucken"]</a>
+        <a href="#" onClick="print('@item.Id')">@Localizer["drucken"]</a>
           }
-
-        </td>
-      </tr>
+      </td>
+    </tr>
     }
   </tbody>
 </table>
 @section Scripts {
   <script>
     function print(id) {
-        window.open("/Operations/Print/" + id, "_blank",
-            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=800, height=1024");
+      window.open("/Operations/Print/" + id, "_blank",
+        "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=800, height=1024");
     };
   </script>
 }

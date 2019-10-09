@@ -1,5 +1,3 @@
-using System;
-
 namespace SAROM.Models
 {
   public class ErrorViewModel

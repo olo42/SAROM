@@ -5,12 +5,12 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-  <h3>@Localizer["Vermisste"]</h3>
+<h3>@Localizer["Vermisste"]</h3>
 
-  <p>
-    <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["Erfassen"]</a> | 
-    <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück zum Einsatz"]</a>
-  </p>
+<p>
+  <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["Erfassen"]</a> |
+  <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück zum Einsatz"]</a>
+</p>
 <table class="table">
   <thead>
     <tr>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SAROM.Models;
 
 namespace SAROM.Models
 {

@@ -75,15 +75,15 @@
         </div>
         @if (@Model.Units.Count > 0)
         {
-          <div class="form-group">
-            <select name="unitname" class="form-control">
-              <option disabled selected>@Localizer["Einheit"]</option>
-              @foreach (var unit in Model.Units)
+        <div class="form-group">
+          <select name="unitname" class="form-control">
+            <option disabled selected>@Localizer["Einheit"]</option>
+            @foreach (var unit in Model.Units)
               {
-                <option value="@unit.Name">@unit.Name</option>
+            <option value="@unit.Name">@unit.Name</option>
               }
-            </select>
-          </div>
+          </select>
+        </div>
         }
         <div class="form-group">
           <input name="message" class="form-control" placeholder="@Localizer["Protokolleintrag / Kommentar"]" />
@@ -112,11 +112,11 @@
   </tbody>
 </table>
 
- @section Scripts {
-   <script>
+@section Scripts {
+  <script>
 $("#printButton").click(function () {
         window.open("/Operations/Print/@Model.Id", "_blank",
             "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=600, height=800");
     });
-   </script>
- }
+  </script>
+}

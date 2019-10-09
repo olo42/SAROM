@@ -2,21 +2,21 @@
 
 namespace SAROM.Migrations.Operation
 {
-    public partial class AddPoliceContactPhoneToOperation : Migration
+  public partial class AddPoliceContactPhoneToOperation : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "PoliceContactPhone",
-                table: "Operation",
-                nullable: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "PoliceContactPhone",
-                table: "Operation");
-        }
+      migrationBuilder.AddColumn<string>(
+          name: "PoliceContactPhone",
+          table: "Operation",
+          nullable: true);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+          name: "PoliceContactPhone",
+          table: "Operation");
+    }
+  }
 }

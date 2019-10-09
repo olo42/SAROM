@@ -36,14 +36,14 @@
           <partial name="_LoginPartial" />
           @if (SignInManager.IsSignedIn(User))
           {
-            <ul class="navbar-nav flex-grow-1">
-              <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
-              </li>
-              @*<li class="nav-item">
+          <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+              <a class="nav-link text-dark" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
+            </li>
+            @*<li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Stammdaten"]</a>
               </li>*@
-            </ul>
+          </ul>
           }
         </div>
       </div>

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using SAROM.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SAROM.Data;
 using SAROM.Models;
-using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
-using Microsoft.AspNetCore.Localization;
 
 namespace SAROM
 {
@@ -51,7 +46,6 @@ namespace SAROM
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
           .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
           .AddDataAnnotationsLocalization();
-
 
       services.AddDbContext<OperationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("OperationContext")));
