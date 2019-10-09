@@ -9,13 +9,11 @@ namespace SAROM.Models
     {
     }
 
+    public DbSet<SAROM.Models.Document> Document { get; set; }
+    public DbSet<SAROM.Models.MissingPerson> MissingPerson { get; set; }
     public DbSet<SAROM.Models.Operation> Operation { get; set; }
     public DbSet<SAROM.Models.OperationAction> OperationAction { get; set; }
-
     public DbSet<SAROM.Models.Person> Person { get; set; }
-
     public DbSet<SAROM.Models.Unit> Unit { get; set; }
-
-    public DbSet<SAROM.Models.MissingPerson> MissingPerson { get; set; }
   }
 }
