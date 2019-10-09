@@ -15,6 +15,8 @@ namespace SAROM.Models
     [Display(Name = "Geburtsdatum")]
     public string DateOfBirth { get; set; }
 
+    public List<Document> Documents { get; set; }
+
     [Display(Name = "Augenfarbe")]
     public string EyesColour { get; set; }
 
