@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+  <partial name="_LoginPartial" />
+  @if (SignInManager.IsSignedIn(User))
+  {
+    <ul class="navbar-nav flex-grow-1">
+      <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
+      </li>
+    </ul>
+  }
+</div>

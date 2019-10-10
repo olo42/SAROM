@@ -6,6 +6,10 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Menu {
+  <partial name="~/Views/Shared/_MenuPartial.cshtml" />
+}
+
 <h3>@Localizer["Einsätze"]</h3>
 
 <p>
@@ -31,30 +35,30 @@
   <tbody>
     @foreach (var item in Model)
     {
-    <tr>
-      <td>
-        @Html.DisplayFor(modelItem => item.Name)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.AlertDate)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.AlertTime)
-      </td>
-      <td>
-        @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
-      </td>
-      <td align="right">
-        @if (item.IsClosed == false)
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.AlertDate)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.AlertTime)
+        </td>
+        <td>
+          @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
+        </td>
+        <td align="right">
+          @if (item.IsClosed == false)
           {
-        <a asp-action="Details" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
+            <a asp-action="Details" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
           }
           else
           {
-        <a href="#" onClick="print('@item.Id')">@Localizer["drucken"]</a>
+            <a href="#" onClick="print('@item.Id')">@Localizer["drucken"]</a>
           }
-      </td>
-    </tr>
+        </td>
+      </tr>
     }
   </tbody>
 </table>

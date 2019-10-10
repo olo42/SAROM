@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model SAROM.Models.Operation
+
+@Html.DisplayFor(model => model.Name)
+<br />
+@Localizer["EinsatzNr."] @Model.Number
+
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+  <div class="btn-group-sm">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a asp-action="Index" class="nav-link" asp-controller="OperationActions" asp-route-id="@Model.Id">@Localizer["Protokoll"]</a>
+      </li>
+      <li class="nav-item">
+        <a asp-action="Index" class="nav-link" asp-controller="Units" asp-route-id="@Model.Id">@Localizer["Kräfte"]</a>
+      </li>
+      <li class="nav-item">
+        <a asp-action="Index" class="nav-link" asp-controller="MissingPersons" asp-route-id="@Model.Id">@Localizer["Vermisste"]</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">@Localizer["Dokumente"]</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Localizer["Einsatz"]</a>
+        <div class="dropdown-menu">
+          <a asp-action="Edit" class="dropdown-item" asp-route-id="@Model.Id">@Localizer["bearbeiten"]</a>
+          <a href="#" class="dropdown-item" id="printButton" name="printButton">@Localizer["drucken"]</a>
+          <div class="dropdown-divider"></div>
+          <a asp-action="Close" class="dropdown-item" asp-route-id="@Model.Id">@Localizer["beenden"]</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

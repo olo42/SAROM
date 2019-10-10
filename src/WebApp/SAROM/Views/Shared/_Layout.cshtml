@@ -27,30 +27,15 @@
       <div class="container">
         <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">
           <img src="~/img/LogoODRZ.png" height="48" style="padding-right: 10px;" />
-          SAROM
         </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-          <partial name="_LoginPartial" />
-          @if (SignInManager.IsSignedIn(User))
-          {
-            <ul class="navbar-nav flex-grow-1">
-              <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
-              </li>
-              @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Stammdaten"]</a>
-          </li>*@
-            </ul>
-          }
-        </div>
+        @RenderSection("Menu", required: false)
+        @if (!IsSectionDefined("Menu"))
+        {
+          <partial name="_MenuPartial" />
+        }
       </div>
-    </nav>
+
+</nav>
   </header>
   <div class="container">
     <partial name="_CookieConsentPartial" />
