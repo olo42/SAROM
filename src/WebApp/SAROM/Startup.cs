@@ -43,6 +43,8 @@ namespace SAROM
 
       services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+      services.Configure<SAROMSettings>(Configuration.GetSection("SAROMSettings"));
+
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
           .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
           .AddDataAnnotationsLocalization();
