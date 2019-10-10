@@ -48,8 +48,17 @@ body {
   margin-bottom: 60px;
 }
 
-header {
+/*header {
   background-color: red;
+}*/
+
+.navbar-light .navbar-nav .nav-link {
+  color: cornflowerblue;
+}
+
+.navbar-light .navbar-nav .nav-link.nav-link:hover {
+  color: royalblue;
+  text-decoration: underline;
 }
 
 .footer {

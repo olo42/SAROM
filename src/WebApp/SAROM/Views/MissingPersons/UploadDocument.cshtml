@@ -1,19 +1,31 @@
 ﻿@model SAROM.Models.MissingPerson
 
 @{
-    ViewData["Title"] = "UploadDocument";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  ViewData["Title"] = "UploadDocument";
+  Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>UploadDocument</h1>
-
-<h4>Document</h4>
+<h3>@Localizer["Bild hinzufügen"]</h3>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-      <form asp-action="UploadDocument" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <dl>
+  <div class="col-md-4">
+    <form asp-action="UploadDocument" enctype="multipart/form-data">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input type="file" name="formFile" class="custom-file-input" id="inputGroupFile01">
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+        <div class="input-group-append">
+          <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload" />
+        </div>
+      </div>
+
+
+
+      @*<dl>
           <dt>
             <label>Upload</label>
           </dt>
@@ -25,19 +37,23 @@
         </dl>
         <div class="form-group">
           <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload" />
-        </div>
-      </form>
-            @*<div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>*@
-    </div>
+        </div>*@
+    </form>
+  </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+  <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  <script type="text/javascript">
+
+    $('.custom-file input').change(function (e) {
+      $(this).next('.custom-file-label').html(e.target.files[0].name);
+    });
+
+  </script>
 }
+
