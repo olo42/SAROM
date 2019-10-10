@@ -6,6 +6,11 @@ namespace SAROM.Models
 {
   public class MissingPerson : IValidatableObject
   {
+    public MissingPerson()
+    {
+      this.Documents = new List<Document>();
+    }
+
     [Display(Name = "Erkrankungen")]
     public string Ailments { get; set; }
 

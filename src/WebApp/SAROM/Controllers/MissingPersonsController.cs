@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SAROM.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,18 +14,25 @@ namespace SAROM.Controllers
   public class MissingPersonsController : Controller
   {
     private readonly OperationContext _context;
+    private readonly IOptions<SAROMSettings> _settings;
 
-    public MissingPersonsController(OperationContext context)
+    public MissingPersonsController(OperationContext context, IOptions<SAROMSettings> settings)
     {
       _context = context;
+      _settings = settings;
     }
 
     // GET: MissingPersons
     public async Task<IActionResult> Index(string id)
     {
       ViewBag.OperationId = id;
+      List<MissingPerson> missingPeople = 
+        await _context.MissingPerson
+        .Where(m => m.OperationId == id)
+        .Include(x => x.Documents)
+        .ToListAsync();
 
-      return View(await _context.MissingPerson.Where(m => m.OperationId == id).ToListAsync());
+      return View(missingPeople);
     }
 
     // GET: MissingPersons/Details/5
@@ -32,7 +44,8 @@ namespace SAROM.Controllers
       }
 
       var missingPerson = await _context.MissingPerson
-          .FirstOrDefaultAsync(m => m.Id == id);
+        .Include(x => x.Documents)
+        .FirstOrDefaultAsync(m => m.Id == id);
       if (missingPerson == null)
       {
         return NotFound();
@@ -136,6 +149,62 @@ namespace SAROM.Controllers
       if (missingPerson == null)
       {
         return NotFound();
+      }
+
+      return View(missingPerson);
+    }
+
+    public async Task<IActionResult> UploadDocument(string id)
+    {
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      var missingPerson = await _context.MissingPerson
+          .FirstOrDefaultAsync(m => m.Id == id);
+      if (missingPerson == null)
+      {
+        return NotFound();
+      }
+
+      return View(missingPerson);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UploadDocument(IFormFile formFile, string id)
+    {
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      var missingPerson = await _context.MissingPerson
+          .FirstOrDefaultAsync(m => m.Id == id);
+      if (missingPerson == null)
+      {
+        return NotFound();
+      }
+
+      if (formFile.Length > 0)
+      {
+        Document document = new Document(formFile);
+        var documentDirectoryPath = _settings.Value.GetMissingPeopleFullPath(missingPerson.OperationId, missingPerson.Id);
+        Directory.CreateDirectory(documentDirectoryPath);
+        var documentPath = Path.Combine(documentDirectoryPath, document.FullName);
+
+        using (var stream = System.IO.File.Create(documentPath))
+        {
+          await formFile.CopyToAsync(stream);
+        }
+
+        missingPerson.Documents.Add(document);
+        _context.Add(document);
+        _context.Update(missingPerson);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Details), new { id = missingPerson.Id });
       }
 
       return View(missingPerson);

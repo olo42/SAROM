@@ -1,14 +1,23 @@
-﻿@model SAROM.Models.MissingPerson
+﻿@inject Microsoft.Extensions.Options.IOptions<SAROMSettings> Settings;
+@model SAROM.Models.MissingPerson
 
 @{
   ViewData["Title"] = "Details";
   Layout = "~/Views/Shared/_Layout.cshtml";
+  var documentBasePath = Settings.Value.GetMissingPeopleOnlinePath(Model.OperationId, Model.Id);
 }
 
 <div>
   <h3>@Model.Name</h3>
   <hr />
   <dl class="row">
+    <dd class="col-12">
+      @foreach (var document in Model.Documents)
+      {
+        var documentOnlinePath = System.IO.Path.Combine(documentBasePath, document.FullName);
+        <img src="@documentOnlinePath" style="max-width: 200px; max-height: 200px;" />
+      }
+    </dd>
     <dt class="col-3">
       @Html.DisplayNameFor(model => model.MissingSince)
     </dt>

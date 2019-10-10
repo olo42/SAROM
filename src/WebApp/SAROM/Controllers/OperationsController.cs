@@ -208,6 +208,7 @@ namespace SAROM.Controllers
         .Include(o => o.OperationActions)
         .Include(o => o.Units)
         .Include(o => o.MissingPeople)
+          .ThenInclude(missingPerson => missingPerson.Documents)
         .FirstOrDefaultAsync(m => m.Id == id);
       if (operation == null)
       {

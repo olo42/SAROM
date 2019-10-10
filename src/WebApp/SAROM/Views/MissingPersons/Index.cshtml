@@ -23,6 +23,9 @@
       <th>
         @Html.DisplayNameFor(model => model.MissingSince)
       </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Documents)
+      </th>
       <th></th>
     </tr>
   </thead>
@@ -40,8 +43,12 @@
         @Html.DisplayFor(modelItem => item.MissingSince)
       </td>
       <td>
+        @Html.DisplayFor(modelItem => item.Documents.Count)
+      </td>
+      <td>
         <a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a> |
-        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
+        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> |
+        <a asp-action="UploadDocument" asp-route-id="@item.Id">@Localizer["Bild anhängen"]</a>
       </td>
     </tr>
     }
