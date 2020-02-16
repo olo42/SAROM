@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SAROM.Data.Migrations
+namespace Olo42.SAROM.WebApp.Data.Migrations
 {
   public partial class CreateIdentitySchema : Migration
   {

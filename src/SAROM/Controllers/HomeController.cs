@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 
-namespace SAROM.Controllers
+namespace Olo42.SAROM.WebApp.Controllers
 {
   public class HomeController : Controller
   {

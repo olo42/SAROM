@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace SAROM
+namespace Olo42.SAROM.WebApp
 {
   public class Program
   {

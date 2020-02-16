@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 
-namespace SAROM.Migrations
+namespace Olo42.SAROM.WebApp.Migrations
 {
     [DbContext(typeof(OperationContext))]
     partial class OperationContextModelSnapshot : ModelSnapshot

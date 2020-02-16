@@ -6,12 +6,14 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <ApplicationIcon>rescue-dog.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
-    <StartupObject>SAROM.Program</StartupObject>
+    <StartupObject>Olo42.SAROM.WebApp.Program</StartupObject>
     <AssemblyVersion>2019.7.21.0</AssemblyVersion>
     <NeutralLanguage>de</NeutralLanguage>
     <Authors>Oliver Appel</Authors>
     <Description>Search and Rescue Operation Management</Description>
     <Version>0.9.0</Version>
+    <RootNamespace>Olo42.SAROM.WebApp</RootNamespace>
+    <AssemblyName>Olo42.SAROM.WebApp</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

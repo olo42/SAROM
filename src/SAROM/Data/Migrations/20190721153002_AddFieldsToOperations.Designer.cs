@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 
-namespace SAROM.Data.Migrations
+namespace Olo42.SAROM.WebApp.Data.Migrations
 {
     [DbContext(typeof(OperationContext))]
     [Migration("20190721153002_AddFieldsToOperations")]

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SAROM.Migrations.Operation
+namespace Olo42.SAROM.WebApp.Migrations.Operation
 {
     public partial class AddOperationIdToUnit : Migration
     {

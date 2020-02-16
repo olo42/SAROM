@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 
-namespace SAROM.Migrations.Operation
+namespace Olo42.SAROM.WebApp.Migrations.Operation
 {
     [DbContext(typeof(OperationContext))]
     [Migration("20190803200010_AddSizesToUnits")]

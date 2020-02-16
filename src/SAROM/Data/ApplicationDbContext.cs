@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace SAROM.Data
+namespace Olo42.SAROM.WebApp.Data
 {
   public class ApplicationDbContext : IdentityDbContext
   {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SAROM.Models
+namespace Olo42.SAROM.WebApp.Models
 {
   public class Unit
   {

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 
-namespace SAROM.Controllers
+namespace Olo42.SAROM.WebApp.Controllers
 {
   public class OperationActionsController : Controller
   {

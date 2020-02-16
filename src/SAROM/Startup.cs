@@ -10,15 +10,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SAROM.Data;
+using Olo42.SAROM.WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SAROM.Models;
+using Olo42.SAROM.WebApp.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 
-namespace SAROM
+namespace Olo42.SAROM.WebApp
 {
   public class Startup
   {
