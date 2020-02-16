@@ -8,4 +8,8 @@
     <PackageReference Include="Olo42.FileDataAccess" Version="1.0.0-beta" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Olo42.SAROM.DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
