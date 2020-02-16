@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Olo42.SAROM.WebApp", "src\O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Olo42.SAROM.DataAccess", "src\Olo42.SAROM.DataAccess\Olo42.SAROM.DataAccess.csproj", "{8B362AA8-A4A7-41FD-BB06-7FD231E16FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.DataAccesTests", "tests\Olo42.SAROM.DataAccesTests\Olo42.SAROM.DataAccesTests.csproj", "{CDD0C97F-7032-4482-AE44-A9949B88F0DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.DataAccesTests", "tests\Olo42.SAROM.DataAcces.Tests\Olo42.SAROM.DataAcces.Tests.csproj", "{CDD0C97F-7032-4482-AE44-A9949B88F0DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
