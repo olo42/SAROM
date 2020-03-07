@@ -16,7 +16,9 @@ namespace Olo42.SAROM.DataAccess.Contracts
     {
       if (obj == null || GetType() != obj.GetType())
         return false;
+
       User otherUser = (User)obj;
+
       return LoginName.Equals(otherUser.LoginName);
     }
 

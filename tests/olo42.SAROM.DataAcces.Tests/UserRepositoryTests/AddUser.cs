@@ -33,22 +33,6 @@ namespace Olo42.SAROM.DataAcces.Tests.UserRepositoryTests
       Assert.That(ex.Message, Is.EqualTo("User already exist!"));
     }
 
-    [Test]
-    public void DoNot_let_me_add_user_twice()
-    {
-      // two_users_with_same_login_name
-      // Arrange
-      var user = new User { LoginName = "Peter" };
-
-      // Act
-      userRepository.Add(user);
-
-      // Assert
-      var ex =
-        Assert.Throws<DuplicateUserException>(() => userRepository.Add(user));
-      Assert.That(ex.Message, Is.EqualTo("User already exist!"));
-    }
-
     [SetUp]
     public void Setup()
     {

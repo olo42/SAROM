@@ -61,9 +61,12 @@ namespace Olo42.SAROM.DataAcces.Tests.UserRepositoryTests
 
       // Act 
       var result = userRepository.Get();
-
+      
       // Assert
       Assert.That(result.Count(), Is.EqualTo(3));
+      Assert.That(result.Select(x => x.LoginName), Does.Contain("Jonny"));
+      Assert.That(result.Select(x => x.LoginName), Does.Contain("Susi"));
+      Assert.That(result.Select(x => x.LoginName), Does.Contain("Peter"));
     }
 
 
