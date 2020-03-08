@@ -4,20 +4,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Olo42.FileDataAccess.Contracts;
 using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.DataAccess
 {
-  public class UserRepository
+  public class UserRepository : IUserRepository
   {
     private readonly IFileDataAccess<IEnumerable<User>> fileDataAccess;
     private readonly string filePath;
 
-    public UserRepository(IFileDataAccess<IEnumerable<User>> fileDataAccess, string filePath)
+    public UserRepository(IFileDataAccess<IEnumerable<User>> fileDataAccess, IConfiguration configuration)
     {
       this.fileDataAccess = fileDataAccess;
-      this.filePath = filePath;
+      this.filePath = configuration.GetSection("User")["FileStoragePath"];
     }
 
     public void Add(User user)

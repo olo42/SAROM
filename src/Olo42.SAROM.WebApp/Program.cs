@@ -40,6 +40,11 @@ namespace Olo42.SAROM.WebApp
 
     public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
+          //.ConfigureAppConfiguration((hostingContext, config) =>
+          //{
+          //  config.AddJsonFile(
+          //      "config.json", optional: true, reloadOnChange: true);
+          //})
+          .UseStartup<Startup>();
   }
 }

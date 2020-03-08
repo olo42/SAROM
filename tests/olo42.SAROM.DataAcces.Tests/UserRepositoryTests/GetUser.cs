@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using Olo42.FileDataAccess.Contracts;
@@ -73,10 +74,14 @@ namespace Olo42.SAROM.DataAcces.Tests.UserRepositoryTests
     [SetUp]
     public void Setup()
     {
+      Mock<IConfiguration> configuration = new Mock<IConfiguration>();
+      configuration.Setup(
+        c => c.GetSection("User")["FileStoragePath"]).Returns("testuser.dat");
+
       this.fileDataAccessMock = new Mock<IFileDataAccess<IEnumerable<User>>>();
 
       this.userRepository =
-        new UserRepository(fileDataAccessMock.Object, FILE_PATH);
+        new UserRepository(fileDataAccessMock.Object, configuration.Object);
     }
   }
 }

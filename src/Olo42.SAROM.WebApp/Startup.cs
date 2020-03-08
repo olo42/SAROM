@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using Olo42.SAROM.WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Olo42.SAROM.DataAccess;
+using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.WebApp.Logic;
 using Olo42.SAROM.WebApp.Models;
-using Microsoft.AspNetCore.Mvc.Razor;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
+using Olo42.FileDataAccess.Contracts;
+using Olo42.FileDataAccess;
+using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Runtime.Serialization;
 
 namespace Olo42.SAROM.WebApp
 {
@@ -28,34 +30,6 @@ namespace Olo42.SAROM.WebApp
     }
 
     public IConfiguration Configuration { get; }
-
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-      services.Configure<CookiePolicyOptions>(options =>
-      {
-        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-        options.CheckConsentNeeded = context => true;
-        options.MinimumSameSitePolicy = SameSiteMode.None;
-      });
-
-      services.AddDbContext<ApplicationDbContext>(options =>
-          options.UseSqlServer(
-              Configuration.GetConnectionString("DefaultConnection")));
-      services.AddDefaultIdentity<IdentityUser>()
-          .AddDefaultUI(UIFramework.Bootstrap4)
-          .AddEntityFrameworkStores<ApplicationDbContext>();
-
-      services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-          .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-          .AddDataAnnotationsLocalization();
-
-
-      services.AddDbContext<OperationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OperationContext")));
-    }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -99,6 +73,41 @@ namespace Olo42.SAROM.WebApp
                   name: "default",
                   template: "{controller=Home}/{action=Index}/{id?}");
       });
+    }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.Configure<CookiePolicyOptions>(options =>
+      {
+        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+        options.CheckConsentNeeded = context => true;
+        options.MinimumSameSitePolicy = SameSiteMode.None;
+      });
+
+      services.AddScoped<IFormatter, BinaryFormatter>();
+
+      services.AddScoped<
+        IFileDataAccess<IEnumerable<User>>, 
+        FormatterDataAccess<IEnumerable<User>>>();
+
+      services.AddScoped<IUserRepository, UserRepository>();
+
+      services.AddIdentity<User, Role>()
+        .AddUserStore<UserStore<User>>()
+        .AddRoleStore<RoleStore<Role>>()
+        .AddSignInManager<SignInManager<User>>();
+
+      services.AddAuthentication();
+
+      services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+          .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+          .AddDataAnnotationsLocalization();
+
+      services.AddDbContext<OperationContext>(options => options.UseSqlServer(
+        Configuration.GetConnectionString("OperationContext")));
     }
   }
 }

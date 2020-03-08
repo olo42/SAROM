@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
@@ -11,7 +11,7 @@
       <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["Meine Daten"]</a>
     </li>
     <li class="nav-item">
-      <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+      <form class="form-inline" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
         <button type="submit" class="nav-link btn btn-link text-dark">@Localizer["Abmelden"]</button>
       </form>
     </li>
@@ -19,7 +19,7 @@
   else
   {
     <li class="nav-item">
-      <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@Localizer["Anmelden"]</a>
+      <a class="nav-link text-dark" asp-page="/Account/Login">@Localizer["Anmelden"]</a>
     </li>
   }
 </ul>

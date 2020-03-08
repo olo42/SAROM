@@ -11,6 +11,7 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string LoginName { get; set; }
+    public string Password { get; set; }
 
     public override bool Equals(object obj)
     {
