@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Olo42.SAROM.DataAccess.Contracts
 {
@@ -12,6 +13,7 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public string LastName { get; set; }
     public string LoginName { get; set; }
     public string Password { get; set; }
+    public IEnumerable<Role> Roles { get; set; }
 
     public override bool Equals(object obj)
     {
