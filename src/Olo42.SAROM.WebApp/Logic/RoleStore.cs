@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -8,60 +10,101 @@ namespace Olo42.SAROM.WebApp.Logic
 {
   public sealed class RoleStore<TRole> : IRoleStore<Role>
   {
-    public Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
+    private List<Role> roles;
+
+    public RoleStore()
+    {
+      this.roles = new List<Role>();
+      this.roles.Add(new Role { Name = "Administrator" });
+      this.roles.Add(new Role { Name = "User" });
+    }
+
+    public Task<IdentityResult> CreateAsync(
+      Role role, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
 
-    public Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancellationToken)
+    public Task<IdentityResult> DeleteAsync(
+      Role role, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
 
-    public Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken)
+    public Task<Role> FindByIdAsync(
+      string roleId, CancellationToken cancellationToken)
+    {
+      var role = this.roles.Where(x =>
+      {
+        return x.Name.ToUpperInvariant() ==
+          roleId.ToUpperInvariant();
+      }).First();
+
+      return Task.FromResult(role);
+    }
+
+    public Task<Role> FindByNameAsync(
+      string normalizedRoleName, CancellationToken cancellationToken)
+    {
+      return this.FindByIdAsync(normalizedRoleName, cancellationToken);
+    }
+
+    public Task<string> GetNormalizedRoleNameAsync(
+      Role role, CancellationToken cancellationToken)
+    {
+      if (role == null)
+        return null;
+
+      return Task.FromResult(role.Name.ToUpperInvariant());
+    }
+
+    public Task<string> GetRoleIdAsync(
+      Role role, CancellationToken cancellationToken)
+    {
+      if (role == null)
+        return null;
+
+      return Task.FromResult(role.Name);
+    }
+
+    public Task<string> GetRoleNameAsync(
+      Role role, CancellationToken cancellationToken)
+    {
+      return this.GetRoleIdAsync(role, cancellationToken);
+    }
+
+    public Task SetNormalizedRoleNameAsync(
+      Role role, string normalizedName, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
 
-    public Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
+    public Task SetRoleNameAsync(
+      Role role, string roleName, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
 
-    public Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<string> GetRoleIdAsync(Role role, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<string> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)
+    public Task<IdentityResult> UpdateAsync(
+      Role role, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
 
     #region IDisposable Support
+
     private bool disposedValue = false; // To detect redundant calls
 
-    void Dispose(bool disposing)
+    // This code added to correctly implement the disposable pattern.
+    public void Dispose()
+    {
+      // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+      Dispose(true);
+      // TODO: uncomment the following line if the finalizer is overridden above.
+      // GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
     {
       if (!disposedValue)
       {
@@ -84,15 +127,6 @@ namespace Olo42.SAROM.WebApp.Logic
     //   Dispose(false);
     // }
 
-    // This code added to correctly implement the disposable pattern.
-    public void Dispose()
-    {
-      // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-      Dispose(true);
-      // TODO: uncomment the following line if the finalizer is overridden above.
-      // GC.SuppressFinalize(this);
-    }
-    #endregion
-
+    #endregion IDisposable Support
   }
 }
