@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SAROM
+namespace Olo42.SAROM.WebApp.Logic
 {
   public class SAROMSettings
   {
