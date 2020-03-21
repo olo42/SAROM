@@ -12,7 +12,7 @@ using Olo42.FileDataAccess.Contracts;
 using Olo42.SAROM.DataAccess;
 using Olo42.SAROM.DataAccess.Contracts;
 
-namespace Olo42.SAROM.DataAcces.Tests.UserRepositoryTests
+namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
 {
   public class AddUser
   {
