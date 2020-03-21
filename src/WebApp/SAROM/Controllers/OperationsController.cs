@@ -126,7 +126,7 @@ namespace SAROM.Controllers
       var actions = _context.OperationAction
         .Where(a => a.OperationId == operation.Id)
         .OrderByDescending(a => a.Created)
-        .Take(8)
+        .Take(6)
         .ToList();
 
       operation.OperationActions = actions;

@@ -189,8 +189,15 @@ namespace SAROM.Controllers
 
       if (formFile.Length > 0)
       {
+        var extension = Path.GetExtension(formFile.FileName).ToLowerInvariant();
+        if (string.IsNullOrEmpty(extension) || !_settings.Value.PermittedFileUpoadExtensions.Contains(extension))
+        {
+          ModelState.AddModelError(extension, "Forbidden file type!");
+        }
+
         Document document = new Document(formFile);
-        var documentDirectoryPath = _settings.Value.GetMissingPeopleFullPath(missingPerson.OperationId, missingPerson.Id);
+
+        var documentDirectoryPath = _settings.Value.GetMissingPeoplePhysicalPath(missingPerson.OperationId, missingPerson.Id);
         Directory.CreateDirectory(documentDirectoryPath);
         var documentPath = Path.Combine(documentDirectoryPath, document.FullName);
 

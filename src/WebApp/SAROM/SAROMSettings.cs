@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace SAROM
 {
@@ -7,15 +6,12 @@ namespace SAROM
   {
     public string MissingPeoplePath { get; set; }
     public string OperationsPath { get; set; }
-    public string WWWRootPath {
-      get
-      {
-        return Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-      }
-    }
+    public string[] PermittedFileUpoadExtensions { get; set; }
     public string ProgramDataProjectPath { get; set; }
+    public string WWWRootFolderName { get; set; }
+    public string WWWRootPath => Path.Combine(Directory.GetCurrentDirectory(), WWWRootFolderName);
 
-    public string GetMissingPeopleFullPath(string operationId, string missingPersonId)
+    public string GetMissingPeoplePhysicalPath(string operationId, string missingPersonId)
     {
       var path = Path.Combine(
         this.WWWRootPath,
