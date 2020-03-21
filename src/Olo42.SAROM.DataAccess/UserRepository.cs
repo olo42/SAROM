@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using Microsoft.Extensions.Configuration;
 using Olo42.FileDataAccess.Contracts;
 using Olo42.SAROM.DataAccess.Contracts;
@@ -18,7 +19,10 @@ namespace Olo42.SAROM.DataAccess
     public UserRepository(IFileDataAccess<IEnumerable<User>> fileDataAccess, IConfiguration configuration)
     {
       this.fileDataAccess = fileDataAccess;
-      this.filePath = configuration.GetSection("User")["FileStoragePath"];
+      this.filePath = configuration.GetSection("SAROMSettings")["UserStoragePath"];
+      
+      if (!File.Exists(this.filePath))
+        File.Create(this.filePath).Dispose();
     }
 
     public void Add(User user)
@@ -38,14 +42,22 @@ namespace Olo42.SAROM.DataAccess
 
     public IEnumerable<User> Get()
     {
-      var users = this.fileDataAccess.Read(filePath);
+      try
+      {
+        var users = this.fileDataAccess.Read(filePath);
 
-      return users;
+        return users;
+      }
+      catch(SerializationException ex)
+      {
+        // TODO: Log "ex"
+        return new List<User>();
+      }
     }
 
     public User Get(string loginName)
     {
-      var users = this.fileDataAccess.Read(filePath);
+      var users = this.Get();
 
       return users.ToList().Find(x => x.LoginName == loginName);
     }

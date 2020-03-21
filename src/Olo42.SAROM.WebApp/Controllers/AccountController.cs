@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.WebApp.Models.Account;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
-  public class AccountController : Controller
+    public class AccountController : Controller
   {
     private readonly IUserRepository userRepository;
 
@@ -28,13 +29,15 @@ namespace Olo42.SAROM.WebApp.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(string loginName, string password)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login([Bind("LoginName, Password")] Login login)
     {
-      var user = this.userRepository.Get(loginName);
-      if (user == null || user?.Password != password)
+      var user = this.userRepository.Get(login.LoginName);
+      if (user == null || user?.Password != login.Password)
       {
-        ModelState.AddModelError("Credentials", "Access denied");
-        return View();
+        login.ErrorMessage = "Ungültige Zugangsdaten!";  // TODO: I18n
+
+        return View(login);
       }
 
       var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -44,7 +47,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       var principal = new ClaimsPrincipal(identity);
       await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).ConfigureAwait(false);
-
+      
       return RedirectToAction("Index", "Home");
     }
 
