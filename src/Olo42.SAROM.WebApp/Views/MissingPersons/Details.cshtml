@@ -1,0 +1,110 @@
+@inject Microsoft.Extensions.Options.IOptions<SAROMSettings> Settings;
+@model Olo42.SAROM.WebApp.Models.MissingPerson
+
+@{
+  ViewData["Title"] = "Details";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+  var documentBasePath = Settings.Value.GetMissingPeopleOnlinePath(Model.OperationId, Model.Id);
+}
+
+<div>
+  <h3>@Model.Name</h3>
+  <hr />
+  <dl class="row">
+    <dd class="col-12">
+      @foreach (var document in Model.Documents)
+      {
+        var documentOnlinePath = System.IO.Path.Combine(documentBasePath, document.FullName);
+        <img src="@documentOnlinePath" style="max-width: 200px; max-height: 200px;" />
+      }
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.MissingSince)
+    </dt>
+    <dd class="col-9">
+      @Model.MissingSince.ToShortDateString()
+      @Model.MissingSince.ToShortTimeString()
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.DateOfBirth)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.DateOfBirth)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Gender)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Gender)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Size)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Size)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Weight)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Weight)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.SkinType)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.SkinType)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.HairColor)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.HairColor)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.EyesColour)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.EyesColour)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Clothes)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Clothes)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Ailments)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Ailments)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.Medications)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.Medications)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.KnownPlaces)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.KnownPlaces)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.SpecialCharacteristics)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.SpecialCharacteristics)
+    </dd>
+    <dt class="col-3">
+      @Html.DisplayNameFor(model => model.FurtherInformation)
+    </dt>
+    <dd class="col-9">
+      @Html.DisplayFor(model => model.FurtherInformation)
+    </dd>
+  </dl>
+</div>
+<div>
+  <a asp-action="Index" asp-route-id="@Model.OperationId">@Localizer["zurück"]</a>
+</div>

@@ -1,0 +1,69 @@
+﻿@model Olo42.SAROM.WebApp.Models.Unit
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var operationId = ViewBag.OperationId;
+}
+
+<h3>@Localizer["Kräfte erfassen"]</h3>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form asp-action="Create">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-group">
+        <label asp-for="GroupLeader" class="control-label"></label>
+        <input asp-for="GroupLeader" class="form-control" />
+        <span asp-validation-for="GroupLeader" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="PagerNumber" class="control-label"></label>
+        <input asp-for="PagerNumber" class="form-control" />
+        <span asp-validation-for="PagerNumber" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="AreaSeeker" class="control-label"></label>
+        <input type="number" asp-for="AreaSeeker" min="0" value="0" class="form-control" />
+        <span asp-validation-for="AreaSeeker" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Mantrailer" class="control-label"></label>
+        <input type="number" asp-for="Mantrailer" min="0" value="0" class="form-control" />
+        <span asp-validation-for="Mantrailer" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="DebrisSearcher" class="control-label"></label>
+        <input type="number" asp-for="DebrisSearcher" min="0" value="0" class="form-control" />
+        <span asp-validation-for="DebrisSearcher" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="WaterLocators" class="control-label"></label>
+        <input type="number" asp-for="WaterLocators" min="0" value="0" class="form-control" />
+        <span asp-validation-for="WaterLocators" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Helpers" class="control-label"></label>
+        <input type="number" asp-for="Helpers" min="0" value="0" class="form-control" />
+        <span asp-validation-for="Helpers" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="hidden" asp-for="@operationId" />
+        <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <a asp-action="Index" asp-route-id="@operationId">@Localizer["Zurück zur Übersicht"]</a>
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

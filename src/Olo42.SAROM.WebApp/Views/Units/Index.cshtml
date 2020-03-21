@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Olo42.SAROM.WebApp.Models.Unit>
+
+@{
+  ViewData["Title"] = "Index";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Localizer["Einsatzkräfte"]</h3>
+
+<p>
+  <a asp-action="Create" asp-route-id="@ViewBag.OperationId">@Localizer["Erfassen"]</a> |
+  <a asp-action="Details" asp-controller="Operations" asp-route-id="@ViewBag.OperationId">@Localizer["zurück zum Einsatz"]</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Name)
+      </th>
+      <th>
+        @Localizer["FRN"]
+      </th>
+      <th>
+        @Localizer["GF"]
+      </th>
+      <th>
+        @Localizer["FL"]
+      </th>
+      <th>
+        @Localizer["MT"]
+      </th>
+      <th>
+        @Localizer["TR"]
+      </th>
+      <th>
+        @Localizer["WO"]
+      </th>
+      <th>
+        @Localizer["H"]
+      </th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.Name)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.PagerNumber)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.GroupLeader)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.AreaSeeker)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.Mantrailer)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.DebrisSearcher)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.WaterLocators)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.Helpers)
+      </td>
+      <td>
+        @*<a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a> |*@
+        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> @*|*@
+        @*<a asp-action="Delete" asp-route-id="@item.Id">@Localizer["löschen"]</a>*@
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
