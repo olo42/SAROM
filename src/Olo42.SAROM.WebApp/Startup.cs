@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Globalization;
 using Olo42.SAROM.DataAccess;
 using Olo42.SAROM.DataAccess.Contracts;
 using Olo42.SAROM.WebApp.Logic;
@@ -18,7 +17,6 @@ using Olo42.SAROM.WebApp.Models;
 using Olo42.FileDataAccess.Contracts;
 using Olo42.FileDataAccess;
 using System.Runtime.Serialization.Formatters.Binary;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Runtime.Serialization;
 
 namespace Olo42.SAROM.WebApp
