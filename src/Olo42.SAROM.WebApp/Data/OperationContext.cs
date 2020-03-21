@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Olo42.SAROM.WebApp.Models;
 
 namespace Olo42.SAROM.WebApp.Models
 {
@@ -10,6 +9,7 @@ namespace Olo42.SAROM.WebApp.Models
     {
     }
 
+    public DbSet<Olo42.SAROM.WebApp.Models.Document> Document { get; set; }
     public DbSet<Olo42.SAROM.WebApp.Models.Operation> Operation { get; set; }
     public DbSet<Olo42.SAROM.WebApp.Models.OperationAction> OperationAction { get; set; }
 
