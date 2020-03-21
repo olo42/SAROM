@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@model SAROM.Models.Operation
+@model Olo42.SAROM.WebApp.Models.Operation
 
 @Html.DisplayFor(model => model.Name)
 <br />
