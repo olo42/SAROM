@@ -332,3 +332,5 @@ ASALocalRun/
 # VSCode folder 
 .vscode/
 /src/WebApp/SAROM/wwwroot/operations/*
+/src/Olo42.SAROM.WebApp/wwwroot/operations/*
+/data
