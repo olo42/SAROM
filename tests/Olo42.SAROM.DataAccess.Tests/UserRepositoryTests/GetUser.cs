@@ -75,8 +75,9 @@ namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
     public void Setup()
     {
       Mock<IConfiguration> configuration = new Mock<IConfiguration>();
-      configuration.Setup(
-        c => c.GetSection("User")["FileStoragePath"]).Returns("testuser.dat");
+      configuration
+        .Setup(c => c.GetSection("SAROMSettings")["UserStoragePath"])
+        .Returns("testuser.dat");
 
       this.fileDataAccessMock = new Mock<IFileDataAccess<IEnumerable<User>>>();
 
