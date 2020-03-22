@@ -334,3 +334,4 @@ ASALocalRun/
 /src/WebApp/SAROM/wwwroot/operations/*
 /src/Olo42.SAROM.WebApp/wwwroot/operations/*
 /data
+src/Olo42.SAROM.WebApp/user_storage.dat
