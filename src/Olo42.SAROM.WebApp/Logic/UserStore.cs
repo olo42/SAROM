@@ -8,7 +8,7 @@ using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Logic
 {
-  public sealed class UserStore<TUser> : IUserStore<User>
+  public sealed class UserStore<TUser> : ISaromUserStore<User>
   {
     private readonly IUserRepository userRepository;
     private bool isDisposed;
@@ -85,6 +85,11 @@ namespace Olo42.SAROM.WebApp.Logic
     public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<User>> GetAllUsers()
+    {
+      return Task.FromResult(this.userRepository.Get());
     }
   }
 }

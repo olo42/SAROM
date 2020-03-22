@@ -91,6 +91,7 @@ namespace Olo42.SAROM.WebApp
         FormatterDataAccess<IEnumerable<User>>>();
 
       services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<ISaromUserStore<User>, UserStore<User>>();
 
       services.AddIdentity<User, Role>()
         .AddUserStore<UserStore<User>>()
