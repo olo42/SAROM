@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Olo42.SAROM.WebApp.Models;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
+  [Authorize]
   public class OperationsController : Controller
   {
     private readonly OperationContext _context;
