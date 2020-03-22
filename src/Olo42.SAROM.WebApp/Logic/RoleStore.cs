@@ -15,8 +15,8 @@ namespace Olo42.SAROM.WebApp.Logic
     public RoleStore()
     {
       this.roles = new List<Role>();
-      this.roles.Add(new Role { Name = "Administrator" });
-      this.roles.Add(new Role { Name = "User" });
+      this.roles.Add(new Role { Name = ERoleName.Administrator });
+      this.roles.Add(new Role { Name = ERoleName.User });
     }
 
     public Task<IdentityResult> CreateAsync(
@@ -36,7 +36,7 @@ namespace Olo42.SAROM.WebApp.Logic
     {
       var role = this.roles.Where(x =>
       {
-        return x.Name.ToUpperInvariant() ==
+        return x.Name.ToString().ToUpperInvariant() ==
           roleId.ToUpperInvariant();
       }).First();
 
@@ -55,7 +55,7 @@ namespace Olo42.SAROM.WebApp.Logic
       if (role == null)
         return null;
 
-      return Task.FromResult(role.Name.ToUpperInvariant());
+      return Task.FromResult(role.Name.ToString().ToUpperInvariant());
     }
 
     public Task<string> GetRoleIdAsync(
@@ -64,7 +64,7 @@ namespace Olo42.SAROM.WebApp.Logic
       if (role == null)
         return null;
 
-      return Task.FromResult(role.Name);
+      return Task.FromResult(role.Name.ToString());
     }
 
     public Task<string> GetRoleNameAsync(

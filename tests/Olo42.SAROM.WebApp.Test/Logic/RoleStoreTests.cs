@@ -66,13 +66,13 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
 
       // Assert
       Assert.That(
-        result.Result.Name.ToUpperInvariant(),
+        result.Result.Name.ToString().ToUpperInvariant(),
         Is.EqualTo(normalizedRoleName.ToUpperInvariant()));
     }
 
-    [TestCase("Administrator")]
-    [TestCase("User")]
-    public void GetNormalizedRoleName_ReturnsNormalizedRoleName(string roleName)
+    [TestCase(ERoleName.Administrator)]
+    [TestCase(ERoleName.User)]
+    public void GetNormalizedRoleName_ReturnsNormalizedRoleName(ERoleName roleName)
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
@@ -83,7 +83,9 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
         roleStore.GetNormalizedRoleNameAsync(role, CancellationToken.None);
 
       // Assert
-      Assert.That(result.Result, Is.EqualTo(roleName.ToUpperInvariant()));
+      Assert.That(
+        result.Result, 
+        Is.EqualTo(roleName.ToString().ToUpperInvariant()));
     }
 
     [Test]
@@ -116,13 +118,13 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
       Assert.That(result, Is.Null);
     }
 
-    [TestCase("Administrator")]
-    [TestCase("User")]
-    public void GetRoleId_ReturnsRoleName(string roleName)
+    [TestCase(ERoleName.Administrator)]
+    [TestCase(ERoleName.User)]
+    public void GetRoleId_ReturnsRoleName(ERoleName roleName)
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
-      var role = new Role { Name = roleName };
+      var role = new Role { Name =  roleName};
 
       // Act
       var result =
@@ -147,13 +149,13 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
       Assert.That(result, Is.Null);
     }
 
-    [TestCase("Administrator")]
-    [TestCase("User")]
-    public void GetRoleName_ReturnsRoleName(string roleName)
+    [TestCase(ERoleName.Administrator)]
+    [TestCase(ERoleName.User)]
+    public void GetRoleName_ReturnsRoleName(ERoleName roleName)
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
-      var role = new Role { Name = roleName };
+      var role = new Role { Name =  roleName};
 
       // Act
       var result =
