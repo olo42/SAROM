@@ -20,20 +20,7 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
     {
-      try
-      {
-        this.userRepository.Add(user);
-      }
-      catch(DuplicateUserException)
-      {
-        return new Task<IdentityResult>(
-          () => IdentityResult.Failed(
-            new IdentityError 
-            { 
-              Description = $"Could not create user {user.LastName}." 
-            }));
-      }
-
+      this.userRepository.Add(user);
 
       return new Task<IdentityResult>(() => IdentityResult.Success);
     }
@@ -49,7 +36,7 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return Task.FromResult(this.userRepository.Get(userId));
     }
 
     public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
