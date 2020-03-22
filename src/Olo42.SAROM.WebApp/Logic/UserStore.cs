@@ -64,12 +64,12 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return Task.FromResult(user.LoginName);
     }
 
     public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return Task.FromResult($"{user.FirstName} {user.LastName}");
     }
 
     public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)

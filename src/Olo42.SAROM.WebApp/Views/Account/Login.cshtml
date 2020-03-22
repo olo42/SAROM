@@ -1,7 +1,40 @@
-﻿
+﻿@model Olo42.SAROM.WebApp.Models.Account.Login
+
 @{
     ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Login</h1>
+<h3>@Localizer["Anmelden"]</h3>
+
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form asp-action="Login">
+    @if(@Model != null && @Model.Failed) {
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">@Localizer["Anmeldung fehlgeschlagen!"]</h4>
+        <p>@Localizer["Bitte überprüfen Sie ihre Anmeldedaten."]</p>
+      </div>
+    }
+      <div class="form-group">
+        <label asp-for="LoginName" class="control-label"></label>
+        <input asp-for="LoginName" class="form-control" />
+        <span asp-validation-for="LoginName" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+      </div>
+       <div class="form-group">
+        <input type="submit" value="@Localizer["Absenden"]" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 

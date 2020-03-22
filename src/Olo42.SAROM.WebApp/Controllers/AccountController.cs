@@ -1,19 +1,26 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.WebApp.Models.Account;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
   public class AccountController : Controller
   {
     private readonly IUserRepository userRepository;
+    private readonly SignInManager<User> signInManager;
 
-    public AccountController(IUserRepository userRepository)
+    public AccountController(
+      IUserRepository userRepository,
+      SignInManager<User> signInManager)
     {
       this.userRepository = userRepository;
+      this.signInManager = signInManager;
     }
 
     public IActionResult AccessDenied()
@@ -24,33 +31,46 @@ namespace Olo42.SAROM.WebApp.Controllers
     [HttpGet]
     public IActionResult Login()
     {
+      this.CreateInitialUserIfNoUserExist();
+
       return View();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Login(string loginName, string password)
+    private void CreateInitialUserIfNoUserExist()
     {
-      var user = this.userRepository.Get(loginName);
-      if (user == null || user?.Password != password)
+      if (!this.userRepository.Get().Any())
       {
-        ModelState.AddModelError("Credentials", "Access denied");
-        return View();
+        var user = new User
+        {
+          LoginName = "first",
+          FirstName = "First",
+          LastName = "User",
+          Password = "user"
+        };
+        this.userRepository.Add(user);
+      }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login([Bind("LoginName, Password")] Login login)
+    {
+      var user = this.userRepository.Get(login.LoginName);
+      if (user == null || user?.Password != login.Password)
+      {
+        login.Failed = true;
+
+        return View(login);
       }
 
-      var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-      identity.AddClaim(new Claim(ClaimTypes.Name, user.LoginName));
-      identity.AddClaim(new Claim(ClaimTypes.GivenName, user.FirstName));
-      identity.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
-
-      var principal = new ClaimsPrincipal(identity);
-      await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).ConfigureAwait(false);
-
+      await this.signInManager.SignInAsync(user, true, null);
+      
       return RedirectToAction("Index", "Home");
     }
 
     public async Task<IActionResult> Logout()
     {
-      await HttpContext.SignOutAsync().ConfigureAwait(false);
+      await this.signInManager.SignOutAsync();
 
       return RedirectToAction(nameof(Login));
     }
