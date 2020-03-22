@@ -10,7 +10,7 @@ using Olo42.SAROM.WebApp.Models.Account;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
-  public class AccountController : Controller
+    public class AccountController : Controller
   {
     private readonly IUserRepository userRepository;
     private readonly SignInManager<User> signInManager;
