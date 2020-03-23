@@ -17,10 +17,14 @@ namespace Olo42.SAROM.WebApp.Models
     public string LoginName { get; set; }
     
     [Required]
+    [DataType(DataType.Password)]
+    [MinLength(8)]
     [Display(Name = "Passwort")]
     public string Password { get; set; }
 
     [Required]
+    [Compare("Password")]
+    [DataType(DataType.Password)]
     [Display(Name = "Passwort überprüfen")]
     public string VerifyPassword { get; set; }  
   }
