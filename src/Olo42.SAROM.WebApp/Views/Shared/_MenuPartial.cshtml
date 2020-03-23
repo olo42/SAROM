@@ -4,6 +4,11 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
+<ul class="navbar-nav flex-grow-1">
+  <li class="nav-item">
+    <h1 class="">SAROM</h1>
+  </li>
+</ul>
 <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -13,10 +18,6 @@
   <partial name="_LoginPartial" />
   @if (SignInManager.IsSignedIn(User))
   {
-    <ul class="navbar-nav flex-grow-1">
-      <li class="nav-item">
-        <a class="nav-link" asp-area="" asp-controller="Operations" asp-action="Index">@Localizer["Einsätze"]</a>
-      </li>
-    </ul>
+    <a class="navbar-nav" asp-area="" asp-controller="Operations" asp-action="Index">Home</a>
   }
 </div>

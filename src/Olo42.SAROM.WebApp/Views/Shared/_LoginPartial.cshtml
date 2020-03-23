@@ -4,20 +4,29 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
-<ul class="navbar-nav">
-  @if (SignInManager.IsSignedIn(User))
-  {
-    <li class="nav-item">
-      <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["Meine Daten"]</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-dark" asp-action="Logout" asp-controller="Account">@Localizer["Abmelden"]</a>
-    </li>
-  }
-  else
-  {
-    <li class="nav-item">
-      <a class="nav-link text-dark" asp-action="Login" asp-controller="Account">@Localizer["Anmelden"]</a>
-    </li>
-  }
+@if (SignInManager.IsSignedIn(User))
+{
+  <ul class="navbar-nav">
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+      role="button" aria-haspopup="true" aria-expanded="false">
+        @UserManager.GetUserName(User)
+    </a>
+    <div class="dropdown-menu">  
+      @* @if (User.IsInRole("Administrator")) { *@
+      <a asp-controller="Users" asp-action="Index" class="dropdown-item">@Localizer["Benutzerkonten"]</a>
+      @* } *@
+      <a href="#" class="dropdown-item">@Localizer["Einstellungen"]</a>
+      <a href="#" class="dropdown-item" name="printButton">@Localizer["Hilfe"]</a>
+      <div class="dropdown-divider"></div>
+      <a asp-action="Logout" asp-controller="Account" class="dropdown-item">@Localizer["Abmelden"]</a>
+    </div>
+  </li>
+
 </ul>
+} else {
+<li class="navbar-nav">
+  <a asp-action="Login" asp-controller="Account">@Localizer["Anmelden"]</a>
+</li>
+}
