@@ -65,14 +65,14 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       await this.signInManager.SignInAsync(user, true, null);
       
-      return RedirectToAction("Index", "Home");
+      return RedirectToAction("Index", "Operations");
     }
 
     public async Task<IActionResult> Logout()
     {
       await this.signInManager.SignOutAsync();
 
-      return RedirectToAction(nameof(Login));
+      return RedirectToAction("Index", "Home");
     }
   }
 }
