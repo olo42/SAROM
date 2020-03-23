@@ -25,9 +25,8 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
       <div class="container">
-        <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-          <img src="~/img/LogoODRZ.png" height="48" style="padding-right: 10px;" />
-        </a>
+        <img src="~/img/LogoODRZ.png" height="48" style="padding-right: 30px;" />
+          
         @RenderSection("Menu", required: false)
         @if (!IsSectionDefined("Menu"))
         {
