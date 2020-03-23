@@ -22,7 +22,7 @@ namespace Olo42.SAROM.WebApp.Logic
     {
       this.userRepository.Add(user);
 
-      return new Task<IdentityResult>(() => IdentityResult.Success);
+      return Task.FromResult(IdentityResult.Success);
     }
 
     public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
