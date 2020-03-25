@@ -28,8 +28,7 @@
       <th>
         @Html.DisplayNameFor(model => model.AlertTime)
       </th>
-      <th></th>
-      <th></th>
+      <th>@Localizer["Status"]</th>
     </tr>
   </thead>
   <tbody>
@@ -37,7 +36,10 @@
     {
       <tr>
         <td>
-          @Html.DisplayFor(modelItem => item.Name)
+          @if (item.IsClosed == false)
+          {
+            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+          }
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.AlertDate)
@@ -47,16 +49,6 @@
         </td>
         <td>
           @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
-        </td>
-        <td align="right">
-          @if (item.IsClosed == false)
-          {
-            <a asp-action="Details" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a>
-          }
-          else
-          {
-            <a href="#" onClick="print('@item.Id')">@Localizer["drucken"]</a>
-          }
         </td>
       </tr>
     }
