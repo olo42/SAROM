@@ -18,12 +18,12 @@
       </div>
       <div class="form-group">
         <label asp-for="AlertDate" class="control-label"></label>
-        <input asp-for="AlertDate" class="form-control" />
+        <input asp-for="AlertDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="AlertDate" class="text-danger"></span>
       </div>
       <div class="form-group">
         <label asp-for="AlertTime" class="control-label"></label>
-        <input asp-for="AlertTime" class="form-control" />
+        <input asp-for="AlertTime" class="form-control" value="@DateTime.Now.ToShortTimeString()" />
         <span asp-validation-for="AlertTime" class="text-danger"></span>
       </div>
       <div class="form-group">
