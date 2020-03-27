@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Olo42.SAROM.WebApp.Models
@@ -9,6 +10,17 @@ namespace Olo42.SAROM.WebApp.Models
     {
       this.OperationActions = new List<OperationAction>();
       this.Units = new List<Unit>();
+    }
+
+    [Display(Name = "Alarmierung")]
+    public string Alerted 
+    { 
+      get 
+      {
+        var dateTimeString = $"{this.AlertDate} {this.AlertTime}";
+        DateTime.TryParse(dateTimeString, out DateTime dateTime) ;
+        return dateTime.ToString("dd.MM.yyyy HH:MM");
+      }
     }
 
     [Display(Name = "Datum")]
