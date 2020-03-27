@@ -12,6 +12,12 @@ namespace Olo42.SAROM.WebApp.Models
     [Display(Name = "Nachname")]
     public string LastName { get; set; }
 
+    [Display(Name = "Name")]
+    public string FullName 
+    { 
+      get { return $"{this.FirstName} {this.LastName}"; }
+    }
+
     [Required]
     [Display(Name = "Benutzername")]
     public string LoginName { get; set; }
