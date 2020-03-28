@@ -76,3 +76,12 @@ body {
     /*color: red;*/
     font-size: small;
   }
+/* Card spacing */
+.card .card-header-sm {
+  padding: 0.25rem 1.25rem !important;
+}
+.card .card-header-link, .card .card-header-link :hover{
+  color: #212529;
+  font-weight: bold;
+  text-decoration: none;
+}
