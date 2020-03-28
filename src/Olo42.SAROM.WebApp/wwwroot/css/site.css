@@ -72,10 +72,32 @@ body {
   /*background-color: yellow;*/
 }
 
-  .footer .container {
-    /*color: red;*/
-    font-size: small;
-  }
+.footer .container {
+  /*color: red;*/
+  font-size: small;
+}
+
+/* Dashed border */
+hr.dashed {
+  border-top: 2px dashed #bbb;
+}
+
+/* Dotted border */
+hr.dotted {
+  border-top: 2px dotted #bbb;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 2px solid #bbb;
+}
+
+/* Rounded border */
+hr.rounded {
+  border-top: 5px solid #bbb;
+  border-radius: 2px;
+}
+
 /* Card spacing */
 .card .card-header-sm {
   padding: 0.25rem 1.25rem !important;
