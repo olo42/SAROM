@@ -33,12 +33,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     {
       foreach (var user in users)
       {
-          yield return new UserViewModel {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            LoginName = user.LoginName,
-            Password = user.Password
-          };
+          yield return CreateUserViewModel(user);
       }
     }
 
@@ -59,7 +54,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         var user = this.CreateUser(userViewModel); 
         try{
-          await this.userStore.CreateAsync(user, CancellationToken.None).ConfigureAwait(true);
+          await this.userStore.CreateAsync(user, CancellationToken.None);
         }
         catch(DuplicateUserException)
         {
@@ -90,8 +85,31 @@ namespace Olo42.SAROM.WebApp.Controllers
       };
     }
   
+    public async Task<IActionResult> Details(string userId)
+    {
+      var user = await this.userStore.FindByIdAsync(userId, CancellationToken.None);
+      
+      if (user == null)
+      {
+        // Pass an error somehow
+        return RedirectToAction("Index");
+      }
+      
+      var userViewModel = this.CreateUserViewModel(user);
 
-  
+      return View(userViewModel);
+    }
+    
+    private UserViewModel CreateUserViewModel(User user)
+    {
+      return new UserViewModel {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            LoginName = user.LoginName,
+            Password = user.Password
+          };
+    }
+
   
   }
 }
