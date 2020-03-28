@@ -19,13 +19,14 @@
           crossorigin="anonymous"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
   </environment>
+  <link href="~/lib/font-awesome/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
   <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
       <div class="container">
-        <img src="~/img/LogoODRZ.png" height="48" style="padding-right: 30px;" />
+        <img src="~/img/LogoODRZ.png" height="48" />
           
         @RenderSection("Menu", required: false)
         @if (!IsSectionDefined("Menu"))
