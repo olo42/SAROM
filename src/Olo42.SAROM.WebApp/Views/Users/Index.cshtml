@@ -6,10 +6,8 @@
 }
 
 <h4>@Localizer["Benutzer"]</h4>
-<hr class="dashed" />
-<p>
-    <a asp-action="Create">@Localizer["Benutzer anlegen"]</a>
-</p>
+<hr class="dashed mb-0" />
+
 @if(ViewData.ContainsKey("Error")) {
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>ViewData["Error"]</strong>
@@ -18,27 +16,34 @@
   </button>
 </div>
 }
-<table class="table table-borderless table-hover">
+<table class="table table-sm table-borderless table-hover mt-3">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LoginName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginName)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink(item.LoginName, "Details", new { userId = item.LoginName })
+                @Html.DisplayFor(modelItem => item.FullName )
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName )
+                @Html.DisplayFor(modelItem => item.LoginName )
+            </td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.LoginName">@Localizer["anzeigen"]</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
+<div>
+    <a class="btn btn-sm btn-success" asp-action="Create">@Localizer["Benutzer anlegen"]</a>
+</div>
