@@ -1,0 +1,1 @@
+dotnet_code_quality.CA2007.exclude_async_void_methods = true
