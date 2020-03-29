@@ -87,10 +87,10 @@
   {  
   <div class="card mb-3">
     <a class="card-header-link" data-toggle="collapse" href="#collapseUnits" role="button" 
-       aria-expanded="false" aria-controls="collapseUnits">  
+       aria-expanded="false" aria-controls="collapseUnits" onclick="toggleCollapseIcon('#collapseUnitsIcon')">
     <div class="card-header card-header-sm">
       @Localizer["Einsatzkräfte"]  
-      <i class="fas fa-angle-up float-right pt-1"></i>  
+      <i class="fas fa-angle-up float-right pt-1" id="collapseUnitsIcon"></i>  
     </div>
     </a>
     <div class="collapse in show" id="collapseUnits">
@@ -118,10 +118,10 @@
   }
   <div class="card">
     <a class="card-header-link" data-toggle="collapse" href="#collapseActions" role="button" 
-       aria-expanded="false" aria-controls="collapseActions">  
+       aria-expanded="false" aria-controls="collapseActions" onclick="toggleCollapseIcon('#collapseActionsIcon')">  
     <div class="card-header card-header-sm">
       @Localizer["Protokoll"]  
-      <i class="fas fa-angle-up float-right pt-1"></i>  
+      <i class="fas fa-angle-up float-right pt-1" id="collapseActionsIcon"></i>  
     </div>
     </a>
     <div class="collapse in show" id="collapseActions">
@@ -131,8 +131,8 @@
             @foreach (var item in Model.OperationActions)
             {
               <tr class="d-flex">
-                <td class="col-2">@item.Created.ToShortTimeString()</td>
-                <td class="col-10">
+                <td class="col-1">@item.Created.ToShortTimeString()</td>
+                <td class="col-11">
                   <i>@Html.DisplayFor(modelItem => item.Action)</i>
                   <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
                   @Html.DisplayFor(modelItem => item.Message)
@@ -147,9 +147,18 @@
 
 @section Scripts {
   <script>
-$("#printButton").click(function () {
-        window.open("/Operations/Print/@Model.Id", "_blank",
-            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=600, height=800");
+    $("#printButton").click(function () {
+            window.open("/Operations/Print/@Model.Id", "_blank",
+                "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=600, height=800");
     });
+
+    function toggleCollapseIcon(iconElementId) {
+      iconElement = $(iconElementId);
+      if (iconElement.hasClass('fa-angle-up')) {
+        iconElement.removeClass('fa-angle-up').addClass('fa-angle-down');
+      } else {
+        iconElement.removeClass('fa-angle-down').addClass('fa-angle-up');
+      }
+    };
   </script>
 }
