@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Olo42.SAROM.WebApp.Logic;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
+using System;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
@@ -33,7 +34,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     {
       foreach (var user in users)
       {
-          yield return CreateUserViewModel(user);
+          yield return (UserViewModel)user;
       }
     }
 
@@ -85,9 +86,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       };
     }
   
-    public async Task<IActionResult> Details(string userId)
+    public async Task<IActionResult> Details(string id)
     {
-      var user = await this.userStore.FindByIdAsync(userId, CancellationToken.None);
+      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
       
       if (user == null)
       {
@@ -95,21 +96,45 @@ namespace Olo42.SAROM.WebApp.Controllers
         return RedirectToAction("Index");
       }
       
-      var userViewModel = this.CreateUserViewModel(user);
+      var userViewModel = (UserViewModel)user;
 
       return View(userViewModel);
     }
-    
-    private UserViewModel CreateUserViewModel(User user)
+    public async Task<IActionResult> Edit(string id)
     {
-      return new UserViewModel {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            LoginName = user.LoginName,
-            Password = user.Password
-          };
+      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
+      
+      return View((UserViewModel)user);
     }
 
-  
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+      [Bind("FirstName, LastName, LoginName")] UserViewModel userViewModel, 
+      string id)
+    {
+      if (userViewModel == null)
+        throw new ArgumentNullException(nameof(userViewModel));
+
+      if (string.IsNullOrWhiteSpace(id))
+        throw new ArgumentNullException(nameof(id));
+
+      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
+      if (user == null)
+        throw new UserNotFoundException($"User {id} not found");
+
+      user.FirstName = userViewModel.FirstName;
+      user.LastName = userViewModel.LastName;
+
+      try{
+        await this.userStore.UpdateAsync(user, CancellationToken.None);
+      }
+      catch(DuplicateUserException)
+      {
+        throw new Exception($"Unable to update user {id}");
+      }
+
+      return RedirectToAction("Index");
+    }
   }
 }
