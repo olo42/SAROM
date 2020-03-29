@@ -5,19 +5,27 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>@Localizer["Benutzer"]</h3>
-
+<h4>@Localizer["Benutzer"]</h4>
+<hr class="dashed" />
 <p>
     <a asp-action="Create">@Localizer["Benutzer anlegen"]</a>
 </p>
-<table class="table">
+@if(ViewData.ContainsKey("Error")) {
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>ViewData["Error"]</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+}
+<table class="table table-borderless table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.LoginName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LoginName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
         </tr>
     </thead>
@@ -25,10 +33,10 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                <a href="#">@Html.DisplayFor(modelItem => item.FullName )</a>
+                @Html.ActionLink(item.LoginName, "Details", new { userId = item.LoginName })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LoginName)
+                @Html.DisplayFor(modelItem => item.FullName )
             </td>
         </tr>
     }

@@ -10,23 +10,20 @@
   <partial name="~/Views/Shared/_MenuPartial.cshtml" />
 }
 
-<h3>@Localizer["Einsätze"]</h3>
-
+<h4>@Localizer["Einsätze"]</h4>
+<hr class="dashed" />
 <p>
   <a asp-action="Create">@Localizer["Neuen Einsatz anlegen"]</a> @*|
     <a href="#">@Localizer["Einsatz importieren"]</a>*@
 </p>
-<table class="table">
+<table class="table table-borderless table-hover">
   <thead>
     <tr>
       <th>
         @Html.DisplayNameFor(model => model.Name)
       </th>
       <th>
-        @Html.DisplayNameFor(model => model.AlertDate)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.AlertTime)
+        @Html.DisplayNameFor(model => model.Alerted)
       </th>
       <th>@Localizer["Status"]</th>
     </tr>
@@ -42,10 +39,7 @@
           }
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.AlertDate)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.AlertTime)
+          @Html.DisplayFor(modelItem => item.Alerted)
         </td>
         <td>
           @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
