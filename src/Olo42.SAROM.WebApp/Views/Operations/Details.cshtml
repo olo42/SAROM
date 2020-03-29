@@ -83,22 +83,67 @@
     </div>
   </div>
 
-  <h5 style="margin-left: 0.2rem;">@Localizer["Protokoll"]</h5>
-<table class="table">
-  <tbody>
-    @foreach (var item in Model.OperationActions)
-    {
-      <tr class="d-flex">
-        <td class="col-2">@item.Created.ToShortTimeString()</td>
-        <td class="col-10">
-          <i>@Html.DisplayFor(modelItem => item.Action)</i>
-          <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
-          @Html.DisplayFor(modelItem => item.Message)
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>
+  @if (Model.Units.Any())
+  {  
+  <div class="card mb-3">
+    <a class="card-header-link" data-toggle="collapse" href="#collapseUnits" role="button" 
+       aria-expanded="false" aria-controls="collapseUnits">  
+    <div class="card-header card-header-sm">
+      @Localizer["Einsatzkräfte"]  
+      <i class="fas fa-angle-up float-right pt-1"></i>  
+    </div>
+    </a>
+    <div class="collapse in show" id="collapseUnits">
+      <div class="card-body py-1">
+        <table class="table table-sm table-borderless">
+          <tbody>
+            @foreach (var item in Model.Units)
+            {
+              <tr class="d-flex">
+                <td class="col-4">@item.Name</td>
+                <td class="col-3">@item.PagerNumber</td>
+                <td class="col-3">Im Einsatz (seit 1:23)</td>
+              </tr>
+            }
+            <tr class="d-flex table-danger">
+                <td class="col-4">TEST Stormarn</td>
+                <td class="col-3">00-00-0</td>
+                <td class="col-3 table-danger">Im Einsatz (seit 2:23)</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  }
+  <div class="card">
+    <a class="card-header-link" data-toggle="collapse" href="#collapseActions" role="button" 
+       aria-expanded="false" aria-controls="collapseActions">  
+    <div class="card-header card-header-sm">
+      @Localizer["Protokoll"]  
+      <i class="fas fa-angle-up float-right pt-1"></i>  
+    </div>
+    </a>
+    <div class="collapse in show" id="collapseActions">
+      <div class="card-body py-1">
+        <table class="table table-sm table-borderless">
+          <tbody>
+            @foreach (var item in Model.OperationActions)
+            {
+              <tr class="d-flex">
+                <td class="col-2">@item.Created.ToShortTimeString()</td>
+                <td class="col-10">
+                  <i>@Html.DisplayFor(modelItem => item.Action)</i>
+                  <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
+                  @Html.DisplayFor(modelItem => item.Message)
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
 @section Scripts {
   <script>
