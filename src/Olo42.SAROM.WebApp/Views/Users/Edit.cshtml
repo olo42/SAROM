@@ -1,0 +1,36 @@
+@model Olo42.SAROM.WebApp.Models.UserViewModel
+
+@{
+    ViewData["Title"] = @Localizer["Benutzer bearbeiten"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>@Model.LoginName @Localizer["bearbeiten"]</h4>
+<hr class="dashed" />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-id="@Model.LoginName">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-sm btn-primary" type="submit" value="@Localizer["Speichern"]" />
+                <a class="btn btn-sm btn-light" asp-action="Details" asp-route-id="@Model.LoginName">@Localizer["Zurück"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
