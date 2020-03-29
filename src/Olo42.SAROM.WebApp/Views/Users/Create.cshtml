@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>@Localizer["Benutzer anlegen"]</h4>
+<h4>@Localizer["Benutzer anlegen"]</h4>
+<hr class="dashed" />
 
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -38,14 +38,11 @@
                 <span asp-validation-for="VerifyPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />
+                <input class="btn btn-sm btn-primary" type="submit" value="@Localizer["Speichern"]" />
+                <a class="btn btn-sm btn-light" asp-action="Index">@Localizer["Zurück"]</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-  <a asp-action="Index">@Localizer["Zurück"]</a>
 </div>
 
 @section Scripts {
