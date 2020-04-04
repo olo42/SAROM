@@ -46,7 +46,7 @@
             "group": "build",
             "args": [
                 "build",
-                "${workspaceFolder}\\tests\\olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
+                "${workspaceFolder}\\tests\\Olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -59,7 +59,7 @@
             "group": "test",
             "args": [
                 "test",
-                "${workspaceFolder}\\tests\\olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
+                "${workspaceFolder}\\tests\\Olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
