@@ -11,12 +11,12 @@
 }
 
 <h4>@Localizer["Einsätze"]</h4>
-<hr class="dashed" />
-<p>
-  <a asp-action="Create">@Localizer["Neuen Einsatz anlegen"]</a> @*|
+   @*|
     <a href="#">@Localizer["Einsatz importieren"]</a>*@
-</p>
-<table class="table table-borderless table-hover">
+
+<hr class="dashed mb-0" />
+<a asp-action="Create" class="link-new-element">@Localizer["Neuen Einsatz anlegen"]</a>
+<table class="table table-sm table-borderless table-hover mt-3">
   <thead>
     <tr>
       <th>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,18 @@ namespace Olo42.SAROM.DataAccess
       fileDataAccess.Write(filePath, users);
     }
 
+    public void Delete(string id)
+    {
+      if (string.IsNullOrWhiteSpace(id))
+        throw new ArgumentNullException(nameof(id));
+
+      var users = this.Get().ToList();
+      var userToRemove = this.Get(id);
+      users.Remove(userToRemove);
+
+      this.fileDataAccess.Write(filePath, users);
+    }
+
     public IEnumerable<User> Get()
     {
       try
@@ -55,11 +68,32 @@ namespace Olo42.SAROM.DataAccess
       }
     }
 
-    public User Get(string loginName)
+    public User Get(string id)
     {
       var users = this.Get();
+      var user = users.ToList().Find(
+        x => x.Id == id);
+      
+      return user; 
+    }
 
-      return users.ToList().Find(x => x.LoginName == loginName);
+    public void Update(User user)
+    {
+      if (user == null)
+        throw new ArgumentNullException(nameof(user));
+        
+      var users = this.Get().ToList();
+      var updateUser = users.First(x => x.Id == user.Id);
+      
+      if (updateUser == null)
+        throw new UserNotFoundException($"UserId: {user.Id}");
+
+      updateUser.LoginName = user.LoginName;
+      updateUser.FirstName = user.FirstName;
+      updateUser.LastName = user.LastName;
+      updateUser.Password = user.Password; 
+
+      this.fileDataAccess.Write(filePath, users);
     }
   }
 }

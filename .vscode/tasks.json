@@ -1,0 +1,69 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build WebApp",
+            "command": "dotnet",
+            "type": "process",
+            "group": "build",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/Olo42.SAROM.WebApp/Olo42.SAROM.WebApp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Publish WebApp",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/Olo42.SAROM.WebApp/Olo42.SAROM.WebApp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Test WebApp",
+            "command": "dotnet",
+            "type": "process",
+            "group": "test",
+            "args": [
+                "test",
+                "${workspaceFolder}\\tests\\Olo42.SAROM.WebApp.Test\\Olo42.SAROM.WebApp.Tests.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build DataAccess",
+            "command": "dotnet",
+            "type": "process",
+            "group": "build",
+            "args": [
+                "build",
+                "${workspaceFolder}\\tests\\olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Test DataAccess",
+            "command": "dotnet",
+            "type": "process",
+            "group": "test",
+            "args": [
+                "test",
+                "${workspaceFolder}\\tests\\olo42.SAROM.DataAccess.Tests\\Olo42.SAROM.DataAccess.Tests.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

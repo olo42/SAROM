@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using Olo42.FileDataAccess.Contracts;
-using Olo42.SAROM.DataAccess;
 using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
@@ -23,12 +23,13 @@ namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
     public void GetUserDoesNotThrow()
     {
       // Arrange
+      var user = new User();
       fileDataAccessMock
         .Setup(x => x.Read(It.IsAny<string>()))
-        .Returns(new List<User> { new User { LoginName = "Jonny" } });
+        .Returns(new List<User> { user });
 
       // Act // Assert
-      Assert.That(() => userRepository.Get("Jonny"), Throws.Nothing);
+      Assert.That(() => userRepository.Get(user.Id), Throws.Nothing);
     }
 
     [Test]
@@ -37,10 +38,10 @@ namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
       // Arrange
       fileDataAccessMock
         .Setup(x => x.Read(It.IsAny<string>()))
-        .Returns(new List<User> { new User { LoginName = "Jonny" } });
+        .Returns(new List<User> { new User() });
 
       // Act 
-      var result = userRepository.Get("Susi");
+      var result = userRepository.Get(Guid.NewGuid().ToString());
 
       // Assert
       Assert.That(result, Is.Null);
