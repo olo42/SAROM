@@ -12,10 +12,10 @@ namespace Olo42.SAROM.WebApp
   {
     public static void Main(string[] args)
     {
-      var isService = !(Debugger.IsAttached || args.Contains("--console"));
+      var isWindowsService = DetermineWindowsService(args);
       var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
 
-      if (isService)
+      if (isWindowsService)
       {
         var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
         var pathToContentRoot = Path.GetDirectoryName(pathToExe);
@@ -24,7 +24,7 @@ namespace Olo42.SAROM.WebApp
 
       var host = builder.Build();
 
-      if (isService)
+      if (isWindowsService)
       {
         host.RunAsService();
       }
@@ -32,6 +32,22 @@ namespace Olo42.SAROM.WebApp
       {
         host.Run();
       }
+    }
+
+    private static bool DetermineWindowsService(string[] args)
+    {
+      var isWindowsService = true;
+
+      if (Debugger.IsAttached)
+        isWindowsService = false;
+
+      if (args.Contains("--console"))
+        isWindowsService = false;
+
+      if (!OperatingSystem.IsWindows())
+        isWindowsService = false;
+
+      return isWindowsService;
     }
 
     public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
