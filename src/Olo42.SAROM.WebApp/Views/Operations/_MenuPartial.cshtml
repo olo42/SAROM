@@ -5,9 +5,11 @@
 @inject IViewLocalizer Localizer
 @model Olo42.SAROM.WebApp.Models.Operation
 
-@Html.DisplayFor(model => model.Name)
-<br />
-@Localizer["EinsatzNr."] @Model.Number
+<div style="padding-left: 30px">
+  @Html.DisplayFor(model => model.Name)
+  <br />
+  @Localizer["EinsatzNr."] @Model.Number
+</div>
 
 <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
