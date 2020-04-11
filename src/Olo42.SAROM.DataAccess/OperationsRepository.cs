@@ -14,13 +14,17 @@ namespace Olo42.SAROM.DataAccess
   {
     private readonly IFileDataAccess<Operation> fileDataAccess;
     private readonly string filePath;
+    private readonly string fileExtension;
 
     public OperationsRepository(
       IFileDataAccess<Operation> fileDataAccess,
       IConfiguration configuration)
     {
       this.fileDataAccess = fileDataAccess;
-      this.filePath = configuration.GetSection("SAROMSettings")["OperationStoragePath"];
+      this.filePath =
+        configuration.GetSection("SAROMSettings")["OperationStoragePath"];
+      this.fileExtension =
+        configuration.GetSection("SAROMSettings")["OperationFileExtension"];
     }
 
     public void Create(Operation operation)
@@ -38,7 +42,13 @@ namespace Olo42.SAROM.DataAccess
 
     public IEnumerable<FileInfo> Read()
     {
-      throw new System.NotImplementedException();
+      var directoryInfo = new DirectoryInfo(this.filePath);
+      var fileInfos = this.fileDataAccess.GetFiles(directoryInfo);
+      foreach (var fileInfo in fileInfos)
+      {
+        if (Path.GetExtension(fileInfo.Name) == this.fileExtension)
+          yield return fileInfo;
+      }
     }
 
     public User Read(string id)
