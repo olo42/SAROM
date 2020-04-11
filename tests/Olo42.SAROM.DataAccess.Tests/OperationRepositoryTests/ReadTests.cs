@@ -24,9 +24,9 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
       configuration
         .Setup(c => c.GetSection("SAROMSettings")["OperationStoragePath"])
         .Returns("./");
-      // configuration
-      //   .Setup(c => c.GetSection("SAROMSettings")["OperationFileExtension"])
-      //   .Returns(".sod");
+      configuration
+        .Setup(c => c.GetSection("SAROMSettings")["OperationFileExtension"])
+        .Returns(".sod");
 
       this.fileDataAccessMock = new Mock<IFileDataAccess<Operation>>();
 

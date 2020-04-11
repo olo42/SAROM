@@ -21,10 +21,16 @@ namespace Olo42.SAROM.DataAccess
       IConfiguration configuration)
     {
       this.fileDataAccess = fileDataAccess;
+      
       this.filePath =
         configuration.GetSection("SAROMSettings")["OperationStoragePath"];
+      if(string.IsNullOrWhiteSpace(this.filePath))
+        throw new ArgumentNullException(nameof(this.filePath));
+
       this.fileExtension =
         configuration.GetSection("SAROMSettings")["OperationFileExtension"];
+      if(string.IsNullOrWhiteSpace(this.fileExtension))
+        throw new ArgumentNullException(nameof(this.fileExtension));
     }
 
     public void Create(Operation operation)
