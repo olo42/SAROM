@@ -1,7 +1,6 @@
 // Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Collections.Generic;
 using NUnit.Framework;
 using Olo42.FileDataAccess.Contracts;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +12,6 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
   [TestFixture]
   public class CreateTests
   {
-    private const string FILE_PATH = "testusers.dat";
     private Mock<IFileDataAccess<Operation>> fileDataAccessMock;
     private OperationsRepository operationsRepository;
 
@@ -64,10 +62,10 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
     {
       // Arrange
       Operation operation = null;
-      
+
       // Act // Assert
       Assert.That(
-        () => this.operationsRepository.Create(operation), 
+        () => this.operationsRepository.Create(operation),
         Throws.ArgumentNullException);
     }
   }
