@@ -1,6 +1,7 @@
 // Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,9 @@ namespace Olo42.SAROM.DataAccess
 
     public void Create(Operation operation)
     {
+      if (operation == null)
+        throw new ArgumentNullException(nameof(operation));
+
       this.fileDataAccess.Write(filePath, operation);
     }
 

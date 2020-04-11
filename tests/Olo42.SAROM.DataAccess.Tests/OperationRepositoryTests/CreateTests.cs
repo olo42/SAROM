@@ -58,5 +58,17 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
       // Assert
       Assert.That(calls, Is.EqualTo(1));
     }
+
+    [Test]
+    public void Create_Throws_If_Operation_Is_Null()
+    {
+      // Arrange
+      Operation operation = null;
+      
+      // Act // Assert
+      Assert.That(
+        () => this.operationsRepository.Create(operation), 
+        Throws.ArgumentNullException);
+    }
   }
 }
