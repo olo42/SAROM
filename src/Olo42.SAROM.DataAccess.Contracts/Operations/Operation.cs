@@ -8,6 +8,15 @@ namespace Olo42.SAROM.DataAccess.Contracts
   [Serializable]
   public class Operation
   {
-    
+    public Operation(string name, string number, DateTime alertDateTime)
+    {
+      Name = name;
+      Number = number;
+      AlertDateTime = alertDateTime;
+    }
+
+    public string Name { get; }
+    public string Number { get; }
+    public DateTime AlertDateTime { get; }
   }
 }
