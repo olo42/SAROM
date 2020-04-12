@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "Build WebApp",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Olo42.SAROM.WebApp/bin/Debug/netcoreapp2.2/Olo42.SAROM.WebApp.dll",
+            "program": "${workspaceFolder}/WebApp/bin/Debug/netcoreapp2.2/Olo42.SAROM.WebApp.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Olo42.SAROM.WebApp/",
+            "cwd": "${workspaceFolder}/WebApp/",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

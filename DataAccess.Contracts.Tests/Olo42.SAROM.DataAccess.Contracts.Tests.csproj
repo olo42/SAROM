@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Olo42.SAROM.DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

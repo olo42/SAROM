@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Olo42.SAROM.DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
-    <ProjectReference Include="..\..\src\Olo42.SAROM.WebApp\Olo42.SAROM.WebApp.csproj" />
+    <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\WebApp\Olo42.SAROM.WebApp.csproj" />
   </ItemGroup>
 
 </Project>

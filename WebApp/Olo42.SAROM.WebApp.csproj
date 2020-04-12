@@ -69,8 +69,8 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Olo42.SAROM.DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
-    <ProjectReference Include="..\Olo42.SAROM.DataAccess\Olo42.SAROM.DataAccess.csproj" />
+    <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\DataAccess\Olo42.SAROM.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
