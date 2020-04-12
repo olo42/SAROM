@@ -6,6 +6,7 @@ using Olo42.FileDataAccess.Contracts;
 using Microsoft.Extensions.Configuration;
 using Olo42.SAROM.DataAccess.Contracts;
 using Moq;
+using System;
 
 namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
 {
@@ -36,7 +37,7 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
     public void Create_Does_Not_Throw()
     {
       // Arrange
-      var operation = new Operation();
+      var operation = this.CreateOperation();
 
       // Act
 
@@ -49,7 +50,7 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
     {
       // Arrange
       var calls = 0;
-      var operation = new Operation();
+      var operation = this.CreateOperation();
       this.fileDataAccessMock.Setup(x => x.Write(It.IsAny<string>(), operation))
         .Callback(() => calls++);
 
@@ -58,6 +59,11 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
 
       // Assert
       Assert.That(calls, Is.EqualTo(1));
+    }
+
+    private Operation CreateOperation()
+    {
+      return new Operation(null, null, DateTime.Now);
     }
 
     [Test]
