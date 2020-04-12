@@ -1,95 +1,42 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Build WebApp",
-      "command": "dotnet",
-      "type": "process",
-      "group": "build",
-      "args": [
-        "build",
-        "${workspaceFolder}/WebApp/Olo42.SAROM.WebApp.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Publish WebApp",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "publish",
-        "${workspaceFolder}/WebApp/Olo42.SAROM.WebApp.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Test WebApp",
-      "command": "dotnet",
-      "type": "process",
-      "group": "test",
-      "args": [
-        "test",
-        "${workspaceFolder}/WebApp.Tests/Olo42.SAROM.WebApp.Tests.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Build DataAccess",
-      "command": "dotnet",
-      "type": "process",
-      "group": "build",
-      "args": [
-        "build",
-        "${workspaceFolder}/DataAccess/Olo42.SAROM.DataAccess.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Test DataAccess",
-      "command": "dotnet",
-      "type": "process",
-      "group": "test",
-      "args": [
-        "test",
-        "${workspaceFolder}/DataAccess.Tests/Olo42.SAROM.DataAccess.Tests.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Build DataAccess.Contracts",
-      "command": "dotnet",
-      "type": "process",
-      "group": "build",
-      "args": [
-        "build",
-        "${workspaceFolder}/DataAccess.Contracts/Olo42.SAROM.DataAccess.Contracts.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Test DataAccess.Contracts",
-      "command": "dotnet",
-      "type": "process",
-      "group": "test",
-      "args": [
-        "test",
-        "${workspaceFolder}/DataAccess.Contracts.Tests/Olo42.SAROM.DataAccess.Contracts.Tests.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/SAROM.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/WebApp/Olo42.SAROM.WebApp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+          "label": "test",
+          "command": "dotnet",
+          "type": "process",
+          "group": "test",
+          "args": [
+            "test",
+            "${workspaceFolder}/SAROM.sln",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+          ],
+          "problemMatcher": "$msCompile"
+        }
+    ]
 }

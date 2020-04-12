@@ -8,16 +8,16 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Build WebApp",
+            "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/WebApp/bin/Debug/netcoreapp2.2/Olo42.SAROM.WebApp.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/WebApp/",
+            "cwd": "${workspaceFolder}/WebApp",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"                
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
