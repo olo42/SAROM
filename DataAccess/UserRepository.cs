@@ -61,7 +61,7 @@ namespace Olo42.SAROM.DataAccess
 
         return users;
       }
-      catch(SerializationException ex)
+      catch(SerializationException)
       {
         // TODO: Log "ex"
         return new List<User>();

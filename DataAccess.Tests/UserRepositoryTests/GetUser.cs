@@ -15,7 +15,6 @@ namespace Olo42.SAROM.DataAccess.Tests.UserRepositoryTests
   [TestFixture]
   public class GetUser
   {
-    private const string FILE_PATH = "testusers.dat";
     private Mock<IFileDataAccess<IEnumerable<User>>> fileDataAccessMock;
     private UserRepository userRepository;
 

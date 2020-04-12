@@ -12,7 +12,7 @@ using System.Linq;
 namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
 {
   [TestFixture]
-  public class OperationRepositoryTests
+  public class ConfigurationTest
   {
     private Mock<IFileDataAccess<Operation>> fileDataAccessMock;
 

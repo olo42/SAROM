@@ -55,7 +55,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([Bind("LoginName, Password")] Login login)
     {
-      var user = this.userRepository.Get(login.LoginName);
+      var user = this.userRepository.Get(login?.LoginName);
       if (user == null || user?.Password != login.Password)
       {
         login.Failed = true;
