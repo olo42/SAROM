@@ -14,9 +14,7 @@ namespace Olo42.SAROM.DataAccess
   {
     private readonly IFileDataAccess<Operation> operationDataAccess;
     private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
-    private readonly string operationFolderPath;
-    private readonly string operationFileExtension;
-    private readonly string operationsIndexFile;
+    private readonly IConfiguration configuration;
 
     public OperationsRepository(
       IFileDataAccess<Operation> operationDataAccess,
@@ -25,40 +23,25 @@ namespace Olo42.SAROM.DataAccess
     {
       this.operationDataAccess = operationDataAccess;
       this.operationIndexDataAccess = operationIndexDataAccess;
-      this.operationFolderPath =
-        configuration.GetSection("SAROMSettings")["OperationStoragePath"];
-      if(string.IsNullOrWhiteSpace(this.operationFolderPath))
-        throw new ArgumentNullException(nameof(this.operationFolderPath));
-
-      this.operationFileExtension =
-        configuration.GetSection("SAROMSettings")["OperationFileExtension"];
-      if(string.IsNullOrWhiteSpace(this.operationFileExtension))
-        throw new ArgumentNullException(nameof(this.operationFileExtension));
-
-      this.operationsIndexFile = 
-        configuration.GetSection("SAROMSettings")["OperationIndexFile"];
-      if(string.IsNullOrWhiteSpace(this.operationsIndexFile))
-        throw new ArgumentNullException(nameof(this.operationsIndexFile));
+      this.configuration = configuration;
     }
 
     public void Create(Operation operation)
     {
       if (operation == null)
         throw new ArgumentNullException(nameof(operation));
-      
-      var operationFileName = this.CreateOperationFileName();
-      var operationFullName = 
-        Path.Combine(operationFolderPath, operationFileName);
+
+      var fileName = this.CreateFileName();
+      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
+      var fullName = Path.Combine(folderPath, fileName);
+
+      this.operationDataAccess.Write(fullName, operation);
+
       var operationIndex = this.GetIndex();
-      operationIndex.Add(new OperationFile(operation, operationFileName));
+      operationIndex.Add(new OperationFile(operation, fileName));
+      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
 
-      this.operationDataAccess.Write(operationFullName, operation);
-      this.operationIndexDataAccess.Write(operationsIndexFile, operationIndex);
-    }
-
-    private string CreateOperationFileName()
-    {
-      return $"{Guid.NewGuid()}{this.operationFileExtension}";
+      this.operationIndexDataAccess.Write(indexFile, operationIndex);
     }
 
     public void Delete(string id)
@@ -69,7 +52,7 @@ namespace Olo42.SAROM.DataAccess
     public IEnumerable<OperationFile> Read()
     {
       var index = this.GetIndex();
-      
+
       return index.OperationFiles;
     }
 
@@ -82,13 +65,36 @@ namespace Olo42.SAROM.DataAccess
     {
       throw new System.NotImplementedException();
     }
-  
+
+    private string CreateFileName()
+    {
+      var fileExtension = 
+        this.GetConfigValue(EConfigKey.FileExtension);
+
+      return $"{Guid.NewGuid()}{fileExtension}";
+    }
+
+    private string GetConfigValue(EConfigKey key)
+    {
+      var section = EConfigSection.SAROMSettings.ToString();
+      var keyString = key.ToString();
+      var value = this.configuration.GetSection(section)[keyString];
+      if (string.IsNullOrWhiteSpace(value))
+      {
+        throw new Exception(
+          $"Configuration value for key {keyString} not found!");
+      }
+
+      return value;
+    }
+
     private OperationsIndex GetIndex()
     {
-      var index = this.operationIndexDataAccess.Read(this.operationsIndexFile);
+      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
+      var index = this.operationIndexDataAccess.Read(indexFile);
       if (index == null)
       {
-        index = new OperationsIndex();   
+        index = new OperationsIndex();
       }
 
       return index;
