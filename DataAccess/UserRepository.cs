@@ -17,10 +17,14 @@ namespace Olo42.SAROM.DataAccess
     private readonly IFileDataAccess<IEnumerable<User>> fileDataAccess;
     private readonly string filePath;
 
-    public UserRepository(IFileDataAccess<IEnumerable<User>> fileDataAccess, IConfiguration configuration)
+    public UserRepository(
+      IFileDataAccess<IEnumerable<User>> fileDataAccess,
+      IConfiguration configuration)
     {
       this.fileDataAccess = fileDataAccess;
-      this.filePath = configuration.GetSection("SAROMSettings")["UserStoragePath"];
+      var section = EConfigSection.SAROMSettings.ToString();
+      var key = EConfigKey.UsersFile.ToString();
+      this.filePath = configuration.GetSection(section)[key];
       
       if (!File.Exists(this.filePath))
         File.Create(this.filePath).Dispose();
