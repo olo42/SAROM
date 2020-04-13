@@ -7,39 +7,20 @@ namespace Olo42.SAROM.DataAccess.Contracts
 {
   public class OperationFile
   {
-    public string FileName
+    public string File { get; }
+
+    public string Name { get; }
+
+    public string Number { get; }
+
+    public DateTime Alert { get; }
+
+    public OperationFile(Operation operation, string file)
     {
-      get
-      {
-        return $"{this.OperationName}"
-          + $"_{this.OperationNumber}"
-          + $"_{this.AlertDateTime.ToString("yyyy-MM-dd_HH-MM")}"
-          + $"{this.FileExtension}";
-      }
-    }
-
-    public string OperationName { get; }
-
-    public string OperationNumber { get; }
-
-    public DateTime AlertDateTime { get; }
-
-    public string FileExtension { get; }
-
-    public OperationFile(
-      string name, string number, DateTime alert, string extension)
-    {
-      this.OperationName = name;
-      this.OperationNumber = number;
-      this.AlertDateTime = alert;
-      this.FileExtension = extension;
-    }
-    public OperationFile(Operation operation, string fileExtension)
-    {
-      this.OperationName = operation.Name;
-      this.OperationNumber = operation.Number;
-      this.AlertDateTime = operation.AlertDateTime;
-      this.FileExtension = fileExtension;
+      this.Name = operation.Name;
+      this.Number = operation.Number;
+      this.Alert = operation.AlertDateTime;
+      this.File = file;
     }
   }
 }
