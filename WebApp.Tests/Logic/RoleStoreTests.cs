@@ -37,15 +37,15 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
         Throws.InstanceOf(typeof(NotImplementedException)));
     }
 
-    [TestCase("Administrator")]
-    [TestCase("User")]
-    public void FindById_FindsTheOnlyTwoRoles(string roleId)
+    [TestCase(ERoleName.Administrator)]
+    [TestCase(ERoleName.User)]
+    public void FindById_FindsTheOnlyTwoRoles(ERoleName roleId)
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
 
       // Act
-      var result = roleStore.FindByIdAsync(roleId, CancellationToken.None);
+      var result = roleStore.FindByIdAsync(roleId.ToString(), CancellationToken.None);
 
       // Assert
       Assert.That(result.Result.Name, Is.EqualTo(roleId));
@@ -84,7 +84,7 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
 
       // Assert
       Assert.That(
-        result.Result, 
+        result.Result,
         Is.EqualTo(roleName.ToString().ToUpperInvariant()));
     }
 
@@ -124,14 +124,14 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
-      var role = new Role { Name =  roleName};
+      var role = new Role { Name = roleName };
 
       // Act
       var result =
         roleStore.GetRoleIdAsync(role, CancellationToken.None);
 
       // Assert
-      Assert.That(result.Result, Is.EqualTo(roleName));
+      Assert.That(result.Result, Is.EqualTo(roleName.ToString()));
     }
 
     [Test]
@@ -155,14 +155,14 @@ namespace Olo42.SAROM.WebApp.Tests.Logic
     {
       // Arrange
       var roleStore = new RoleStore<Role>();
-      var role = new Role { Name =  roleName};
+      var role = new Role { Name = roleName };
 
       // Act
       var result =
         roleStore.GetRoleNameAsync(role, CancellationToken.None);
 
       // Assert
-      Assert.That(result.Result, Is.EqualTo(roleName));
+      Assert.That(result.Result, Is.EqualTo(roleName.ToString()));
     }
 
     [Test]
