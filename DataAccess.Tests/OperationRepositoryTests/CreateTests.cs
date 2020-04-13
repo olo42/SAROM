@@ -7,37 +7,46 @@ using Microsoft.Extensions.Configuration;
 using Olo42.SAROM.DataAccess.Contracts;
 using Moq;
 using System;
+using System.Linq;
 
 namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
 {
   [TestFixture]
   public class CreateTests
   {
-    private Mock<IFileDataAccess<Operation>> fileDataAccessMock;
+    private Mock<IFileDataAccess<Operation>> operationDataAccessMock;
+    private Mock<IFileDataAccess<OperationsIndex>> operationIndexDataAccessMock;
     private OperationsRepository operationsRepository;
 
     [SetUp]
     public void Setup()
     {
-      Mock<IConfiguration> configuration = new Mock<IConfiguration>();
-      configuration
+      Mock<IConfiguration> configurationMock = new Mock<IConfiguration>();
+      configurationMock
         .Setup(c => c.GetSection("SAROMSettings")["OperationStoragePath"])
-        .Returns("testopertion.dat");
-      configuration
+        .Returns("./");
+      configurationMock
         .Setup(c => c.GetSection("SAROMSettings")["OperationFileExtension"])
         .Returns(".sod");
+      configurationMock
+        .Setup(c => c.GetSection("SAROMSettings")["OperationIndexFile"])
+        .Returns("TestOperationIndex.dat");
 
-      this.fileDataAccessMock = new Mock<IFileDataAccess<Operation>>();
-
-      this.operationsRepository =
-        new OperationsRepository(fileDataAccessMock.Object, configuration.Object);
+      this.operationDataAccessMock = new Mock<IFileDataAccess<Operation>>();
+      this.operationIndexDataAccessMock = 
+        new Mock<IFileDataAccess<OperationsIndex>>();
+        
+      this.operationsRepository = new OperationsRepository(
+        this.operationDataAccessMock.Object,
+        this.operationIndexDataAccessMock.Object,
+        configurationMock.Object);
     }
 
     [Test]
     public void Create_Does_Not_Throw()
     {
       // Arrange
-      var operation = this.CreateOperation();
+      var operation = new Operation("TestOperation", "1234", DateTime.Now);
 
       // Act
 
@@ -50,8 +59,8 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
     {
       // Arrange
       var calls = 0;
-      var operation = this.CreateOperation();
-      this.fileDataAccessMock.Setup(x => x.Write(It.IsAny<string>(), operation))
+      var operation = new Operation("TestOperation", "1234", DateTime.Now);
+      this.operationDataAccessMock.Setup(x => x.Write(It.IsAny<string>(), operation))
         .Callback(() => calls++);
 
       // Act
@@ -59,11 +68,6 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
 
       // Assert
       Assert.That(calls, Is.EqualTo(1));
-    }
-
-    private Operation CreateOperation()
-    {
-      return new Operation(null, null, DateTime.Now);
     }
 
     [Test]
@@ -77,5 +81,20 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
         () => this.operationsRepository.Create(operation),
         Throws.ArgumentNullException);
     }
+
+    // Todo: Implement as integration test
+    // [Test]
+    // public void Create_Adds_Index_Entry()
+    // {
+    //   // Arrange
+    //   var operation = new Operation("TestOperation", "1234", DateTime.Now);
+    //   this.operationsRepository.Create(operation);
+
+    //   // Act
+    //   var index = operationsRepository.Read();
+      
+    //   // Assert
+    //   Assert.That(index.First().Name, Is.EqualTo("TestOperation"));
+    // }
   }
 }

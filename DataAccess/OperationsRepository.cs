@@ -12,33 +12,53 @@ namespace Olo42.SAROM.DataAccess
 {
   public class OperationsRepository : IOperationsRepository
   {
-    private readonly IFileDataAccess<Operation> fileDataAccess;
-    private readonly string filePath;
-    private readonly string fileExtension;
+    private readonly IFileDataAccess<Operation> operationDataAccess;
+    private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
+    private readonly string operationFolderPath;
+    private readonly string operationFileExtension;
+    private readonly string operationsIndexFile;
 
     public OperationsRepository(
-      IFileDataAccess<Operation> fileDataAccess,
+      IFileDataAccess<Operation> operationDataAccess,
+      IFileDataAccess<OperationsIndex> operationIndexDataAccess,
       IConfiguration configuration)
     {
-      this.fileDataAccess = fileDataAccess;
-      
-      this.filePath =
+      this.operationDataAccess = operationDataAccess;
+      this.operationIndexDataAccess = operationIndexDataAccess;
+      this.operationFolderPath =
         configuration.GetSection("SAROMSettings")["OperationStoragePath"];
-      if(string.IsNullOrWhiteSpace(this.filePath))
-        throw new ArgumentNullException(nameof(this.filePath));
+      if(string.IsNullOrWhiteSpace(this.operationFolderPath))
+        throw new ArgumentNullException(nameof(this.operationFolderPath));
 
-      this.fileExtension =
+      this.operationFileExtension =
         configuration.GetSection("SAROMSettings")["OperationFileExtension"];
-      if(string.IsNullOrWhiteSpace(this.fileExtension))
-        throw new ArgumentNullException(nameof(this.fileExtension));
+      if(string.IsNullOrWhiteSpace(this.operationFileExtension))
+        throw new ArgumentNullException(nameof(this.operationFileExtension));
+
+      this.operationsIndexFile = 
+        configuration.GetSection("SAROMSettings")["OperationIndexFile"];
+      if(string.IsNullOrWhiteSpace(this.operationsIndexFile))
+        throw new ArgumentNullException(nameof(this.operationsIndexFile));
     }
 
     public void Create(Operation operation)
     {
       if (operation == null)
         throw new ArgumentNullException(nameof(operation));
+      
+      var operationFileName = this.CreateOperationFileName();
+      var operationFullName = 
+        Path.Combine(operationFolderPath, operationFileName);
+      var operationIndex = this.GetIndex();
+      operationIndex.Add(new OperationFile(operation, operationFileName));
 
-      this.fileDataAccess.Write(filePath, operation);
+      this.operationDataAccess.Write(operationFullName, operation);
+      this.operationIndexDataAccess.Write(operationsIndexFile, operationIndex);
+    }
+
+    private string CreateOperationFileName()
+    {
+      return $"{Guid.NewGuid()}{this.operationFileExtension}";
     }
 
     public void Delete(string id)
@@ -46,15 +66,11 @@ namespace Olo42.SAROM.DataAccess
       throw new System.NotImplementedException();
     }
 
-    public IEnumerable<FileInfo> Read()
+    public IEnumerable<OperationFile> Read()
     {
-      var directoryInfo = new DirectoryInfo(this.filePath);
-      var fileInfos = this.fileDataAccess.GetFiles(directoryInfo);
-      foreach (var fileInfo in fileInfos)
-      {
-        if (Path.GetExtension(fileInfo.Name) == this.fileExtension)
-          yield return fileInfo;
-      }
+      var index = this.GetIndex();
+      
+      return index.OperationFiles;
     }
 
     public User Read(string id)
@@ -65,6 +81,17 @@ namespace Olo42.SAROM.DataAccess
     public void Update(Operation operation)
     {
       throw new System.NotImplementedException();
+    }
+  
+    private OperationsIndex GetIndex()
+    {
+      var index = this.operationIndexDataAccess.Read(this.operationsIndexFile);
+      if (index == null)
+      {
+        index = new OperationsIndex();   
+      }
+
+      return index;
     }
   }
 }

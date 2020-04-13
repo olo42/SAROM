@@ -14,12 +14,15 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
   [TestFixture]
   public class ConfigurationTest
   {
-    private Mock<IFileDataAccess<Operation>> fileDataAccessMock;
+    private Mock<IFileDataAccess<Operation>> operationDataAccessMock;
+    private Mock<IFileDataAccess<OperationsIndex>> operationIndexDataAccessMock;
 
     [SetUp]
     public void Setup()
     {
-      this.fileDataAccessMock = new Mock<IFileDataAccess<Operation>>();
+      this.operationDataAccessMock = new Mock<IFileDataAccess<Operation>>();
+      this.operationIndexDataAccessMock = 
+        new Mock<IFileDataAccess<OperationsIndex>>();
     }
 
     [Test]
@@ -32,9 +35,10 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
         .Returns(".sod");
 
       // Act // Assert
-      Assert.That(
-        () => new OperationsRepository(
-          fileDataAccessMock.Object, configuration.Object),
+      Assert.That(() => new OperationsRepository(
+          this.operationDataAccessMock.Object,
+          this.operationIndexDataAccessMock.Object, 
+          configuration.Object), 
         Throws.ArgumentNullException);
     }
 
@@ -48,9 +52,10 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
         .Returns("./");
 
       // Act // Assert
-      Assert.That(
-        () => new OperationsRepository(
-          fileDataAccessMock.Object, configuration.Object),
+      Assert.That(() => new OperationsRepository(
+          this.operationDataAccessMock.Object,
+          this.operationIndexDataAccessMock.Object, 
+          configuration.Object), 
         Throws.ArgumentNullException);
     }
   }

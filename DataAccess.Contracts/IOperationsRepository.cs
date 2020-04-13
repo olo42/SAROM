@@ -10,7 +10,7 @@ namespace Olo42.SAROM.DataAccess.Contracts
   {
     void Create(Operation operation);
 
-    IEnumerable<FileInfo> Read();
+    IEnumerable<OperationFile> Read();
 
     User Read(string id);
 

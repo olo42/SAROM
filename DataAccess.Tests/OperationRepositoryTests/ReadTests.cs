@@ -14,24 +14,32 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
   [TestFixture]
   public class ReadTests
   {
-    private Mock<IFileDataAccess<Operation>> fileDataAccessMock;
+    private Mock<IFileDataAccess<Operation>> operationDataAccessMock;
+    private Mock<IFileDataAccess<OperationsIndex>> operationIndexDataAccessMock;
     private OperationsRepository operationsRepository;
 
     [SetUp]
     public void Setup()
     {
-      Mock<IConfiguration> configuration = new Mock<IConfiguration>();
-      configuration
+      Mock<IConfiguration> configurationMock = new Mock<IConfiguration>();
+      configurationMock
         .Setup(c => c.GetSection("SAROMSettings")["OperationStoragePath"])
         .Returns("./");
-      configuration
+      configurationMock
         .Setup(c => c.GetSection("SAROMSettings")["OperationFileExtension"])
         .Returns(".sod");
+      configurationMock
+        .Setup(c => c.GetSection("SAROMSettings")["OperationIndexFile"])
+        .Returns("TestOperationIndex.dat");
 
-      this.fileDataAccessMock = new Mock<IFileDataAccess<Operation>>();
+      this.operationDataAccessMock = new Mock<IFileDataAccess<Operation>>();
+      this.operationIndexDataAccessMock = 
+        new Mock<IFileDataAccess<OperationsIndex>>();
 
-      this.operationsRepository =
-        new OperationsRepository(fileDataAccessMock.Object, configuration.Object);
+      this.operationsRepository = new OperationsRepository(
+          this.operationDataAccessMock.Object,
+          this.operationIndexDataAccessMock.Object,
+          configurationMock.Object);
     }
 
     [Test]
@@ -39,44 +47,6 @@ namespace Olo42.SAROM.DataAccess.Tests.OperationRepositoryTests
     {
       // Assert
       Assert.That(() => this.operationsRepository.Read(), Throws.Nothing);
-    }
-
-    [Test]
-    public void Read_Returns_FileInfo()
-    {
-      //Arrange
-      var fileName = "Operation.sod";
-      var fileInfos = new FileInfo[1];
-      fileInfos[0] = new FileInfo(fileName);
-
-      this.fileDataAccessMock
-        .Setup(x => x.GetFiles(It.IsAny<DirectoryInfo>())).Returns(fileInfos);
-
-      // Act
-      var result = this.operationsRepository.Read();
-
-      // Assert
-      Assert.That(result.First().Name, Is.Not.Null);
-    }
-
-    [Test]
-    public void Read_Returns_FileInfo_For_Files_With_Appropriate_Extension()
-    {
-      //Arrange
-      var fileWithAppropriateExtension = new FileInfo("Appropriate.sod");
-      var fileWithInAppropriateExtension = new FileInfo("InAppropriate.ext");
-      FileInfo[] fileInfos =
-        {fileWithAppropriateExtension, fileWithInAppropriateExtension};
-
-      this.fileDataAccessMock
-        .Setup(x => x.GetFiles(It.IsAny<DirectoryInfo>())).Returns(fileInfos);
-
-      // Act
-      var result = this.operationsRepository.Read();
-
-      // Assert
-      Assert.That(result.Count, Is.EqualTo(1));
-      Assert.That(result.First().Name, Is.EqualTo("Appropriate.sod"));
     }
   }
 }
