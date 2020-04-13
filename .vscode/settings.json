@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/.editorconfig": true,
+    "**/.gitignore": true,
+    "**/.vscode": true,
+    "**/*.csproj": true,
+    "**/bin": true,
+    "**/obj": true
+  }
+}
