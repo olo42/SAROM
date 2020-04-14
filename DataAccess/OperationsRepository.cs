@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Olo42.FileDataAccess.Contracts;
 using Olo42.SAROM.DataAccess.Contracts;
@@ -31,17 +32,12 @@ namespace Olo42.SAROM.DataAccess
       if (operation == null)
         throw new ArgumentNullException(nameof(operation));
 
-      var fileName = this.CreateFileName();
-      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
-      var fullName = Path.Combine(folderPath, fileName);
+      var operationFileName = this.CreateFileName(operation.Id);
+      var operationFullFileName = this.CreateFullFileName(operationFileName);
 
-      this.operationDataAccess.Write(fullName, operation);
+      this.operationDataAccess.Write(operationFullFileName, operation);
 
-      var operationIndex = this.GetIndex();
-      operationIndex.Add(new OperationFile(operation, fileName));
-      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
-
-      this.operationIndexDataAccess.Write(indexFile, operationIndex);
+      this.SaveToIndex(operation, operationFileName);
     }
 
     public void Delete(string id)
@@ -63,15 +59,25 @@ namespace Olo42.SAROM.DataAccess
 
     public void Update(Operation operation)
     {
-      throw new System.NotImplementedException();
+      var fileName = this.GetFileNameFromIndex(operation);
+      var fullFileName = this.CreateFullFileName(fileName);
+
+      this.operationDataAccess.Write(fullFileName, operation);
     }
 
-    private string CreateFileName()
+    private string CreateFileName(Guid id)
     {
       var fileExtension = 
         this.GetConfigValue(EConfigKey.FileExtension);
 
-      return $"{Guid.NewGuid()}{fileExtension}";
+      return $"{id}{fileExtension}";
+    }
+
+    private string CreateFullFileName(string fileName)
+    {
+      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
+
+      return Path.Combine(folderPath, fileName);
     }
 
     private string GetConfigValue(EConfigKey key)
@@ -98,6 +104,26 @@ namespace Olo42.SAROM.DataAccess
       }
 
       return index;
+    }
+
+    private string GetFileNameFromIndex(Operation operation)
+    {
+      var index = this.GetIndex();
+      var operationFiles = 
+        index.OperationFiles.Where(x => x.Id == operation.Id);
+      if(operationFiles.Count() == 0)
+        throw new KeyNotFoundException($"Operation {operation.Name} not found!");
+
+      return operationFiles.First().FileName;
+    }
+
+    private void SaveToIndex(Operation operation, string fileName)
+    {
+      var operationIndex = this.GetIndex();
+      operationIndex.Add(new OperationFile(operation, fileName));
+
+      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
+      this.operationIndexDataAccess.Write(indexFile, operationIndex);
     }
   }
 }

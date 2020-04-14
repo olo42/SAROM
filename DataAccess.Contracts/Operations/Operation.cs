@@ -10,11 +10,14 @@ namespace Olo42.SAROM.DataAccess.Contracts
   {
     public Operation(string name, string number, DateTime alertDateTime)
     {
-      Name = name;
-      Number = number;
-      AlertDateTime = alertDateTime;
+      this.Id = Guid.NewGuid();
+      this.Name = name;
+      this.Number = number;
+      this.AlertDateTime = alertDateTime;
+
     }
 
+    public Guid Id { get; }
     public string Name { get; }
     public string Number { get; }
     public DateTime AlertDateTime { get; }

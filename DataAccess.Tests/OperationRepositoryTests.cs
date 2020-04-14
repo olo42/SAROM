@@ -90,12 +90,12 @@ namespace Olo42.SAROM.DataAccess.Tests
         .Setup(x => x.GetSection(section)[key.ToString()])
         .Returns("");
       var operation = new Operation("Test", "1234", DateTime.Now);
-    
+
       // Act // Assert
-      var exception = 
+      var exception =
         Assert.Throws<Exception>(() => this.repository.Create(operation));
       Assert.That(
-        exception.Message, 
+        exception.Message,
         Is.EqualTo($"Configuration value for key {key.ToString()} not found!")
       );
     }
@@ -107,6 +107,67 @@ namespace Olo42.SAROM.DataAccess.Tests
     {
       // Assert
       Assert.That(() => this.repository.Read(), Throws.Nothing);
+    }
+    #endregion
+
+    #region Update
+    [Test]
+    public void Update_Calls_Index_DataAccess_Read()
+    {
+      // Arrange
+      var operation = new Operation("Test", "1234", DateTime.Now);
+      var fileName = $"{operation.Id}.sod";
+
+      var index = new OperationsIndex();
+      index.Add(new OperationFile(operation, fileName));
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>()))
+        .Returns(index);
+
+      // Act
+      this.repository.Update(operation);
+
+      // Assert
+      this.indexDataAccessMock.Verify(x => x.Read(It.IsAny<string>()), Times.Once);
+    }
+
+    [Test]
+    public void Update_Throws_If_Operation_Was_Not_Found_In_Index()
+    {
+      // Arrange
+      var operation = new Operation("Test", "1234", DateTime.Now);
+      var fileName = $"{operation.Id}.sod";
+
+      var index = new OperationsIndex();
+      index.Add(new OperationFile(operation, fileName));
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>()))
+        .Returns(index);
+
+      // Act // Assert
+      Assert.Throws<KeyNotFoundException>(
+        () => this.repository.Update(new Operation("Test 2", "0000", DateTime.Now)));
+    }
+
+    [Test]
+    public void Update_Calls_DataAccess_Write()
+    {
+      // Arrange
+      var operation = new Operation("Test", "1234", DateTime.Now);
+      var fileName = $"{operation.Id}.sod";
+
+      var index = new OperationsIndex();
+      index.Add(new OperationFile(operation, fileName));
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>()))
+        .Returns(index);
+
+      // Act
+      this.repository.Update(operation);
+
+      // Assert
+      this.dataAccessMock
+        .Verify(x => x.Write(It.IsAny<string>(), operation), Times.Once);
     }
     #endregion
   }

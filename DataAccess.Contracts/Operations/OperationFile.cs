@@ -7,7 +7,11 @@ namespace Olo42.SAROM.DataAccess.Contracts
 {
   public class OperationFile
   {
-    public string File { get; }
+    public Guid Id { get; }
+
+    public string FileName { get; }
+
+    public string Extension { get; }
 
     public string Name { get; }
 
@@ -15,12 +19,13 @@ namespace Olo42.SAROM.DataAccess.Contracts
 
     public DateTime Alert { get; }
 
-    public OperationFile(Operation operation, string file)
+    public OperationFile(Operation operation, string fileName)
     {
+      this.Id = operation.Id;
       this.Name = operation.Name;
       this.Number = operation.Number;
       this.Alert = operation.AlertDateTime;
-      this.File = file;
+      this.FileName = fileName;
     }
   }
 }
