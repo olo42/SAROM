@@ -98,6 +98,10 @@ namespace Olo42.SAROM.WebApp
         .AddRoleStore<RoleStore<Role>>()
         .AddSignInManager<SignInManager<User>>();
 
+      services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
+      services.AddScoped<IFileDataAccess<OperationsIndex>, FormatterDataAccess<OperationsIndex>>();
+      services.AddScoped<IOperationsRepository, OperationsRepository>();
+
       services.AddAuthentication();
 
       services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -106,8 +110,8 @@ namespace Olo42.SAROM.WebApp
           .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
           .AddDataAnnotationsLocalization();
 
-      services.AddDbContext<OperationContext>(options => options.UseSqlServer(
-        Configuration.GetConnectionString("OperationContext")));
+      // services.AddDbContext<OperationContext>(options => options.UseSqlServer(
+      //   Configuration.GetConnectionString("OperationContext")));
     }
   }
 }
