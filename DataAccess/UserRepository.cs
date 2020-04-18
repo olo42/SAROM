@@ -76,7 +76,7 @@ namespace Olo42.SAROM.DataAccess
     {
       var users = this.Get();
       var user = users.ToList().Find(
-        x => x.Id == id);
+        x => x.LoginName == id);
       
       return user; 
     }
