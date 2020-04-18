@@ -1,10 +1,12 @@
 // Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 
 namespace Olo42.SAROM.DataAccess.Contracts
 {
+  [Serializable]
   public class OperationsIndex
   {
     private readonly List<OperationFile> operationFiles;
@@ -23,6 +25,13 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public void Add(OperationFile operationFile)
     {
       this.operationFiles.Add(operationFile);
+    }
+
+    public void Remove(Guid id)
+    {
+      var operationFile = this.operationFiles.Find(x=>x.Id == id);
+      
+      this.operationFiles.Remove(operationFile);
     }
   }
 }

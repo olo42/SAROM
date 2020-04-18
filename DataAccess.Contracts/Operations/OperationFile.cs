@@ -5,6 +5,7 @@ using System;
 
 namespace Olo42.SAROM.DataAccess.Contracts
 {
+  [Serializable]
   public class OperationFile
   {
     public Guid Id { get; }
