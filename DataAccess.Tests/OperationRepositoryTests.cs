@@ -108,6 +108,26 @@ namespace Olo42.SAROM.DataAccess.Tests
       // Assert
       Assert.That(() => this.repository.Read(), Throws.Nothing);
     }
+
+    [Test]
+    public void Read_Returns_Operaton()
+    {
+      // Arrange
+      var operation = new Operation("Test", "1234", DateTime.Now);
+      this.dataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>())).Returns(operation);
+      var index = new OperationsIndex();
+      var file = new OperationFile(operation, "TestOperationIndex.dat");
+      index.Add(file);
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>())).Returns(index);
+
+      // Act
+      var result = this.repository.Read(operation.Id);
+
+      // Assert
+      Assert.That(operation, Is.Not.Null);
+    }
     #endregion
 
     #region Update
