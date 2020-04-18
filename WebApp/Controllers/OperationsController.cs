@@ -4,17 +4,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Olo42.SAROM.WebApp.Models;
+using Olo42.SAROM.DataAccess.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
   [Authorize]
   public class OperationsController : Controller
   {
-    private readonly OperationContext _context;
+    private readonly IOperationsRepository repository;
 
-    public OperationsController(OperationContext context)
+    public OperationsController(
+      IOperationsRepository repository)
     {
-      _context = context;
+      this.repository = repository;
     }
 
     // GET: Operations/Edit/5
@@ -25,12 +29,12 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = FindOperation(id);
+      var operation = this.repository.Read(Guid.Parse(id));
       if (operation == null)
       {
         return NotFound();
       }
-      return View(operation);
+      return View((OperationViewModel)operation);
     }
 
     // POST: Operations/Edit/5
@@ -40,7 +44,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Close(string id, string closingReport)
     {
-      Operation operation = FindOperation(id);
+      Operation operation = this.repository.Read(Guid.Parse(id));
       if (operation == null)
       {
         return NotFound();
@@ -50,28 +54,22 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       if (ModelState.IsValid)
       {
-        operation.IsClosed = true;
-        operation.ClosingReport = closingReport;
+        // operationViewModel.IsClosed = true;
+        // operationViewModel.ClosingReport = closingReport;
 
         try
         {
-          _context.Update(operation);
-          await _context.SaveChangesAsync();
+          // _context.Update(operationViewModel);
+          // await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (KeyNotFoundException)
         {
-          if (!OperationExists(operation.Id))
-          {
-            return NotFound();
-          }
-          else
-          {
-            throw;
-          }
+          return NotFound();
         }
+
         return RedirectToAction(nameof(Index));
       }
-      return View(operation);
+      return View((OperationViewModel)operation);
     }
 
     // GET: Operations/Create
@@ -85,16 +83,16 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] Operation operation)
+    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] OperationViewModel operationViewModel)
     {
       if (ModelState.IsValid)
       {
-        _context.Add(operation);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Details), new { Id = operation.Id });
+        // _context.Add(operationViewModel);
+        // await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Details), new { Id = operationViewModel.Id });
       }
 
-      return View(operation);
+      return View(operationViewModel);
     }
 
     // POST: Operations/Delete/5
@@ -102,9 +100,8 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-      var operation = FindOperation(id);
-      _context.Operation.Remove(operation);
-      await _context.SaveChangesAsync();
+      this.repository.Delete(Guid.Parse(id));
+
       return RedirectToAction(nameof(Index));
     }
 
@@ -116,24 +113,24 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = await _context.Operation
-        .Include(o => o.Units)
-        .FirstOrDefaultAsync(m => m.Id == id);
+      var operation = this.repository.Read(Guid.Parse(id));
+      // .Include(o => o.Units)
+      // .FirstOrDefaultAsync(m => m.Id == id);
 
       if (operation == null)
       {
         return NotFound();
       }
 
-      var actions = _context.OperationAction
-        .Where(a => a.OperationId == operation.Id)
-        .OrderByDescending(a => a.Created)
-        .Take(6)
-        .ToList();
+      // var actions = _context.OperationAction
+      //   .Where(a => a.OperationId == operation.Id)
+      //   .OrderByDescending(a => a.Created)
+      //   .Take(6)
+      //   .ToList();
 
-      operation.OperationActions = actions;
+      // operation.OperationActions = actions;
 
-      return View(operation);
+      return View((OperationViewModel)operation);
     }
 
     // GET: Operations/Edit/5
@@ -144,12 +141,12 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = await _context.Operation.FindAsync(id);
+      var operation = this.repository.Read(Guid.Parse(id));
       if (operation == null)
       {
         return NotFound();
       }
-      return View(operation);
+      return View((OperationViewModel)operation);
     }
 
     // POST: Operations/Edit/5
@@ -159,9 +156,10 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
       string id,
-      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone,OperationLeader")] Operation operation)
+      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone,OperationLeader")]
+        OperationViewModel operationViewModel)
     {
-      if (id != operation.Id)
+      if (id != operationViewModel.Id)
       {
         return NotFound();
       }
@@ -170,33 +168,37 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         try
         {
-          _context.Update(operation);
-          await _context.SaveChangesAsync();
+          this.repository.Update((Operation)operationViewModel);
         }
-        catch (DbUpdateConcurrencyException)
+        catch (KeyNotFoundException)
         {
-          if (!OperationExists(operation.Id))
-          {
-            return NotFound();
-          }
-          else
-          {
-            throw;
-          }
+          return NotFound();
         }
+
         return RedirectToAction(nameof(Details), new { id });
       }
-      return View(operation);
+
+      return View(operationViewModel);
     }
 
     // GET: Operations
     public async Task<IActionResult> Index()
     {
-      return View(
-        await _context.Operation
-          .OrderByDescending(o => o.AlertDate)
-          .ThenByDescending(a => a.AlertTime)
-          .ToListAsync());
+      var operationFiles = this.repository.Read();
+      List<OperationIndexViewModel> operationIndexViewModels =
+        new List<OperationIndexViewModel>();
+
+      foreach (var item in operationFiles)
+      {
+        operationIndexViewModels.Add((OperationIndexViewModel)item);
+      }
+
+      return View(operationIndexViewModels);
+      // return View(
+      //   await _context.Operation
+      //     .OrderByDescending(o => o.AlertDate)
+      //     .ThenByDescending(a => a.AlertTime)
+      //     .ToListAsync());
     }
 
     public async Task<IActionResult> Print(string id)
@@ -206,18 +208,18 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = await _context.Operation
-        .Include(o => o.OperationActions)
-        .Include(o => o.Units)
-        .Include(o => o.MissingPeople)
-          .ThenInclude(missingPerson => missingPerson.Documents)
-        .FirstOrDefaultAsync(m => m.Id == id);
+      var operation = this.repository.Read(Guid.Parse(id));
+      //   .Include(o => o.OperationActions)
+      //   .Include(o => o.Units)
+      //   .Include(o => o.MissingPeople)
+      //     .ThenInclude(missingPerson => missingPerson.Documents)
+      //   .FirstOrDefaultAsync(m => m.Id == id);
       if (operation == null)
       {
         return NotFound();
       }
 
-      return View(operation);
+      return View((OperationViewModel)operation);
     }
 
     [AcceptVerbs("Get", "Post")]
@@ -233,16 +235,6 @@ namespace Olo42.SAROM.WebApp.Controllers
         if (ModelState.ContainsKey("{key}"))
           ModelState["{key}"].Errors.Clear();
       }
-    }
-
-    private Operation FindOperation(string id)
-    {
-      return _context.Operation.Find(id);
-    }
-
-    private bool OperationExists(string id)
-    {
-      return _context.Operation.Any(e => e.Id == id);
     }
   }
 }

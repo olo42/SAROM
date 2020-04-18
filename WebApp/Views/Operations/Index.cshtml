@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Olo42.SAROM.WebApp.Models.Operation>
+﻿@model IEnumerable<Olo42.SAROM.WebApp.Models.OperationIndexViewModel>
 
 @{
   ViewData["Title"] = Localizer["Einsätze"];
@@ -33,16 +33,13 @@
     {
       <tr>
         <td>
-          @if (item.IsClosed == false)
-          {
             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-          }
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.Alerted)
         </td>
         <td>
-          @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
+          @* @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"]) *@
         </td>
       </tr>
     }
