@@ -32,52 +32,64 @@ namespace Olo42.SAROM.DataAccess
       if (operation == null)
         throw new ArgumentNullException(nameof(operation));
 
-      var operationFileName = this.CreateFileName(operation.Id);
-      var operationFullFileName = this.CreateFullFileName(operationFileName);
+      this.Write(operation);
 
-      this.operationDataAccess.Write(operationFullFileName, operation);
-
-      this.SaveToIndex(operation, operationFileName);
+      var index = this.ReadIndex();
+      index.Add(new OperationFile(operation, this.GetFileName(operation)));
+      this.WriteIndex(index);
     }
 
-    public void Delete(string id)
+    public void Delete(Guid id)
     {
-      throw new System.NotImplementedException();
+      var operation = this.Read(id);
+      File.Delete(this.GetFullFileName(operation));
+
+      var index = this.ReadIndex();
+      index.Remove(id);
+      this.WriteIndex(index);
     }
 
     public IEnumerable<OperationFile> Read()
     {
-      var index = this.GetIndex();
+      var index = this.ReadIndex();
 
       return index.OperationFiles;
     }
 
-    public User Read(string id)
+    public Operation Read(Guid id)
     {
-      throw new System.NotImplementedException();
+      var operationFile = this.ReadIndex(id);
+      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
+      var fullFileName = Path.Combine(folderPath, operationFile.FileName);
+
+      return this.operationDataAccess.Read(fullFileName);
     }
 
     public void Update(Operation operation)
     {
-      var fileName = this.GetFileNameFromIndex(operation);
-      var fullFileName = this.CreateFullFileName(fileName);
+      var file = this.ReadIndex(operation.Id);
+      if (file == null)
+      {
+        throw new KeyNotFoundException(
+          $"Operation Id: {operation.Id} not found in index!");
+      }
 
-      this.operationDataAccess.Write(fullFileName, operation);
+      this.Write(operation);
     }
 
-    private string CreateFileName(Guid id)
+    private string GetFileName(Operation operation)
     {
-      var fileExtension = 
-        this.GetConfigValue(EConfigKey.FileExtension);
+      var extension = this.GetConfigValue(EConfigKey.FileExtension);
 
-      return $"{id}{fileExtension}";
+      return $"{operation.Id}{extension}";
     }
 
-    private string CreateFullFileName(string fileName)
+    private string GetFullFileName(Operation operation)
     {
       var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
+      var file = this.GetFileName(operation);
 
-      return Path.Combine(folderPath, fileName);
+      return Path.Combine(folderPath, file);
     }
 
     private string GetConfigValue(EConfigKey key)
@@ -94,10 +106,25 @@ namespace Olo42.SAROM.DataAccess
       return value;
     }
 
-    private OperationsIndex GetIndex()
+    private void Write(Operation operation)
+    {
+      var fullFileName = this.GetFullFileName(operation);
+
+      this.operationDataAccess.Write(fullFileName, operation);
+    }
+
+    private OperationsIndex ReadIndex()
     {
       var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
-      var index = this.operationIndexDataAccess.Read(indexFile);
+      OperationsIndex index = null;
+      try
+      {
+        index = this.operationIndexDataAccess.Read(indexFile);
+      }
+      catch (System.IO.FileNotFoundException)
+      {
+        index = new OperationsIndex();
+      }
       if (index == null)
       {
         index = new OperationsIndex();
@@ -106,24 +133,17 @@ namespace Olo42.SAROM.DataAccess
       return index;
     }
 
-    private string GetFileNameFromIndex(Operation operation)
+    private OperationFile ReadIndex(Guid id)
     {
-      var index = this.GetIndex();
-      var operationFiles = 
-        index.OperationFiles.Where(x => x.Id == operation.Id);
-      if(operationFiles.Count() == 0)
-        throw new KeyNotFoundException($"Operation {operation.Name} not found!");
+      var index = this.ReadIndex();
 
-      return operationFiles.First().FileName;
+      return index.OperationFiles.ToList().Find(x => x.Id == id);
     }
 
-    private void SaveToIndex(Operation operation, string fileName)
+    private void WriteIndex(OperationsIndex index)
     {
-      var operationIndex = this.GetIndex();
-      operationIndex.Add(new OperationFile(operation, fileName));
-
-      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
-      this.operationIndexDataAccess.Write(indexFile, operationIndex);
+      var file = this.GetConfigValue(EConfigKey.IndexFile);
+      this.operationIndexDataAccess.Write(file, index);
     }
   }
 }

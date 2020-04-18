@@ -1,8 +1,8 @@
 // Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Olo42.SAROM.DataAccess.Contracts
 {
@@ -12,10 +12,10 @@ namespace Olo42.SAROM.DataAccess.Contracts
 
     IEnumerable<OperationFile> Read();
 
-    User Read(string id);
+    Operation Read(Guid id);
 
     void Update(Operation operation); 
 
-    void Delete(string id);
+    void Delete(Guid id);
   }
 }
