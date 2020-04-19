@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using AutoMapper.Configuration.Annotations;
 
 namespace Olo42.SAROM.WebApp.Models
 {
