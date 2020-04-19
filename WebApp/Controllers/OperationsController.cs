@@ -38,7 +38,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         return NotFound();
       }
-      return View((OperationViewModel)operation);
+      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+
+      return View(viewModel);
     }
 
     // POST: Operations/Edit/5
@@ -58,13 +60,12 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       if (ModelState.IsValid)
       {
-        // operationViewModel.IsClosed = true;
-        // operationViewModel.ClosingReport = closingReport;
+        operation.IsClosed = true;
+        operation.ClosingReport = closingReport;
 
         try
         {
-          // _context.Update(operationViewModel);
-          // await _context.SaveChangesAsync();
+          this.repository.Update(operation);
         }
         catch (KeyNotFoundException)
         {
@@ -73,7 +74,9 @@ namespace Olo42.SAROM.WebApp.Controllers
 
         return RedirectToAction(nameof(Index));
       }
-      return View((OperationViewModel)operation);
+      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+
+      return View(viewModel);
     }
 
     // GET: Operations/Create
@@ -87,16 +90,17 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] OperationViewModel operationViewModel)
+    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] OperationCreateModel model)
     {
       if (ModelState.IsValid)
       {
-        // _context.Add(operationViewModel);
-        // await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Details), new { Id = operationViewModel.Id });
+        var operation = this.mapper.Map<Operation>(model);
+        this.repository.Create(operation);
+
+        return RedirectToAction(nameof(Index));
       }
 
-      return View(operationViewModel);
+      return View(model);
     }
 
     // POST: Operations/Delete/5
@@ -133,8 +137,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       //   .ToList();
 
       // operation.OperationActions = actions;
+      var viewModel = this.mapper.Map<OperationViewModel>(operation);
 
-      return View((OperationViewModel)operation);
+      return View(viewModel);
     }
 
     // GET: Operations/Edit/5
@@ -150,7 +155,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         return NotFound();
       }
-      return View((OperationViewModel)operation);
+      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+
+      return View(viewModel);
     }
 
     // POST: Operations/Edit/5
@@ -172,7 +179,8 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         try
         {
-          this.repository.Update((Operation)operationViewModel);
+          var operation = this.mapper.Map<Operation>(operationViewModel);
+          this.repository.Update(operation);
         }
         catch (KeyNotFoundException)
         {
@@ -217,8 +225,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         return NotFound();
       }
+      var viewModel = this.mapper.Map<OperationViewModel>(operation);
 
-      return View((OperationViewModel)operation);
+      return View(viewModel);
     }
 
     [AcceptVerbs("Get", "Post")]

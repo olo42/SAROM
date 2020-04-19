@@ -1,13 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper.Configuration.Annotations;
 using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Models
 {
   public class OperationIndexViewModel
   {
-    private DateTime alertDateTime;
-
     public string Id { get; set; }
 
     public string Name { get; set; }
@@ -20,8 +19,10 @@ namespace Olo42.SAROM.WebApp.Models
     {
       get
       {
-        return this.alertDateTime.ToString("dd.MM.yyyy HH:MM");
+        return this.Alert.ToString("dd.MM.yyyy HH:MM");
       }
     }
+
+    public DateTime Alert { get; set; }
   }
 }

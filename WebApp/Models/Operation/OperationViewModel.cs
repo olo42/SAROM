@@ -68,33 +68,5 @@ namespace Olo42.SAROM.WebApp.Models
     public string PoliceContactPhone { get; set; }
 
     public List<Unit> Units { get; set; }
-
-    public static explicit operator OperationViewModel(Operation operation)
-    {
-      var operationViewModel = new OperationViewModel();
-      operationViewModel.Id = operation.Id.ToString();
-      operationViewModel.Name = operation.Name;
-      operationViewModel.Number = operation.Number;
-      // TODO: Complete mappings
-
-      return operationViewModel;
-    }
-
-    public static explicit operator Operation(
-      OperationViewModel operationViewModel)
-      {
-        var dateTimeString = 
-          $"{operationViewModel.AlertDate}{operationViewModel.AlertTime}";
-        DateTime.TryParse(dateTimeString, out DateTime dateTime) ;
-
-        var operation = new Operation(
-          operationViewModel.Name,
-          operationViewModel.Number,
-          dateTime
-        );
-        // TODO: Complete mappings
-
-        return operation;
-      }
   }
 }

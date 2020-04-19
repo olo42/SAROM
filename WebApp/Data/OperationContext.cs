@@ -12,10 +12,8 @@ namespace Olo42.SAROM.WebApp.Models
     public DbSet<Olo42.SAROM.WebApp.Models.Document> Document { get; set; }
     public DbSet<Olo42.SAROM.WebApp.Models.OperationViewModel> Operation { get; set; }
     public DbSet<Olo42.SAROM.WebApp.Models.OperationAction> OperationAction { get; set; }
-
-    public DbSet<Olo42.SAROM.WebApp.Models.Person> Person { get; set; }
-
-    public DbSet<Olo42.SAROM.WebApp.Models.Unit> Unit { get; set; }
+    
+    public DbSet<Olo42.SAROM.WebApp.Models.UnitViewModel> Unit { get; set; }
 
     public DbSet<Olo42.SAROM.WebApp.Models.MissingPerson> MissingPerson { get; set; }
   }
