@@ -11,7 +11,7 @@ namespace Olo42.SAROM.WebApp.Mappings
   {
     public UnitProfile()
     {
-      CreateMap<UnitViewModel, Unit>();
+      CreateMap<UnitViewModel, Unit>().ReverseMap();
     }
   }
 }

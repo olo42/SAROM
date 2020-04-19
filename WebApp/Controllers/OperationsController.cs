@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Olo42.SAROM.WebApp.Models;
 using Olo42.SAROM.DataAccess.Contracts;
 using System;
@@ -137,7 +136,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       //   .ToList();
 
       // operation.OperationActions = actions;
-      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+      var viewModel = this.mapper.Map<OperationDetailsViewModel>(operation);
 
       return View(viewModel);
     }

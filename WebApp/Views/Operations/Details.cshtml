@@ -1,4 +1,4 @@
-﻿@model Olo42.SAROM.WebApp.Models.OperationViewModel
+﻿@model Olo42.SAROM.WebApp.Models.OperationDetailsViewModel
 
 @{
   ViewData["Title"] = Localizer["Einsatz"];
@@ -11,8 +11,8 @@
         <dl>
           <dt>@Localizer["Alarm"]</dt>
           <dd>
-            @Convert.ToDateTime(@Model.AlertDate).ToShortDateString()
-            <nobr>@Model.AlertTime @Localizer["Uhr"]</nobr>
+            @Convert.ToDateTime(@Model.AlertDateTime).ToShortDateString()
+            <nobr>@Model.AlertDateTime.ToShortTimeString() @Localizer["Uhr"]</nobr>
           </dd>
         </dl>
       </div>

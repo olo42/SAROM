@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Olo42.SAROM.DataAccess.Contracts
 {
@@ -9,7 +10,7 @@ namespace Olo42.SAROM.DataAccess.Contracts
   public class Operation
   {
     public Operation()
-    {}
+    { }
     public Operation(string name, string number, DateTime alertDateTime)
     {
       this.Id = Guid.NewGuid();
@@ -25,5 +26,11 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public DateTime AlertDateTime { get; set; }
     public bool IsClosed { get; set; }
     public string ClosingReport { get; set; }
+    public string Headquarter { get; set; }
+    public string HeadquarterContact { get; set; }
+    public string PoliceContact { get; set; }
+    public string PoliceContactPhone { get; set; }
+    public List<Unit> Units { get; set; }
+    public List<OperationAction> OperationActions { get; set; }
   }
 }
