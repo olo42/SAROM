@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Olo42.SAROM.WebApp.Models
 {
-  public class Unit
+  public class UnitViewModel
   {
     [Display(Name = "Flächensucher")]
     public int AreaSeeker { get; set; }
@@ -29,8 +29,6 @@ namespace Olo42.SAROM.WebApp.Models
 
     [Display(Name = "Funkrufname")]
     public string PagerNumber { get; set; }
-
-    public List<Person> People { get; set; }
 
     [Display(Name = "Wasserorter")]
     public int WaterLocators { get; set; }

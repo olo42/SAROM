@@ -58,7 +58,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,GroupLeader,PagerNumber,OperationId,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
+    public async Task<IActionResult> Create([Bind("Name,GroupLeader,PagerNumber,OperationId,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] UnitViewModel unit)
     {
       if (ModelState.IsValid)
       {
@@ -97,7 +97,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,OperationId,Name,PagerNumber,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] Unit unit)
+    public async Task<IActionResult> Edit(string id, [Bind("GroupLeader,Id,OperationId,Name,PagerNumber,AreaSeeker,DebrisSearcher,WaterLocators,Mantrailer,Helpers")] UnitViewModel unit)
     {
       if (id != unit.Id)
       {

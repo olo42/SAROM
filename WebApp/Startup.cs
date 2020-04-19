@@ -104,7 +104,7 @@ namespace Olo42.SAROM.WebApp
       services.AddScoped<IFileDataAccess<OperationsIndex>, FormatterDataAccess<OperationsIndex>>();
       services.AddScoped<IOperationsRepository, OperationsRepository>();
 
-      services.AddAutoMapper(typeof(OperationProfile));
+      services.AddAutoMapper(typeof(OperationProfile), typeof(UnitProfile));
 
       services.AddAuthentication();
 
