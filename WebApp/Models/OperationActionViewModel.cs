@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Olo42.SAROM.WebApp.Models
 {
-  public class OperationAction
+  public class OperationActionViewModel
   {
     [Display(Name = "Maßnahme / Meldung")]
     public string Action { get; set; }
@@ -17,10 +17,9 @@ namespace Olo42.SAROM.WebApp.Models
     [Display(Name = "Nachricht / Kommentar")]
     public string Message { get; set; }
 
-    [Required]
-    public string OperationId { get; set; }
-
     [Display(Name = "Einheit")]
     public string UnitName { get; set; }
+
+    public string OperationId { get; set; }
   }
 }

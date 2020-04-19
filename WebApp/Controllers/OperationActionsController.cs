@@ -50,9 +50,9 @@ namespace Olo42.SAROM.WebApp.Controllers
     // GET: OperationActions/Create
     public IActionResult Create(string id)
     {
-      var operationAction = new OperationAction();
-      operationAction.OperationId = id;
-      return View(operationAction);
+      var viewModel = new OperationActionViewModel();
+      viewModel.OperationId = id;
+      return View(viewModel);
     }
 
     // POST: OperationActions/Create
@@ -64,7 +64,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     {
       if (ParameterCombinationIsValid(oAction, unitName, message))
       {
-        var operationAction = new OperationAction
+        var viewModel = new OperationActionViewModel
         {
           Created = DateTime.Now,
           OperationId = operationId,
@@ -73,7 +73,7 @@ namespace Olo42.SAROM.WebApp.Controllers
           Message = message
         };
 
-        _context.Add(operationAction);
+        _context.Add(viewModel);
         await _context.SaveChangesAsync();
       }
 
@@ -121,9 +121,9 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("Id,Message")] OperationAction operationAction)
+    public async Task<IActionResult> Edit(string id, [Bind("Id,Message")] OperationActionViewModel viewModel)
     {
-      if (id != operationAction.Id)
+      if (id != viewModel.Id)
       {
         return NotFound();
       }
@@ -132,12 +132,12 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         try
         {
-          _context.Update(operationAction);
+          _context.Update(viewModel);
           await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-          if (!OperationActionExists(operationAction.Id))
+          if (!OperationActionExists(viewModel.Id))
           {
             return NotFound();
           }
@@ -148,7 +148,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         }
         return RedirectToAction(nameof(Index));
       }
-      return View(operationAction);
+      return View(viewModel);
     }
 
     // GET: OperationActions/Delete/5
