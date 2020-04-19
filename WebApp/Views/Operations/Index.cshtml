@@ -23,7 +23,7 @@
         @Html.DisplayNameFor(model => model.Name)
       </th>
       <th>
-        @Html.DisplayNameFor(model => model.Alerted)
+        @Html.DisplayNameFor(model => model.Alert)
       </th>
       <th>@Localizer["Status"]</th>
     </tr>
@@ -36,7 +36,7 @@
             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.Alerted)
+          @Html.DisplayFor(modelItem => item.Alert)
         </td>
         <td>
           @* @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"]) *@

@@ -90,7 +90,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,AlertDate,AlertTime")] OperationCreateModel model)
+    public async Task<IActionResult> Create([Bind("Id,Name,AlertDateTime")] OperationCreateModel model)
     {
       if (ModelState.IsValid)
       {
