@@ -14,5 +14,7 @@ namespace Olo42.SAROM.WebApp.Models
 
     [Display(Name = "Alarmierung")]
     public DateTime Alert { get; set; }
+    
+    public bool IsClosed { get; set; }
   }
 }
