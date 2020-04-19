@@ -23,17 +23,5 @@ namespace Olo42.SAROM.WebApp.Models
         return this.alertDateTime.ToString("dd.MM.yyyy HH:MM");
       }
     }
-
-    public static explicit operator OperationIndexViewModel(
-      OperationFile operationFile)
-    {
-      var operationIndexViewModel = new OperationIndexViewModel();
-      operationIndexViewModel.Id = operationFile.Id.ToString();
-      operationIndexViewModel.Name = operationFile.Name;
-      operationIndexViewModel.Number = operationFile.Number;
-      operationIndexViewModel.alertDateTime = operationFile.Alert;
-
-      return operationIndexViewModel;
-    }
   }
 }

@@ -7,17 +7,21 @@ using Olo42.SAROM.WebApp.Models;
 using Olo42.SAROM.DataAccess.Contracts;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
   [Authorize]
   public class OperationsController : Controller
   {
+    private readonly IMapper mapper;
     private readonly IOperationsRepository repository;
 
     public OperationsController(
+      IMapper mapper,
       IOperationsRepository repository)
     {
+      this.mapper = mapper;
       this.repository = repository;
     }
 
@@ -185,15 +189,10 @@ namespace Olo42.SAROM.WebApp.Controllers
     public async Task<IActionResult> Index()
     {
       var operationFiles = this.repository.Read();
-      List<OperationIndexViewModel> operationIndexViewModels =
-        new List<OperationIndexViewModel>();
+      var viewModel =
+        mapper.Map<IEnumerable<OperationIndexViewModel>>(operationFiles);
 
-      foreach (var item in operationFiles)
-      {
-        operationIndexViewModels.Add((OperationIndexViewModel)item);
-      }
-
-      return View(operationIndexViewModels);
+      return View(viewModel);
       // return View(
       //   await _context.Operation
       //     .OrderByDescending(o => o.AlertDate)
