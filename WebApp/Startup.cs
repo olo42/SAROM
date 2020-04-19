@@ -18,6 +18,8 @@ using Olo42.FileDataAccess.Contracts;
 using Olo42.FileDataAccess;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using AutoMapper;
+using Olo42.SAROM.WebApp.Mappings;
 
 namespace Olo42.SAROM.WebApp
 {
@@ -101,6 +103,8 @@ namespace Olo42.SAROM.WebApp
       services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
       services.AddScoped<IFileDataAccess<OperationsIndex>, FormatterDataAccess<OperationsIndex>>();
       services.AddScoped<IOperationsRepository, OperationsRepository>();
+
+      services.AddAutoMapper(typeof(OperationProfile));
 
       services.AddAuthentication();
 
