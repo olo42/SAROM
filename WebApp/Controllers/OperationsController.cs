@@ -198,13 +198,9 @@ namespace Olo42.SAROM.WebApp.Controllers
       var operationFiles = this.repository.Read();
       var viewModel =
         mapper.Map<IEnumerable<OperationIndexViewModel>>(operationFiles);
+      viewModel = viewModel.OrderByDescending(x=>x.Alert);
 
       return View(viewModel);
-      // return View(
-      //   await _context.Operation
-      //     .OrderByDescending(o => o.AlertDate)
-      //     .ThenByDescending(a => a.AlertTime)
-      //     .ToListAsync());
     }
 
     public async Task<IActionResult> Print(string id)
