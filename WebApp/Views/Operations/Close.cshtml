@@ -1,8 +1,12 @@
-﻿@model Olo42.SAROM.WebApp.Models.OperationViewModel
+﻿@model Olo42.SAROM.WebApp.Models.OperationEditModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  ViewData["Title"] = "Edit";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Menu {
+  <partial name="~/Views/Operations/_EditMenuPartial.cshtml" />
 }
 
 <h3>@Localizer["Einsatz"] @Model.Name @Localizer["abschließen"] </h3>
