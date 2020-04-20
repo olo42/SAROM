@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<User> SignInManager
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @inject Microsoft.Extensions.Options.IOptions<SAROMSettings> Settings;
@@ -56,8 +56,8 @@
           <dl>
             <dt>@Localizer["Alarmierung"]</dt>
             <dd>
-              @Convert.ToDateTime(@Model.AlertDate).ToShortDateString() <br />
-              @Model.AlertTime @Localizer["Uhr"]
+              @Convert.ToDateTime(@Model.Alert).ToShortDateString() 
+              <br />@Model.Alert.ToString("HH:mm") @Localizer["Uhr"]
             </dd>
           </dl>
         </div>

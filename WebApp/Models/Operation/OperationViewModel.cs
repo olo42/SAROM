@@ -1,40 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper.Configuration.Annotations;
 using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Models
 {
   public class OperationViewModel
   {
-    private DateTime alertDateTime;
-    
     public OperationViewModel()
     {
-      this.OperationActions = new List<OperationAction>();
-      this.Units = new List<Unit>();
+      this.OperationActions = new List<OperationActionViewModel>();
+      this.Units = new List<UnitViewModel>();
+      this.MissingPeople = new List<MissingPerson>();
     }
 
-    [Display(Name = "Alarmierung")]
-    public string Alerted 
-    { 
-      get 
-      {
-        var dateTimeString = $"{this.AlertDate} {this.AlertTime}";
-        DateTime.TryParse(dateTimeString, out DateTime dateTime) ;
-        return dateTime.ToString("dd.MM.yyyy HH:MM");
-      }
-    }
-
-    [Display(Name = "Datum")]
+    [Display(Name = "Alarm")]
     [DataType(DataType.Date)]
-    [Required]
-    public string AlertDate { get; set; }
-
-    [Display(Name = "Uhrzeit")]
-    [DataType(DataType.Time)]
-    [Required]
-    public string AlertTime { get; set; }
+    [SourceMember("AlertDateTime")]
+    public DateTime Alert { get; set; }
 
     [Display(Name = "Abschlussbericht")]
     public string ClosingReport { get; set; }
@@ -56,7 +40,7 @@ namespace Olo42.SAROM.WebApp.Models
     [Display(Name = "Einsatznummer")]
     public string Number { get; set; }
 
-    public List<OperationAction> OperationActions { get; set; }
+    public List<OperationActionViewModel> OperationActions { get; set; }
 
     [Display(Name = "Einsatzleiter")]
     public string OperationLeader { get; set; }
@@ -67,6 +51,6 @@ namespace Olo42.SAROM.WebApp.Models
     [Display(Name = "Telefon Polizei")]
     public string PoliceContactPhone { get; set; }
 
-    public List<Unit> Units { get; set; }
+    public List<UnitViewModel> Units { get; set; }
   }
 }
