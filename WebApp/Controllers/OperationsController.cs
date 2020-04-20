@@ -37,7 +37,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         return NotFound();
       }
-      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+      var viewModel = this.mapper.Map<OperationEditModel>(operation);
 
       return View(viewModel);
     }
@@ -59,7 +59,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       if (ModelState.IsValid)
       {
-        operation.IsClosed = true;
+        operation.Status = EStatus.Closed;
         operation.ClosingReport = closingReport;
 
         try
@@ -73,7 +73,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
         return RedirectToAction(nameof(Index));
       }
-      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+      var viewModel = this.mapper.Map<OperationEditModel>(operation);
 
       return View(viewModel);
     }

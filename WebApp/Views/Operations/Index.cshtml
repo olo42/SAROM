@@ -39,7 +39,7 @@
           @Html.DisplayFor(modelItem => item.Alert)
         </td>
         <td>
-          @(item.IsClosed == true ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
+          @(item.Status == EStatus.Closed ? @Localizer["abgeschlossen"] : @Localizer["laufend"])
         </td>
       </tr>
     }

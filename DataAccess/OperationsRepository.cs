@@ -74,7 +74,12 @@ namespace Olo42.SAROM.DataAccess
           $"Operation Id: {operation.Id} not found in index!");
       }
 
+      file.Status = operation.Status;
       this.Write(operation);
+
+      var index = this.ReadIndex();
+      index.OperationFiles.ToList().Find(f => f.Id == operation.Id).Status = operation.Status;
+      this.WriteIndex(index);
     }
 
     private string GetFileName(Operation operation)

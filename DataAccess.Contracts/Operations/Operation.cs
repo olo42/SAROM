@@ -33,5 +33,6 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public List<Unit> Units { get; set; }
     public List<OperationAction> OperationActions { get; set; }
     public string OperationLeader { get; set; }
+    public EStatus Status { get; set; }
   }
 }

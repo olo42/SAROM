@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Models
 {
@@ -16,6 +17,8 @@ namespace Olo42.SAROM.WebApp.Models
     public string Id { get; set; }
 
     public bool IsClosed { get; set; }
+
+    public EStatus Status { get; set; }
 
     public string Name { get; set; }
 

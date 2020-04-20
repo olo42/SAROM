@@ -20,6 +20,8 @@ namespace Olo42.SAROM.DataAccess.Contracts
 
     public DateTime Alert { get; }
 
+    public EStatus Status { get; set; }
+
     public OperationFile(Operation operation, string fileName)
     {
       this.Id = operation.Id;
