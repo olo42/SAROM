@@ -20,6 +20,14 @@
     <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="appsettings.json.example" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json.example" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AgileObjects.ReadableExpressions" Version="2.3.2" />
