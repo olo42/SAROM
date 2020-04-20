@@ -335,3 +335,5 @@ ASALocalRun/
 /data
 
 storage/*
+
+appsettings.json
