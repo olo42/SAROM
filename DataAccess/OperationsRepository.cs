@@ -16,6 +16,7 @@ namespace Olo42.SAROM.DataAccess
     private readonly IFileDataAccess<Operation> operationDataAccess;
     private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
     private readonly IConfiguration configuration;
+    private readonly string storagePath;
 
     public OperationsRepository(
       IFileDataAccess<Operation> operationDataAccess,
@@ -25,6 +26,8 @@ namespace Olo42.SAROM.DataAccess
       this.operationDataAccess = operationDataAccess;
       this.operationIndexDataAccess = operationIndexDataAccess;
       this.configuration = configuration;
+
+      this.storagePath = this.GetConfigValue(EConfigKey.StoragePath);
     }
 
     public void Create(Operation operation)
@@ -32,17 +35,23 @@ namespace Olo42.SAROM.DataAccess
       if (operation == null)
         throw new ArgumentNullException(nameof(operation));
 
-      this.Write(operation);
+      Directory.CreateDirectory(
+        Path.Combine(this.storagePath, operation.Id.ToString()));
 
       var index = this.ReadIndex();
-      index.Add(new OperationFile(operation, this.GetFileName(operation)));
+      var fileName = 
+        Path.Combine(operation.Id.ToString(), FileName.OPERATION);
+      index.Add(
+        new OperationFile(operation, fileName));
+     
       this.WriteIndex(index);
+      this.Write(operation);
     }
 
     public void Delete(Guid id)
     {
       var operation = this.Read(id);
-      File.Delete(this.GetFullFileName(operation));
+      File.Delete(this.GetFullFileName(operation.Id));
 
       var index = this.ReadIndex();
       index.Remove(id);
@@ -59,10 +68,10 @@ namespace Olo42.SAROM.DataAccess
     public Operation Read(Guid id)
     {
       var operationFile = this.ReadIndex(id);
-      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
-      var fullFileName = Path.Combine(folderPath, operationFile.FileName);
+      var filePath = 
+        Path.Combine(this.storagePath, operationFile.FileName);
 
-      return this.operationDataAccess.Read(fullFileName);
+      return this.operationDataAccess.Read(filePath);
     }
 
     public void Update(Operation operation)
@@ -78,23 +87,15 @@ namespace Olo42.SAROM.DataAccess
       this.Write(operation);
 
       var index = this.ReadIndex();
-      index.OperationFiles.ToList().Find(f => f.Id == operation.Id).Status = operation.Status;
+      index.OperationFiles.ToList().Find(
+        f => f.Id == operation.Id).Status = operation.Status;
+      
       this.WriteIndex(index);
     }
 
-    private string GetFileName(Operation operation)
+    private string GetFullFileName(Guid operationId)
     {
-      var extension = this.GetConfigValue(EConfigKey.FileExtension);
-
-      return $"{operation.Id}{extension}";
-    }
-
-    private string GetFullFileName(Operation operation)
-    {
-      var folderPath = this.GetConfigValue(EConfigKey.StoragePath);
-      var file = this.GetFileName(operation);
-
-      return Path.Combine(folderPath, file);
+      return Path.Combine(this.storagePath, ReadIndex(operationId).FileName);
     }
 
     private string GetConfigValue(EConfigKey key)
@@ -113,14 +114,14 @@ namespace Olo42.SAROM.DataAccess
 
     private void Write(Operation operation)
     {
-      var fullFileName = this.GetFullFileName(operation);
+      var fullFileName = this.GetFullFileName(operation.Id);
 
       this.operationDataAccess.Write(fullFileName, operation);
     }
 
     private OperationsIndex ReadIndex()
     {
-      var indexFile = this.GetConfigValue(EConfigKey.IndexFile);
+      var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
       OperationsIndex index = null;
       try
       {
@@ -147,8 +148,8 @@ namespace Olo42.SAROM.DataAccess
 
     private void WriteIndex(OperationsIndex index)
     {
-      var file = this.GetConfigValue(EConfigKey.IndexFile);
-      this.operationIndexDataAccess.Write(file, index);
+      var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
+      this.operationIndexDataAccess.Write(indexFile, index);
     }
   }
 }

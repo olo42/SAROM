@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
@@ -26,13 +27,7 @@ namespace Olo42.SAROM.DataAccess.Tests
       var section = EConfigSection.SAROMSettings.ToString();
       this.configurationMock
         .Setup(c => c.GetSection(section)[EConfigKey.StoragePath.ToString()])
-        .Returns("./");
-      this.configurationMock
-        .Setup(c => c.GetSection(section)[EConfigKey.FileExtension.ToString()])
-        .Returns(".sod");
-      this.configurationMock
-        .Setup(c => c.GetSection(section)[EConfigKey.IndexFile.ToString()])
-        .Returns("TestOperationIndex.dat");
+        .Returns("./testStorage");
 
       this.dataAccessMock = new Mock<IFileDataAccess<Operation>>();
       this.indexDataAccessMock = new Mock<IFileDataAccess<OperationsIndex>>();
@@ -49,8 +44,15 @@ namespace Olo42.SAROM.DataAccess.Tests
     {
       // Arrange
       var operation = new Operation("TestOperation", "1234", DateTime.Now);
-
-      // Act
+      var operationFile = new OperationFile(
+        operation,
+        Path.Combine(operation.Id.ToString(),
+        FileName.OPERATION));
+      var index = new OperationsIndex();
+      index.Add(operationFile);
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>()))
+        .Returns(index);
 
       // Assert
       Assert.That(() => this.repository.Create(operation), Throws.Nothing);
@@ -60,16 +62,23 @@ namespace Olo42.SAROM.DataAccess.Tests
     public void Create_Calls_FileAccess_Create()
     {
       // Arrange
-      var calls = 0;
       var operation = new Operation("TestOperation", "1234", DateTime.Now);
-      this.dataAccessMock.Setup(x => x.Write(It.IsAny<string>(), operation))
-        .Callback(() => calls++);
+      var operationFile = new OperationFile(
+        operation,
+        Path.Combine(operation.Id.ToString(),
+        FileName.OPERATION));
+      var index = new OperationsIndex();
+      index.Add(operationFile);
+      this.indexDataAccessMock
+        .Setup(x => x.Read(It.IsAny<string>()))
+        .Returns(index);
 
       // Act
       this.repository.Create(operation);
 
       // Assert
-      Assert.That(calls, Is.EqualTo(1));
+      this.dataAccessMock.Verify(
+        x => x.Write(It.IsAny<string>(), operation), Times.AtLeastOnce);
     }
 
     [Test]
@@ -77,27 +86,6 @@ namespace Olo42.SAROM.DataAccess.Tests
     {
       // Assert
       Assert.That(() => this.repository.Create(null), Throws.ArgumentNullException);
-    }
-
-    [TestCase(EConfigKey.FileExtension)]
-    [TestCase(EConfigKey.IndexFile)]
-    [TestCase(EConfigKey.StoragePath)]
-    public void Create_Throws_If_Key_Is_Not_Set_In_Configuration(EConfigKey key)
-    {
-      // Arrange
-      var section = EConfigSection.SAROMSettings.ToString();
-      this.configurationMock
-        .Setup(x => x.GetSection(section)[key.ToString()])
-        .Returns("");
-      var operation = new Operation("Test", "1234", DateTime.Now);
-
-      // Act // Assert
-      var exception =
-        Assert.Throws<Exception>(() => this.repository.Create(operation));
-      Assert.That(
-        exception.Message,
-        Is.EqualTo($"Configuration value for key {key.ToString()} not found!")
-      );
     }
     #endregion
 
@@ -148,7 +136,8 @@ namespace Olo42.SAROM.DataAccess.Tests
       this.repository.Update(operation);
 
       // Assert
-      this.indexDataAccessMock.Verify(x => x.Read(It.IsAny<string>()), Times.Once);
+      this.indexDataAccessMock
+        .Verify(x => x.Read(It.IsAny<string>()), Times.AtLeastOnce);
     }
 
     [Test]
@@ -187,7 +176,7 @@ namespace Olo42.SAROM.DataAccess.Tests
 
       // Assert
       this.dataAccessMock
-        .Verify(x => x.Write(It.IsAny<string>(), operation), Times.Once);
+        .Verify(x => x.Write(It.IsAny<string>(), operation), Times.AtLeastOnce);
     }
     #endregion
   }
