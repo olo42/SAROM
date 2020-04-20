@@ -4,94 +4,96 @@
   ViewData["Title"] = Localizer["Einsatz"];
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-  <div>
-    <div class="d-flex flex-row justify-content-between">
-      <div>
-        <dl>
-          <dt>@Localizer["Alarm"]</dt>
-          <dd>
-            @Convert.ToDateTime(@Model.AlertDateTime).ToShortDateString()
-            <nobr>@Model.AlertDateTime.ToShortTimeString() @Localizer["Uhr"]</nobr>
-          </dd>
-        </dl>
-      </div>
-      <div>
-        <dl>
-          <dt>@Localizer["LST"]</dt>
-          <dd>
-            @Model.Headquarter
-            <nobr>@Model.HeadquarterContact</nobr>
-          </dd>
-        </dl>
-      </div>
-      <div>
-        <dl>
-          <dt>@Localizer["POL"]</dt>
-          <dd>
-            @Model.PoliceContact
-            <nobr>@Model.PoliceContactPhone</nobr>
-          </dd>
-        </dl>
-      </div>
+@section Menu {
+  <partial name="~/Views/Operations/_DetailsMenuPartial.cshtml" />
+}
+<div>
+  <div class="d-flex flex-row justify-content-between">
+    <div>
+      <dl>
+        <dt>@Localizer["Alarm"]</dt>
+        <dd>
+          @Convert.ToDateTime(@Model.AlertDateTime).ToShortDateString()
+          <br />@Model.AlertDateTime.ToShortTimeString() @Localizer["Uhr"]
+        </dd>
+      </dl>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <form asp-action="Create" asp-controller="OperationActions" class="form-horizontal">
-          <div class="form-group">
-            <div class="input-group input-group-sm">
-              <select name="oAction" class="form-control">
-                <option disabled selected>@Localizer["Aktion"]</option>
-                <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
-                <optgroup label="Meldungen">
-                  <option value="Meldung">@Localizer["Meldung"]</option>
-                  <option value="Suche startet">@Localizer["Suche startet"]</option>
-                  <option value="Person gefunden">@Localizer["Person gefunden"]</option>
-                  <option value="Suche beendet">@Localizer["Suche beendet"]</option>
-                  <option value="Rückt ab">@Localizer["Rückt ab"]</option>
-                </optgroup>
-                <optgroup label="Standardmaßnahmen">
-                  <option value="Gebäude / Einrichtung durchsucht">@Localizer["Gebäude / Einrichtung durchsucht"]</option>
-                  <option value="Transpot durch RDS">@Localizer["Transport durch RDS"]</option>
-                  <option value="Umliegende KH abgefragt">@Localizer["Umliegende KH abgefragt"]</option>
-                </optgroup>
-              </select>
-              @if (@Model.Units.Count > 0)
-              {
-                <select name="unitname" class="form-control">
-                  <option disabled selected>@Localizer["Einheit"]</option>
-                  @foreach (var unit in Model.Units)
-                  {
-                    <option value="@unit.Name">@unit.Name</option>
-                  }
-                </select>
-              }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group input-group-sm">
-              <input name="message" class="form-control" style="margin-right: 10px;" placeholder="@Localizer["Protokolleintrag / Kommentar"]" />
-              @*<div class="input-group-prepend">*@
-              <button type="submit" class="btn btn-primary btn-sm">@Localizer["Speichern"]</button>
-              @*</div>*@
-            </div>
-          </div>
-          <input type="hidden" id="OperationId" name="OperationId" value="@Model.Id" />
-        </form>
-      </div>
+    <div>
+      <dl>
+        <dt>@Localizer["LST"]</dt>
+        <dd>
+          @Model.Headquarter
+          <nobr>@Model.HeadquarterContact</nobr>
+        </dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>@Localizer["POL"]</dt>
+        <dd>
+          @Model.PoliceContact
+          <br />@Model.PoliceContactPhone
+        </dd>
+      </dl>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form asp-action="Create" asp-controller="OperationActions" class="form-horizontal">
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+            <select name="oAction" class="form-control">
+              <option disabled selected>@Localizer["Aktion"]</option>
+              <option value="Auftrag / Befehl">@Localizer["Auftrag / Befehl"]</option>
+              <optgroup label="Meldungen">
+                <option value="Meldung">@Localizer["Meldung"]</option>
+                <option value="Suche startet">@Localizer["Suche startet"]</option>
+                <option value="Person gefunden">@Localizer["Person gefunden"]</option>
+                <option value="Suche beendet">@Localizer["Suche beendet"]</option>
+                <option value="Rückt ab">@Localizer["Rückt ab"]</option>
+              </optgroup>
+              <optgroup label="Standardmaßnahmen">
+                <option value="Gebäude / Einrichtung durchsucht">@Localizer["Gebäude / Einrichtung durchsucht"]</option>
+                <option value="Transpot durch RDS">@Localizer["Transport durch RDS"]</option>
+                <option value="Umliegende KH abgefragt">@Localizer["Umliegende KH abgefragt"]</option>
+              </optgroup>
+            </select>
+            @if (@Model.Units.Count > 0)
+            {
+              <select name="unitname" class="form-control">
+                <option disabled selected>@Localizer["Einheit"]</option>
+                @foreach (var unit in Model.Units)
+                {
+                  <option value="@unit.Name">@unit.Name</option>
+                }
+              </select>
+            }
+          </div>
+        </div>
 
-  @if (Model.Units.Any())
-  {  
-  <div class="card mb-3">
-    <a class="card-header-link" data-toggle="collapse" href="#collapseUnits" role="button" 
-       aria-expanded="false" aria-controls="collapseUnits" onclick="toggleCollapseIcon('#collapseUnitsIcon')">
-    <div class="card-header card-header-sm">
-      @Localizer["Einsatzkräfte"]  
-      <i class="fas fa-angle-up float-right pt-1" id="collapseUnitsIcon"></i>  
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+            <input name="message" class="form-control" style="margin-right: 10px;" placeholder="@Localizer["Protokolleintrag / Kommentar"]" />
+            @*<div class="input-group-prepend">*@
+            <button type="submit" class="btn btn-primary btn-sm">@Localizer["Speichern"]</button>
+            @*</div>*@
+          </div>
+        </div>
+        <input type="hidden" id="OperationId" name="OperationId" value="@Model.Id" />
+      </form>
     </div>
+  </div>
+</div>
+
+@if (Model.Units.Any())
+{
+  <div class="card mb-3">
+    <a class="card-header-link" data-toggle="collapse" href="#collapseUnits" role="button"
+       aria-expanded="false" aria-controls="collapseUnits" onclick="toggleCollapseIcon('#collapseUnitsIcon')">
+      <div class="card-header card-header-sm">
+        @Localizer["Einsatzkräfte"]
+        <i class="fas fa-angle-up float-right pt-1" id="collapseUnitsIcon"></i>
+      </div>
     </a>
     <div class="collapse in show" id="collapseUnits">
       <div class="card-body py-1">
@@ -106,44 +108,44 @@
               </tr>
             }
             <tr class="d-flex table-danger">
-                <td class="col-4">TEST Stormarn</td>
-                <td class="col-3">00-00-0</td>
-                <td class="col-3 table-danger">Im Einsatz (seit 2:23)</td>
-              </tr>
+              <td class="col-4">TEST Stormarn</td>
+              <td class="col-3">00-00-0</td>
+              <td class="col-3 table-danger">Im Einsatz (seit 2:23)</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  }
-  <div class="card">
-    <a class="card-header-link" data-toggle="collapse" href="#collapseActions" role="button" 
-       aria-expanded="false" aria-controls="collapseActions" onclick="toggleCollapseIcon('#collapseActionsIcon')">  
+}
+<div class="card">
+  <a class="card-header-link" data-toggle="collapse" href="#collapseActions" role="button"
+     aria-expanded="false" aria-controls="collapseActions" onclick="toggleCollapseIcon('#collapseActionsIcon')">
     <div class="card-header card-header-sm">
-      @Localizer["Protokoll"]  
-      <i class="fas fa-angle-up float-right pt-1" id="collapseActionsIcon"></i>  
+      @Localizer["Protokoll"]
+      <i class="fas fa-angle-up float-right pt-1" id="collapseActionsIcon"></i>
     </div>
-    </a>
-    <div class="collapse in show" id="collapseActions">
-      <div class="card-body py-1">
-        <table class="table table-sm table-borderless">
-          <tbody>
-            @foreach (var item in Model.OperationActions)
-            {
-              <tr class="d-flex">
-                <td class="col-1">@item.Created.ToShortTimeString()</td>
-                <td class="col-11">
-                  <i>@Html.DisplayFor(modelItem => item.Action)</i>
-                  <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
-                  @Html.DisplayFor(modelItem => item.Message)
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+  </a>
+  <div class="collapse in show" id="collapseActions">
+    <div class="card-body py-1">
+      <table class="table table-sm table-borderless">
+        <tbody>
+          @foreach (var item in Model.OperationActions)
+          {
+            <tr class="d-flex">
+              <td class="col-1">@item.Created.ToShortTimeString()</td>
+              <td class="col-11">
+                <i>@Html.DisplayFor(modelItem => item.Action)</i>
+                <u>@Html.DisplayFor(modelItem => item.UnitName)</u>
+                @Html.DisplayFor(modelItem => item.Message)
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
 @section Scripts {
   <script>
