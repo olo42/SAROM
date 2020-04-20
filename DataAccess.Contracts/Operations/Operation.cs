@@ -32,5 +32,6 @@ namespace Olo42.SAROM.DataAccess.Contracts
     public string PoliceContactPhone { get; set; }
     public List<Unit> Units { get; set; }
     public List<OperationAction> OperationActions { get; set; }
+    public string OperationLeader { get; set; }
   }
 }

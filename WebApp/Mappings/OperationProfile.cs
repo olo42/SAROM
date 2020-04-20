@@ -18,7 +18,9 @@ namespace Olo42.SAROM.WebApp.Mappings
       CreateMap<OperationFile, OperationIndexViewModel>();
       CreateMap<OperationCreateModel, Operation>();
       CreateMap<Operation, OperationDetailsViewModel>();
-      
+
+      CreateMap<Operation, OperationEditModel>();
+
       CreateMap<OperationViewModel, Operation>().ReverseMap();
     }
   }

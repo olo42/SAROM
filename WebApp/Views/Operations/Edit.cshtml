@@ -1,8 +1,11 @@
-﻿@model Olo42.SAROM.WebApp.Models.OperationViewModel
+﻿@model Olo42.SAROM.WebApp.Models.OperationEditModel
 
 @{
   ViewData["Title"] = "Edit";
   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Menu {
+  <partial name="~/Views/Operations/_EditMenuPartial.cshtml" />
 }
 
 <h3>@Localizer["Einsatz"] @Html.DisplayFor(model => model.Name)</h3>
@@ -46,16 +49,6 @@
         <label asp-for="OperationLeader" class="control-label"></label>
         <input asp-for="OperationLeader" class="form-control" />
         <span asp-validation-for="OperationLeader" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="AlertDate" class="control-label"></label>
-        <input asp-for="AlertDate" class="form-control" />
-        <span asp-validation-for="AlertDate" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="AlertTime" class="control-label"></label>
-        <input asp-for="AlertTime" class="form-control" />
-        <span asp-validation-for="AlertTime" class="text-danger"></span>
       </div>
       <div class="form-group">
         <input type="submit" value="@Localizer["Speichern"]" class="btn btn-primary" />

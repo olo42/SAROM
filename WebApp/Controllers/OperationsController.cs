@@ -154,7 +154,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       {
         return NotFound();
       }
-      var viewModel = this.mapper.Map<OperationViewModel>(operation);
+      var viewModel = this.mapper.Map<OperationEditModel>(operation);
 
       return View(viewModel);
     }
@@ -166,30 +166,40 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
       string id,
-      [Bind("Id,Name,Number,Headquarter,AlertDate,AlertTime,HeadquarterContact,PoliceContact,PoliceContactPhone,OperationLeader")]
-        OperationViewModel operationViewModel)
+      [Bind("Id,Name,Number,Headquarter,HeadquarterContact,PoliceContact,PoliceContactPhone,OperationLeader")]
+        OperationEditModel editModel)
     {
-      if (id != operationViewModel.Id)
+      if (id != editModel?.Id)
       {
         return NotFound();
       }
 
       if (ModelState.IsValid)
       {
+        Operation operation = null;
         try
         {
-          var operation = this.mapper.Map<Operation>(operationViewModel);
-          this.repository.Update(operation);
+          operation = this.repository.Read(Guid.Parse(editModel.Id));
         }
         catch (KeyNotFoundException)
         {
           return NotFound();
         }
 
+        operation.Name = editModel.Name;
+        operation.Number = editModel.Number;
+        operation.PoliceContact = editModel.PoliceContact;
+        operation.PoliceContactPhone = editModel.PoliceContactPhone;
+        operation.Headquarter = editModel.Headquarter;
+        operation.HeadquarterContact = editModel.HeadquarterContact;
+        operation.OperationLeader = editModel.OperationLeader;
+
+        this.repository.Update(operation);
+
         return RedirectToAction(nameof(Details), new { id });
       }
 
-      return View(operationViewModel);
+      return View(editModel);
     }
 
     // GET: Operations
