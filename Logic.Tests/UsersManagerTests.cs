@@ -165,12 +165,12 @@ namespace Olo42.SAROM.Logic.Tests
 
       // Assert
       this.repository.Verify(
-        r => r.Write(It.IsAny<Uri>(),
-        It.IsAny<IEnumerable<User>>()), Times.Once);
+        r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()), 
+        Times.Once);
     }
 
     [Test]
-    public void Store_Throws_If_User_Already_Exists()
+    public void Store_Upates_If_User_Already_Exists()
     {
       // Arrange
       var user = new User();
@@ -183,21 +183,14 @@ namespace Olo42.SAROM.Logic.Tests
       var manager =
         new UsersManager(this.repository.Object, configuration.Object);
 
-      // Act // Assert
-      Assert.ThrowsAsync<DuplicateUserException>(
-        () => manager.Store(user));
-    }
-
-    [Test]
-    public void Update()
-    {
-      // Arrange
-           
-
       // Act
+      manager.Store(user).Wait();
 
       // Assert
-
+      Assert.That((() => manager.Get(user.Id).Wait()), Throws.Nothing);
+      this.repository.Verify(
+        r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()),
+        Times.Once);
     }
   }
 }
