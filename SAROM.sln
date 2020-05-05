@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.WebApp.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.DataAccess.Contracts.Tests", "DataAccess.Contracts.Tests\Olo42.SAROM.DataAccess.Contracts.Tests.csproj", "{B3C8F79C-7A89-432B-AA9D-4B90326F2D7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.Logic", "Logic\Olo42.SAROM.Logic.csproj", "{1447EEFE-A390-4C6F-9917-FEBB064C53E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olo42.SAROM.Logic.Tests", "Logic.Tests\Olo42.SAROM.Logic.Tests.csproj", "{B92370BA-DA08-4037-A53D-F1B4283082BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{B3C8F79C-7A89-432B-AA9D-4B90326F2D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3C8F79C-7A89-432B-AA9D-4B90326F2D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3C8F79C-7A89-432B-AA9D-4B90326F2D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1447EEFE-A390-4C6F-9917-FEBB064C53E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1447EEFE-A390-4C6F-9917-FEBB064C53E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1447EEFE-A390-4C6F-9917-FEBB064C53E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1447EEFE-A390-4C6F-9917-FEBB064C53E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B92370BA-DA08-4037-A53D-F1B4283082BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B92370BA-DA08-4037-A53D-F1B4283082BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B92370BA-DA08-4037-A53D-F1B4283082BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B92370BA-DA08-4037-A53D-F1B4283082BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
