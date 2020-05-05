@@ -3,7 +3,7 @@
     "**/.editorconfig": true,
     "**/.gitignore": true,
     "**/.vscode": true,
-    "**/*.csproj": true,
+    "**/*.csproj": false,
     "**/bin": true,
     "**/obj": true
   }
