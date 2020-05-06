@@ -45,13 +45,14 @@ namespace Olo42.SAROM.Logic.Users
     public async Task<User> Get(string id)
     {
       var users = await this.Get();
+      var user = users?.ToList()?.Find(u => u.Id == id);  
 
-      if (users.Count() == 0)
+      if (user == null)
       {
         throw new UserNotFoundException();
       }
 
-      return users.ToList().Single(u => u.Id == id);
+      return user;
     }
 
     public async Task Store(User user)
@@ -73,6 +74,11 @@ namespace Olo42.SAROM.Logic.Users
       }
 
       await this.repository.Write(this.uri, users);
+    }
+
+    public Task Delete(string id)
+    {
+      throw new NotImplementedException();
     }
   }
 }
