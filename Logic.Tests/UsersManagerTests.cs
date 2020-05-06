@@ -141,6 +141,11 @@ namespace Olo42.SAROM.Logic.Tests
     {
       // Arrange
       var user = new User();
+      IEnumerable<User> users = new List<User> { user };
+
+      this.repository
+        .Setup(r => r.Read(It.IsAny<Uri>()))
+        .Returns(Task.FromResult(users));
 
       var manager =
         new UsersManager(this.repository.Object, configuration.Object);
@@ -148,7 +153,26 @@ namespace Olo42.SAROM.Logic.Tests
       // Act // Assert
       var exception =
         Assert.ThrowsAsync<UserNotFoundException>(
-          () => manager.Get(user.Id));
+          () => manager.Get("12345678"));
+    }
+
+    [Test]
+    public void Get_User_Throws_UserNotFound_If_User_List_Is_Empty()
+    {
+      // Arrange
+      IEnumerable<User> users = null;
+
+      this.repository
+        .Setup(r => r.Read(It.IsAny<Uri>()))
+        .Returns(Task.FromResult(users));
+
+      var manager =
+        new UsersManager(this.repository.Object, configuration.Object);
+
+      // Act // Assert
+      var exception =
+        Assert.ThrowsAsync<UserNotFoundException>(
+          () => manager.Get("12345678"));
     }
 
     [Test]
@@ -165,7 +189,7 @@ namespace Olo42.SAROM.Logic.Tests
 
       // Assert
       this.repository.Verify(
-        r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()), 
+        r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()),
         Times.Once);
     }
 
@@ -191,6 +215,53 @@ namespace Olo42.SAROM.Logic.Tests
       this.repository.Verify(
         r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()),
         Times.Once);
+    }
+
+    [Test]
+    public void Store_User_List_Is_Null()
+    {
+      // Arrange
+      var user = new User();
+      IEnumerable<User> users = null;
+
+      this.repository
+        .Setup(r => r.Read(It.IsAny<Uri>()))
+        .Returns(Task.FromResult(users));
+
+      var manager =
+        new UsersManager(this.repository.Object, configuration.Object);
+
+      // Act
+      manager.Store(user).Wait();
+
+      // Assert
+      Assert.That((() => manager.Get(user.Id).Wait()), Throws.Nothing);
+      this.repository.Verify(
+        r => r.Write(It.IsAny<Uri>(), It.IsAny<IEnumerable<User>>()),
+        Times.Once);
+    }
+
+    [Test]
+    public void Delete()
+    {
+      // Arrange
+      var user = new User();
+      IEnumerable<User> users = new List<User> { user };
+
+      this.repository
+        .Setup(r => r.Read(It.IsAny<Uri>()))
+        .Returns(Task.FromResult(users));
+
+      var manager =
+        new UsersManager(this.repository.Object, configuration.Object);
+
+      // Act
+      manager.Delete(user.Id).Wait();
+
+      // Assert
+      this.repository.Verify(
+        r => r.Write(this.uri, It.IsAny<IEnumerable<User>>()), 
+        Times.Once());
     }
   }
 }
