@@ -338,4 +338,5 @@ ASALocalRun/
 
 appsettings.json
 
-coverage/
+Tests/Results/
+Tests/Reports/
