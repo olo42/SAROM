@@ -41,7 +41,10 @@
         "test",
         "${workspaceFolder}/SAROM.sln",
         "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
+        "/consoleloggerparameters:NoSummary",
+        "-p:CollectCoverage=true",
+        "-p:CoverletOutputFormat=cobertura",
+        "-p:CoverletOutput=./Results/"
       ],
       "problemMatcher": "$msCompile"
     }
