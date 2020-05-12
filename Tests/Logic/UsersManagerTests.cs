@@ -13,7 +13,7 @@ using Olo42.SAROM.Logic.Configuration;
 using Olo42.SAROM.Logic.Users;
 using Olo42.SFS.Repository.Abstractions;
 
-namespace Olo42.SAROM.Logic.Tests
+namespace Olo42.SAROM.Tests.Logic
 {
   [TestFixture]
   public class UsersManagerTests
