@@ -2,24 +2,31 @@ using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Olo42.SAROM.DataAccess;
-using Olo42.SAROM.DataAccess.Contracts;
 using Olo42.SAROM.WebApp.Logic;
-using Olo42.SAROM.WebApp.Models;
 using Olo42.FileDataAccess.Contracts;
 using Olo42.FileDataAccess;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using AutoMapper;
 using Olo42.SAROM.WebApp.Mappings;
+using Olo42.SAROM.Logic.Users;
+using Olo42.SFS.Repository.Abstractions;
+using Olo42.SFS.Repository;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Olo42.SFS.Serialisation.Abstractions;
+using Olo42.SFS.Serialisation.Json;
+using Olo42.SFS.FileAccess.Abstractions;
+using Olo42.SFS.FileAccess.Filesystem;
 
 namespace Olo42.SAROM.WebApp
 {
@@ -33,12 +40,12 @@ namespace Olo42.SAROM.WebApp
     public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-        app.UseDatabaseErrorPage();
+        //app.UseDatabaseErrorPage();
       }
       else
       {
@@ -65,15 +72,15 @@ namespace Olo42.SAROM.WebApp
       //app.UseHttpsRedirection();
       app.UseStaticFiles();
       app.UseCookiePolicy();
-
+      app.UseRouting();
       app.UseAuthentication();
-
-      app.UseMvc(routes =>
-      {
-        routes.MapRoute(
-                  name: "default",
-                  template: "{controller=Home}/{action=Index}/{id?}");
-      });
+      app.UseAuthorization();
+      app.UseEndpoints(endpoints =>
+        {
+          endpoints.MapControllerRoute(
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}");
+        });
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -89,11 +96,13 @@ namespace Olo42.SAROM.WebApp
       services.AddScoped<IFormatter, BinaryFormatter>();
 
       services.AddScoped<
-        IFileDataAccess<IEnumerable<User>>, 
+        IFileDataAccess<IEnumerable<User>>,
         FormatterDataAccess<IEnumerable<User>>>();
 
-      services.AddScoped<IUserRepository, UserRepository>();
-      services.AddScoped<ISaromUserStore<User>, UserStore<User>>();
+      services.AddScoped<ISerialisalizer<IEnumerable<User>>, JsonSerializer<IEnumerable<User>>>();  
+      services.AddScoped<IFileAccess, PhysicalFile>();  
+      services.AddScoped<IRepository<IEnumerable<User>>, Repository<IEnumerable<User>>>();
+      services.AddScoped<IUserManager, UsersManager>();
 
       services.AddIdentity<User, Role>()
         .AddUserStore<UserStore<User>>()
@@ -101,19 +110,20 @@ namespace Olo42.SAROM.WebApp
         .AddSignInManager<SignInManager<User>>();
 
       services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
-      services.AddScoped<IFileDataAccess<OperationsIndex>, FormatterDataAccess<OperationsIndex>>();
-      services.AddScoped<IOperationsRepository, OperationsRepository>();
+      services.AddScoped<IFileDataAccess<DataAccess.Contracts.OperationsIndex>, FormatterDataAccess<DataAccess.Contracts.OperationsIndex>>();
+      services.AddScoped<DataAccess.Contracts.IOperationsRepository, OperationsRepository>();
 
       services.AddAutoMapper(
         typeof(OperationProfile),
-        typeof(UnitProfile),
+        typeof(UserProfile),
         typeof(OperationActionProfile));
 
       services.AddAuthentication();
 
       services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+      services.AddControllersWithViews();
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
           .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
           .AddDataAnnotationsLocalization();
 

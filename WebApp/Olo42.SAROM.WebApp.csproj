@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-SAROM-22E4C186-14DC-4203-8832-0833FABC1BC7</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <ApplicationIcon>rescue-dog.ico</ApplicationIcon>
@@ -33,18 +33,28 @@
     <PackageReference Include="AgileObjects.ReadableExpressions" Version="2.3.2" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Olo42.FileDataAccess" Version="1.0.0-beta" />
     <PackageReference Include="Olo42.FileDataAccess.Contracts" Version="2.0.0" />
+    <PackageReference Include="Olo42.SFS.FileAccess.Filesystem" Version="1.0.0" />
+    <PackageReference Include="Olo42.SFS.Repository" Version="1.0.0" />
+    <PackageReference Include="Olo42.SFS.Serialisation.Json" Version="1.0.0" />
   </ItemGroup>
 
 
@@ -82,6 +92,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\DataAccess\Olo42.SAROM.DataAccess.csproj" />
+    <ProjectReference Include="..\Logic\Olo42.SAROM.Logic.csproj" />
   </ItemGroup>
 
 </Project>

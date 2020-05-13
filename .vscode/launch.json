@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/WebApp/bin/Debug/netcoreapp2.2/Olo42.SAROM.WebApp.dll",
+            "program": "${workspaceFolder}/WebApp/bin/Debug/netcoreapp3.1/Olo42.SAROM.WebApp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/WebApp",
             "stopAtEntry": false,
