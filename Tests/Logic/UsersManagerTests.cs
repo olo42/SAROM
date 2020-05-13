@@ -217,27 +217,27 @@ namespace Olo42.SAROM.Tests.Logic
         Times.Once);
     }
 
-    // [Test]
-    // public void Delete()
-    // {
-    //   // Arrange
-    //   var user = new User();
-    //   IEnumerable<User> users = new List<User> { user };
+    [Test]
+    public void Delete()
+    {
+      // Arrange
+      var user = new User();
+      IEnumerable<User> users = new List<User> { user };
 
-    //   this.repository
-    //     .Setup(r => r.Read(It.IsAny<Uri>()))
-    //     .Returns(Task.FromResult(users));
+      this.repository
+        .Setup(r => r.Read(It.IsAny<Uri>()))
+        .Returns(Task.FromResult(users));
 
-    //   var manager =
-    //     new UsersManager(this.repository.Object, configuration.Object);
+      var manager =
+        new UsersManager(this.repository.Object, configuration.Object);
 
-    //   // Act
-    //   manager.Delete(user.Id).Wait();
+      // Act
+      manager.Delete(user.Id).Wait();
 
-    //   // Assert
-    //   this.repository.Verify(
-    //     r => r.Write(this.uri, It.IsAny<IEnumerable<User>>()), 
-    //     Times.Once());
-    // }
+      // Assert
+      this.repository.Verify(
+        r => r.Write(this.uri, It.IsAny<IEnumerable<User>>()), 
+        Times.Once());
+    }
   }
 }

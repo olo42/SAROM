@@ -15,5 +15,7 @@ namespace Olo42.SAROM.Logic.Users
     Task<User> Get(string id);
 
     Task Store(User user);
+
+    Task Delete(string id);
   }
 }

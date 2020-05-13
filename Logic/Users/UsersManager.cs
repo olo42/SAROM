@@ -76,9 +76,16 @@ namespace Olo42.SAROM.Logic.Users
       await this.repository.Write(this.uri, users);
     }
 
-    public Task Delete(string id)
+    public async Task Delete(string id)
     {
-      throw new NotImplementedException();
+      var users = (await this.Get()).ToList();
+      var user = await this.Get(id);
+
+      if (user != null)
+      {
+        users.Remove(user);
+        await this.repository.Write(this.uri, users);
+      }
     }
   }
 }
