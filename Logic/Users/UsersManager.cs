@@ -45,7 +45,7 @@ namespace Olo42.SAROM.Logic.Users
     public async Task<User> Get(string id)
     {
       var users = await this.Get();
-      var user = users?.ToList()?.Find(u => u.Id == id);  
+      var user = users?.ToList()?.Find(u => u.Id == id);
 
       if (user == null)
       {
@@ -57,23 +57,30 @@ namespace Olo42.SAROM.Logic.Users
 
     public async Task Store(User user)
     {
-      var users = (await this.Get()).ToList();
-
-      if (users.Contains(user))
+      if (!this.FileExists)
       {
-        var updateUser = users.Single(u => u.Id == user.Id);
-        updateUser.LoginName = user.LoginName;
-        updateUser.FirstName = user.FirstName;
-        updateUser.LastName = user.LastName;
-        updateUser.Password = user.Password;
-        updateUser.Roles = user.Roles;
+        await this.repository.Write(this.uri, new List<User> { user });
       }
       else
       {
-        users.Add(user);
-      }
+        var users = (await this.Get()).ToList();
 
-      await this.repository.Write(this.uri, users);
+        if (users.Contains(user))
+        {
+          var updateUser = users.Single(u => u.Id == user.Id);
+          updateUser.LoginName = user.LoginName;
+          updateUser.FirstName = user.FirstName;
+          updateUser.LastName = user.LastName;
+          updateUser.Password = user.Password;
+          updateUser.Roles = user.Roles;
+        }
+        else
+        {
+          users.Add(user);
+        }
+
+        await this.repository.Write(this.uri, users);
+      }
     }
 
     public async Task Delete(string id)

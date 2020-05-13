@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.Logic.Users;
 
 namespace Olo42.SAROM.WebApp.Logic
 {
   public sealed class UserStore<TUser> : ISaromUserStore<User>
   {
-    private readonly IUserRepository userRepository;
+    private readonly IUserManager userManager;
     private bool isDisposed;
 
-    public UserStore(IUserRepository userRepository)
+    public UserStore(IUserManager userManager)
     {
-      this.userRepository = userRepository;
+      this.userManager = userManager;
     }
 
     public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
     {
-      this.userRepository.Add(user);
+      this.userManager.Store(user);
 
       return Task.FromResult(IdentityResult.Success);
     }
@@ -36,7 +35,7 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-      return Task.FromResult(this.userRepository.Get(userId));
+      return this.userManager.Get(userId);
     }
 
     public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -76,7 +75,7 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<IEnumerable<User>> GetAllUsers()
     {
-      return Task.FromResult(this.userRepository.Get());
+      return this.userManager.Get();
     }
   }
 }

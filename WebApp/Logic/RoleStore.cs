@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.Logic.Users;
 
 namespace Olo42.SAROM.WebApp.Logic
 {

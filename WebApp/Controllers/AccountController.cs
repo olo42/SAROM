@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.Logic.Users;
 using Olo42.SAROM.WebApp.Models.Account;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
-    public class AccountController : Controller
+  public class AccountController : Controller
   {
-    private readonly IUserRepository userRepository;
+    private readonly IUserManager userManager;
     private readonly SignInManager<User> signInManager;
 
     public AccountController(
-      IUserRepository userRepository,
+      IUserManager userManager,
       SignInManager<User> signInManager)
     {
-      this.userRepository = userRepository;
+      this.userManager = userManager;
       this.signInManager = signInManager;
     }
 
@@ -29,16 +29,16 @@ namespace Olo42.SAROM.WebApp.Controllers
     }
 
     [HttpGet]
-    public IActionResult Login()
+    public async Task<IActionResult> LoginAsync()
     {
-      this.CreateInitialUserIfNoUserExist();
+      await this.CreateInitialUserIfNoUserExistAsync();
 
       return View();
     }
 
-    private void CreateInitialUserIfNoUserExist()
+    private async Task CreateInitialUserIfNoUserExistAsync()
     {
-      if (!this.userRepository.Get().Any())
+      if (!this.userManager.FileExists)
       {
         var user = new User
         {
@@ -47,7 +47,8 @@ namespace Olo42.SAROM.WebApp.Controllers
           LastName = "User",
           Password = "user"
         };
-        this.userRepository.Add(user);
+
+        await this.userManager.Store(user);
       }
     }
 
@@ -55,16 +56,20 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([Bind("LoginName, Password")] Login login)
     {
-      var user = this.userRepository.Get(login?.LoginName);
-      if (user == null || user?.Password != login.Password)
+      var allUsers = await this.userManager.Get();
+      var loginUser = allUsers
+        .Where(u => u.LoginName == login?.LoginName)
+        .Where(u => u.Password == login?.Password);
+
+      if (!loginUser.Any())
       {
         login.Failed = true;
 
         return View(login);
       }
 
-      await this.signInManager.SignInAsync(user, true, null);
-      
+      await this.signInManager.SignInAsync(loginUser.First(), true, null);
+
       return RedirectToAction("Index", "Operations");
     }
 

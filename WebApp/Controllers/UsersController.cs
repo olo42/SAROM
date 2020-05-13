@@ -1,68 +1,63 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Olo42.SAROM.WebApp.Models;
-using Olo42.SAROM.DataAccess.Contracts;
 using System.Collections.Generic;
 using Olo42.SAROM.WebApp.Logic;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
 using System;
+using Olo42.SAROM.Logic.Users;
+using AutoMapper;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
   [Authorize]
   public class UsersController : Controller
   {
-    private readonly ISaromUserStore<User> userStore;
+    private readonly IUserManager userManager;
+    private readonly IMapper mapper;
 
-    public UsersController(ISaromUserStore<User> userStore)
+    public UsersController(IUserManager userManager, IMapper mapper)
     {
-      this.userStore = userStore;
+      this.userManager = userManager;
+      this.mapper = mapper;
     }
 
     // GET: Users
     public async Task<IActionResult> Index()
     {
-      var users = await this.userStore.GetAllUsers();
-      var enumerableUserViewModel = this.CreateUserViewModel(users);
+      var users = await this.userManager.Get();
+      var usersViewModel = this.mapper.Map<IEnumerable<UserViewModel>>(users);
 
-      return View(enumerableUserViewModel);
+      return View(usersViewModel);
     }
 
-    private IEnumerable<UserViewModel> CreateUserViewModel(
-      IEnumerable<User> users)
-    {
-      foreach (var user in users)
-      {
-          yield return (UserViewModel)user;
-      }
-    }
+    // private IEnumerable<UserViewModel> CreateUserViewModel(
+    //   IEnumerable<User> users)
+    // {
+    //   foreach (var user in users)
+    //   {
+    //       yield return (UserViewModel)user;
+    //   }
+    // }
 
     // GET: Users/Create
     public async Task<IActionResult> Create()
     {
       return View();
     }
-  
+
     // POST: Users/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-      [Bind("FirstName, LastName, LoginName, Password, VerifyPassword")] 
+      [Bind("FirstName, LastName, LoginName, Password, VerifyPassword")]
         UserViewModel userViewModel)
     {
       if (ModelState.IsValid)
       {
-        var user = this.CreateUser(userViewModel); 
-        try{
-          await this.userStore.CreateAsync(user, CancellationToken.None);
-        }
-        catch(DuplicateUserException)
-        {
-          ModelState.TryAddModelError("Create", "User already exists!");
-
-          return View();
-        }
+        var user = this.CreateUser(userViewModel);
+        await this.userManager.Store(user);
 
         return RedirectToAction("Index");
       }
@@ -77,7 +72,8 @@ namespace Olo42.SAROM.WebApp.Controllers
         new Role { Name = ERoleName.User }
       };
 
-      return new User {
+      return new User
+      {
         FirstName = userViewModel.FirstName,
         LastName = userViewModel.LastName,
         LoginName = userViewModel.LoginName,
@@ -85,32 +81,34 @@ namespace Olo42.SAROM.WebApp.Controllers
         Roles = roles
       };
     }
-  
+
     public async Task<IActionResult> Details(string id)
     {
-      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
-      
+      var user = await this.userManager.Get(id);
+
       if (user == null)
       {
         // Pass an error somehow
         return RedirectToAction("Index");
       }
-      
-      var userViewModel = (UserViewModel)user;
+
+      var userViewModel = this.mapper.Map<UserViewModel>(user);
 
       return View(userViewModel);
     }
+
     public async Task<IActionResult> Edit(string id)
     {
-      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
-      
-      return View((UserViewModel)user);
+      var user = await this.userManager.Get(id);
+      var userViewModel = this.mapper.Map<UserViewModel>(user);
+
+      return View(userViewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-      [Bind("FirstName, LastName, LoginName")] UserViewModel userViewModel, 
+      [Bind("FirstName, LastName, LoginName")] UserViewModel userViewModel,
       string id)
     {
       if (userViewModel == null)
@@ -119,20 +117,14 @@ namespace Olo42.SAROM.WebApp.Controllers
       if (string.IsNullOrWhiteSpace(id))
         throw new ArgumentNullException(nameof(id));
 
-      var user = await this.userStore.FindByIdAsync(id, CancellationToken.None);
+      var user = await this.userManager.Get(id);
       if (user == null)
+      {
         throw new UserNotFoundException($"User {id} not found");
-
+      }
       user.FirstName = userViewModel.FirstName;
       user.LastName = userViewModel.LastName;
-
-      try{
-        await this.userStore.UpdateAsync(user, CancellationToken.None);
-      }
-      catch(DuplicateUserException)
-      {
-        throw new Exception($"Unable to update user {id}");
-      }
+      await this.userManager.Store(user);
 
       return RedirectToAction("Index");
     }
