@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -35,7 +36,12 @@ namespace Olo42.SAROM.WebApp.Logic
 
     public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-      return this.userManager.Get(userId);
+      var users = this.userManager.Get().Result;
+      var user = users.ToList().Find(u => u.LoginName == userId);
+      if (user != null)
+        return Task.FromResult(user);
+      else
+        throw new UserNotFoundException();
     }
 
     public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)

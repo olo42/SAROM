@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.LoginName )
             </td>
             <td>
-                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.LoginName">@Localizer["anzeigen"]</a>
+                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a>
             </td>
         </tr>
     }

@@ -9,17 +9,7 @@ namespace Olo42.SAROM.Logic.Users
   [Serializable]
   public class User
   {
-    public User()
-    {
-      this.Id = Guid.NewGuid().ToString();
-    }
-
-    public User(string id)
-    {
-      this.Id = id;
-    }
-
-    public string Id { get; private set; }
+    public string Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string LoginName { get; set; }

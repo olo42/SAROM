@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" asp-route-id="@Model.LoginName">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <input class="btn btn-sm btn-primary" type="submit" value="@Localizer["Speichern"]" />
-                <a class="btn btn-sm btn-light" asp-action="Details" asp-route-id="@Model.LoginName">@Localizer["Zurück"]</a>
+                <a class="btn btn-sm btn-light" asp-action="Details" asp-route-id="@Model.Id">@Localizer["Zurück"]</a>
             </div>
         </form>
     </div>

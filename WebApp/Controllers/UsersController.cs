@@ -74,6 +74,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
       return new User
       {
+        Id = Guid.NewGuid().ToString(),
         FirstName = userViewModel.FirstName,
         LastName = userViewModel.LastName,
         LoginName = userViewModel.LoginName,
@@ -108,19 +109,15 @@ namespace Olo42.SAROM.WebApp.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-      [Bind("FirstName, LastName, LoginName")] UserViewModel userViewModel,
-      string id)
+      [Bind("Id, FirstName, LastName, LoginName")] UserViewModel userViewModel)
     {
       if (userViewModel == null)
         throw new ArgumentNullException(nameof(userViewModel));
 
-      if (string.IsNullOrWhiteSpace(id))
-        throw new ArgumentNullException(nameof(id));
-
-      var user = await this.userManager.Get(id);
+      var user = await this.userManager.Get(userViewModel.Id);
       if (user == null)
       {
-        throw new UserNotFoundException($"User {id} not found");
+        throw new UserNotFoundException($"User {userViewModel.Id} not found");
       }
       user.FirstName = userViewModel.FirstName;
       user.LastName = userViewModel.LastName;

@@ -6,6 +6,8 @@ namespace Olo42.SAROM.WebApp.Models
 {
   public class UserViewModel
   {
+    public string Id { get; set; }
+    
     [Required]
     [Display(Name = "Vorname")]
     public string FirstName { get; set; }
