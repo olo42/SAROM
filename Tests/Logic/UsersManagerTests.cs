@@ -221,7 +221,7 @@ namespace Olo42.SAROM.Tests.Logic
     public void Delete()
     {
       // Arrange
-      var user = new User();
+      var user = new User { Id = Guid.NewGuid().ToString() };
       IEnumerable<User> users = new List<User> { user };
 
       this.repository
