@@ -334,9 +334,9 @@ ASALocalRun/
 /src/Olo42.SAROM.WebApp/wwwroot/operations/*
 /data
 
-*/storage/*
-
 appsettings.json
 
 Tests/Results/
 Tests/Reports/
+storage/
+Scripts/
