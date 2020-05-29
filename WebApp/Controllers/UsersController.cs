@@ -121,7 +121,28 @@ namespace Olo42.SAROM.WebApp.Controllers
       }
       user.FirstName = userViewModel.FirstName;
       user.LastName = userViewModel.LastName;
+      user.LoginName = userViewModel.LoginName;
       await this.userManager.Store(user);
+
+      return RedirectToAction("Index");
+    }
+  
+    public async Task<IActionResult> Delete(string id)
+    {
+      var user = await this.userManager.Get(id);
+      var userViewModel = this.mapper.Map<UserViewModel>(user);
+
+      return View(userViewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete([Bind("Id")] UserViewModel userViewModel)
+    {
+      if (userViewModel == null)
+        throw new ArgumentNullException(nameof(userViewModel));
+      
+      await this.userManager.Delete(userViewModel.Id);
 
       return RedirectToAction("Index");
     }

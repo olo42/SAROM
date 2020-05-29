@@ -1,0 +1,39 @@
+@model Olo42.SAROM.WebApp.Models.UserViewModel
+
+@{
+  ViewData["Title"] = Localizer["Benutzer Löschen"];
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>@Localizer["Sind Sie sicher dass Sie den folgenden Benutzer löschen möchten?"]</h4>
+<hr class="dashed mb-0" />
+
+<div class="mt-3">
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LoginName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LoginName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-sm btn-danger" /> 
+        <a class="btn btn-sm btn-light" asp-action="Details" asp-route-id="@Model.Id">@Localizer["Zurück"]</a>
+    </form>
+</div>
