@@ -23,7 +23,7 @@ namespace Olo42.SAROM.WebApp.Models
     }
 
     [Required]
-    [Display(Name = "Benutzername")]
+    [Display(Name = "Anmeldename")]
     public string LoginName { get; set; }
     
     [Required]
