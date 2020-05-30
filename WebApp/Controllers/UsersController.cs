@@ -109,7 +109,8 @@ namespace Olo42.SAROM.WebApp.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-      [Bind("Id, FirstName, LastName, LoginName")] UserViewModel userViewModel)
+      [Bind("Id, FirstName, LastName, LoginName, Password, VerifyPassword")] 
+      UserViewModel userViewModel)
     {
       if (userViewModel == null)
         throw new ArgumentNullException(nameof(userViewModel));
@@ -122,6 +123,8 @@ namespace Olo42.SAROM.WebApp.Controllers
       user.FirstName = userViewModel.FirstName;
       user.LastName = userViewModel.LastName;
       user.LoginName = userViewModel.LoginName;
+      user.Password = userViewModel.Password;
+      
       await this.userManager.Store(user);
 
       return RedirectToAction("Index");

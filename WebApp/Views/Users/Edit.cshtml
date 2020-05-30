@@ -28,6 +28,16 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" value="@Model.Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VerifyPassword" class="control-label"></label>
+                <input asp-for="VerifyPassword" class="form-control" value="@Model.Password" />
+                <span asp-validation-for="VerifyPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input class="btn btn-sm btn-primary" type="submit" value="@Localizer["Speichern"]" />
                 <a class="btn btn-sm btn-light" asp-action="Details" asp-route-id="@Model.Id">@Localizer["Zurück"]</a>
             </div>
