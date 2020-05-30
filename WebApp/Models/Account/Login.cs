@@ -9,6 +9,7 @@ namespace Olo42.SAROM.WebApp.Models.Account
     public string LoginName { get; set; }
     
     [Required]
+    [DataType(DataType.Password)]
     [Display(Name = "Passwort")]
     public string Password { get; set; }  
 
