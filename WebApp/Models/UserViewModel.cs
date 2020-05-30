@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Models
 {
@@ -37,20 +35,5 @@ namespace Olo42.SAROM.WebApp.Models
     [DataType(DataType.Password)]
     [Display(Name = "Passwort überprüfen")]
     public string VerifyPassword { get; set; }
-
-    public static explicit operator UserViewModel(User user)
-    {
-      if (user == null)
-        throw new ArgumentNullException(nameof(user));
-
-      var userViewModel = new UserViewModel();
-      userViewModel.FirstName = user.FirstName;
-      userViewModel.LastName = user.LastName;
-      userViewModel.LoginName = user.LoginName;
-      userViewModel.Password = user.Password;
-      userViewModel.VerifyPassword = user.Password;
-
-      return userViewModel;
-    }  
   }
 }
