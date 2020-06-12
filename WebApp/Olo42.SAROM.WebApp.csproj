@@ -50,8 +50,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
-    <PackageReference Include="Olo42.FileDataAccess" Version="1.0.0-beta" />
-    <PackageReference Include="Olo42.FileDataAccess.Contracts" Version="2.0.0" />
+    <!-- <PackageReference Include="Olo42.FileDataAccess" Version="1.0.0-beta" />
+    <PackageReference Include="Olo42.FileDataAccess.Contracts" Version="2.0.0" /> -->
     <PackageReference Include="Olo42.SFS.FileAccess.Filesystem" Version="1.0.0" />
     <PackageReference Include="Olo42.SFS.Repository" Version="1.0.0" />
     <PackageReference Include="Olo42.SFS.Serialisation.Json" Version="1.0.0" />
@@ -90,8 +90,8 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
-    <ProjectReference Include="..\DataAccess\Olo42.SAROM.DataAccess.csproj" />
+    <!-- <ProjectReference Include="..\DataAccess.Contracts\Olo42.SAROM.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\DataAccess\Olo42.SAROM.DataAccess.csproj" /> -->
     <ProjectReference Include="..\Logic\Olo42.SAROM.Logic.csproj" />
   </ItemGroup>
 

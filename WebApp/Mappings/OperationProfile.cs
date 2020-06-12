@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Olo42.SAROM.DataAccess.Contracts;
+using Olo42.SAROM.Logic.Operations;
 using Olo42.SAROM.WebApp.Models;
 
 namespace Olo42.SAROM.WebApp.Mappings

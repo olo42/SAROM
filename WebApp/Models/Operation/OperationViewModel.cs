@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper.Configuration.Annotations;
-using Olo42.SAROM.DataAccess.Contracts;
 
 namespace Olo42.SAROM.WebApp.Models
 {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Olo42.SAROM.DataAccess.Contracts;
 using Olo42.SAROM.Logic.Operations;
 
 namespace Olo42.SAROM.WebApp.Models
