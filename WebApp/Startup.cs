@@ -27,6 +27,7 @@ using Olo42.SFS.Serialisation.Abstractions;
 using Olo42.SFS.Serialisation.Json;
 using Olo42.SFS.FileAccess.Abstractions;
 using Olo42.SFS.FileAccess.Filesystem;
+using Olo42.SAROM.Logic.Operations;
 
 namespace Olo42.SAROM.WebApp
 {
@@ -95,9 +96,8 @@ namespace Olo42.SAROM.WebApp
 
       services.AddScoped<IFormatter, BinaryFormatter>();
 
-      services.AddScoped<
-        IFileDataAccess<IEnumerable<User>>,
-        FormatterDataAccess<IEnumerable<User>>>();
+      // services.AddScoped<IFileDataAccess<IEnumerable<User>>,
+      //   FormatterDataAccess<IEnumerable<User>>>();
 
       services.AddScoped<ISerialisalizer<IEnumerable<User>>, JsonSerializer<IEnumerable<User>>>();  
       services.AddScoped<IFileAccess, PhysicalFile>();  
@@ -109,9 +109,15 @@ namespace Olo42.SAROM.WebApp
         .AddRoleStore<RoleStore<Role>>()
         .AddSignInManager<SignInManager<User>>();
 
-      services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
-      services.AddScoped<IFileDataAccess<DataAccess.Contracts.OperationsIndex>, FormatterDataAccess<DataAccess.Contracts.OperationsIndex>>();
-      services.AddScoped<DataAccess.Contracts.IOperationsRepository, OperationsRepository>();
+
+      services.AddScoped<ISerialisalizer<Operation>, JsonSerializer<Operation>>();
+      services.AddScoped<IRepository<Operation>, Repository<Operation>>();
+      
+
+
+      // services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
+      // services.AddScoped<IFileDataAccess<DataAccess.Contracts.OperationsIndex>, FormatterDataAccess<DataAccess.Contracts.OperationsIndex>>();
+      // services.AddScoped<DataAccess.Contracts.IOperationsRepository, OperationsRepository>();
 
       services.AddAutoMapper(
         typeof(OperationProfile),
