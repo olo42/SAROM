@@ -6,28 +6,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
-using Olo42.FileDataAccess.Contracts;
-using Olo42.SAROM.DataAccess.Contracts;
 
-namespace Olo42.SAROM.DataAccess
+namespace Olo42.SAROM.Logic.Operations
 {
   public class OperationsRepository : IOperationsRepository
   {
-    private readonly IFileDataAccess<Operation> operationDataAccess;
-    private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
+    // private readonly IFileDataAccess<Operation> operationDataAccess;
+    // private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
     private readonly IConfiguration configuration;
     private readonly string storagePath;
 
     public OperationsRepository(
-      IFileDataAccess<Operation> operationDataAccess,
-      IFileDataAccess<OperationsIndex> operationIndexDataAccess,
+      // IFileDataAccess<Operation> operationDataAccess,
+      // IFileDataAccess<OperationsIndex> operationIndexDataAccess,
       IConfiguration configuration)
     {
-      this.operationDataAccess = operationDataAccess;
-      this.operationIndexDataAccess = operationIndexDataAccess;
+      // this.operationDataAccess = operationDataAccess;
+      // this.operationIndexDataAccess = operationIndexDataAccess;
       this.configuration = configuration;
 
-      this.storagePath = this.GetConfigValue(EConfigKey.StoragePath);
+      // this.storagePath = this.GetConfigValue(EConfigKey.StoragePath);
     }
 
     public void Create(Operation operation)
@@ -39,10 +37,10 @@ namespace Olo42.SAROM.DataAccess
         Path.Combine(this.storagePath, operation.Id.ToString()));
 
       var index = this.ReadIndex();
-      var fileName = 
-        Path.Combine(operation.Id.ToString(), FileName.OPERATION);
-      index.Add(
-        new OperationFile(operation, fileName));
+      // var fileName = 
+      //   Path.Combine(operation.Id.ToString(), FileName.OPERATION);
+      // index.Add(
+      //   new OperationFile(operation, fileName));
      
       this.WriteIndex(index);
       this.Write(operation);
@@ -71,7 +69,8 @@ namespace Olo42.SAROM.DataAccess
       var filePath = 
         Path.Combine(this.storagePath, operationFile.FileName);
 
-      return this.operationDataAccess.Read(filePath);
+      // return this.operationDataAccess.Read(filePath);
+      throw new NotImplementedException();
     }
 
     public void Update(Operation operation)
@@ -98,34 +97,34 @@ namespace Olo42.SAROM.DataAccess
       return Path.Combine(this.storagePath, ReadIndex(operationId).FileName);
     }
 
-    private string GetConfigValue(EConfigKey key)
-    {
-      var section = EConfigSection.SAROMSettings.ToString();
-      var keyString = key.ToString();
-      var value = this.configuration.GetSection(section)[keyString];
-      if (string.IsNullOrWhiteSpace(value))
-      {
-        throw new Exception(
-          $"Configuration value for key {keyString} not found!");
-      }
+    // private string GetConfigValue(EConfigKey key)
+    // {
+    //   var section = EConfigSection.SAROMSettings.ToString();
+    //   var keyString = key.ToString();
+    //   var value = this.configuration.GetSection(section)[keyString];
+    //   if (string.IsNullOrWhiteSpace(value))
+    //   {
+    //     throw new Exception(
+    //       $"Configuration value for key {keyString} not found!");
+    //   }
 
-      return value;
-    }
+    //   return value;
+    // }
 
     private void Write(Operation operation)
     {
       var fullFileName = this.GetFullFileName(operation.Id);
 
-      this.operationDataAccess.Write(fullFileName, operation);
+      // this.operationDataAccess.Write(fullFileName, operation);
     }
 
     private OperationsIndex ReadIndex()
     {
-      var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
+      // var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
       OperationsIndex index = null;
       try
       {
-        index = this.operationIndexDataAccess.Read(indexFile);
+        // index = this.operationIndexDataAccess.Read(indexFile);
       }
       catch (System.IO.FileNotFoundException)
       {
@@ -148,8 +147,8 @@ namespace Olo42.SAROM.DataAccess
 
     private void WriteIndex(OperationsIndex index)
     {
-      var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
-      this.operationIndexDataAccess.Write(indexFile, index);
+      // var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
+      // this.operationIndexDataAccess.Write(indexFile, index);
     }
   }
 }

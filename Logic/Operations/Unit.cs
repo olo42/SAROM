@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Olo42.SAROM.DataAccess.Contracts
+namespace Olo42.SAROM.Logic.Operations
 {
   public class Unit
   {

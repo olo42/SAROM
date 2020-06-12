@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Olo42.SAROM.DataAccess.Contracts
+namespace Olo42.SAROM.Logic.Operations
 {
   public class OperationAction
   {

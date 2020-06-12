@@ -4,20 +4,20 @@
 using System;
 using System.Collections.Generic;
 
-namespace Olo42.SAROM.DataAccess.Contracts
+namespace Olo42.SAROM.Logic.Operations
 {
   [Serializable]
   public class Operation
   {
     public Operation()
     { }
+
     public Operation(string name, string number, DateTime alertDateTime)
     {
       this.Id = Guid.NewGuid();
       this.Name = name;
       this.Number = number;
       this.AlertDateTime = alertDateTime;
-
     }
 
     public Guid Id { get; set; }

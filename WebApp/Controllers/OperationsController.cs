@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Olo42.SAROM.WebApp.Models;
-using Olo42.SAROM.DataAccess.Contracts;
 using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Olo42.SAROM.Logic.Operations;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
