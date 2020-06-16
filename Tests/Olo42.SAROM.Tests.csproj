@@ -19,6 +19,11 @@
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Olo42.SFS.FileAccess.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Olo42.SFS.FileAccess.Filesystem" Version="1.0.0" />
+    <PackageReference Include="Olo42.SFS.Repository" Version="1.0.0" />
+    <PackageReference Include="Olo42.SFS.Serialisation.Abstractions" Version="1.0.1" />
+    <PackageReference Include="Olo42.SFS.Serialisation.Json" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
