@@ -5,150 +5,55 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Olo42.SAROM.Logic.Configuration;
+using Olo42.SFS.Repository.Abstractions;
 
 namespace Olo42.SAROM.Logic.Operations
 {
-  public class OperationsRepository : IOperationsRepository
+  public class OperationsRepository
   {
-    // private readonly IFileDataAccess<Operation> operationDataAccess;
-    // private readonly IFileDataAccess<OperationsIndex> operationIndexDataAccess;
-    private readonly IConfiguration configuration;
-    private readonly string storagePath;
+    private IRepository<Operation> fileRepository;
+    private IConfiguration configuration;
 
     public OperationsRepository(
-      // IFileDataAccess<Operation> operationDataAccess,
-      // IFileDataAccess<OperationsIndex> operationIndexDataAccess,
+      IRepository<Operation> fileRepository,
       IConfiguration configuration)
     {
-      // this.operationDataAccess = operationDataAccess;
-      // this.operationIndexDataAccess = operationIndexDataAccess;
+      this.fileRepository = fileRepository;
       this.configuration = configuration;
-
-      // this.storagePath = this.GetConfigValue(EConfigKey.StoragePath);
     }
 
-    public void Create(Operation operation)
+    public async Task<IEnumerable<Operation>> Get()
     {
-      if (operation == null)
-        throw new ArgumentNullException(nameof(operation));
+      var dir = this.GetOperationsDirectory();
+      var files = Directory.GetFiles(dir, "*.dat");
+      var operations = new List<Operation>();
 
-      Directory.CreateDirectory(
-        Path.Combine(this.storagePath, operation.Id.ToString()));
-
-      var index = this.ReadIndex();
-      // var fileName = 
-      //   Path.Combine(operation.Id.ToString(), FileName.OPERATION);
-      // index.Add(
-      //   new OperationFile(operation, fileName));
-     
-      this.WriteIndex(index);
-      this.Write(operation);
-    }
-
-    public void Delete(Guid id)
-    {
-      var operation = this.Read(id);
-      File.Delete(this.GetFullFileName(operation.Id));
-
-      var index = this.ReadIndex();
-      index.Remove(id);
-      this.WriteIndex(index);
-    }
-
-    public IEnumerable<OperationFile> Read()
-    {
-      var index = this.ReadIndex();
-
-      return index.OperationFiles;
-    }
-
-    public Operation Read(Guid id)
-    {
-      var operationFile = this.ReadIndex(id);
-      var filePath = 
-        Path.Combine(this.storagePath, operationFile.FileName);
-
-      // return this.operationDataAccess.Read(filePath);
-      throw new NotImplementedException();
-    }
-
-    public void Update(Operation operation)
-    {
-      var file = this.ReadIndex(operation.Id);
-      if (file == null)
+      for (int i = 0; i < files.Length; i++)
       {
-        throw new KeyNotFoundException(
-          $"Operation Id: {operation.Id} not found in index!");
+        try
+        {
+          var operation = await fileRepository.Read(new Uri(files[i]));
+          operations.Add(operation);   
+        }
+        catch (System.Exception)
+        {
+            // Log error
+            // throw;
+        }          
       }
-
-      file.Status = operation.Status;
-      this.Write(operation);
-
-      var index = this.ReadIndex();
-      index.OperationFiles.ToList().Find(
-        f => f.Id == operation.Id).Status = operation.Status;
       
-      this.WriteIndex(index);
+      return operations.AsEnumerable();
     }
 
-    private string GetFullFileName(Guid operationId)
+    private string GetOperationsDirectory()
     {
-      return Path.Combine(this.storagePath, ReadIndex(operationId).FileName);
-    }
+      var section = EConfigSection.SAROMSettings.ToString();
+      var key = EConfigKey.StoragePath.ToString();
 
-    // private string GetConfigValue(EConfigKey key)
-    // {
-    //   var section = EConfigSection.SAROMSettings.ToString();
-    //   var keyString = key.ToString();
-    //   var value = this.configuration.GetSection(section)[keyString];
-    //   if (string.IsNullOrWhiteSpace(value))
-    //   {
-    //     throw new Exception(
-    //       $"Configuration value for key {keyString} not found!");
-    //   }
-
-    //   return value;
-    // }
-
-    private void Write(Operation operation)
-    {
-      var fullFileName = this.GetFullFileName(operation.Id);
-
-      // this.operationDataAccess.Write(fullFileName, operation);
-    }
-
-    private OperationsIndex ReadIndex()
-    {
-      // var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
-      OperationsIndex index = null;
-      try
-      {
-        // index = this.operationIndexDataAccess.Read(indexFile);
-      }
-      catch (System.IO.FileNotFoundException)
-      {
-        index = new OperationsIndex();
-      }
-      if (index == null)
-      {
-        index = new OperationsIndex();
-      }
-
-      return index;
-    }
-
-    private OperationFile ReadIndex(Guid id)
-    {
-      var index = this.ReadIndex();
-
-      return index.OperationFiles.ToList().Find(x => x.Id == id);
-    }
-
-    private void WriteIndex(OperationsIndex index)
-    {
-      // var indexFile = Path.Combine(this.storagePath, FileName.INDEX);
-      // this.operationIndexDataAccess.Write(indexFile, index);
+      return this.configuration.GetSection(section)[key];
     }
   }
 }
