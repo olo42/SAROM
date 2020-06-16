@@ -1,21 +1,19 @@
 // Copyright (c) Oliver Appel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Olo42.SAROM.Logic.Operations
 {
   public interface IOperationsRepository
   {
-    void Create(Operation operation);
+     Task<IEnumerable<Operation>> Get();
 
-    IEnumerable<OperationFile> Read();
+    Task<Operation> Get(string id);
 
-    Operation Read(Guid id);
+    Task Store(Operation operation);
 
-    void Update(Operation operation); 
-
-    void Delete(Guid id);
+    Task Delete(string id);
   }
 }
