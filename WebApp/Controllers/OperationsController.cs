@@ -25,14 +25,14 @@ namespace Olo42.SAROM.WebApp.Controllers
     }
 
     // GET: Operations/Edit/5
-    public IActionResult Close(string id)
+    public async Task<IActionResult> CloseAsync(string id)
     {
       if (id == null)
       {
         return NotFound();
       }
 
-      var operation = this.repository.Read(Guid.Parse(id));
+      var operation = await this.repository.Get(id);
       if (operation == null)
       {
         return NotFound();
@@ -49,7 +49,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Close(string id, string closingReport)
     {
-      Operation operation = this.repository.Read(Guid.Parse(id));
+      Operation operation = await this.repository.Get(id);
       if (operation == null)
       {
         return NotFound();
@@ -64,7 +64,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
         try
         {
-          this.repository.Update(operation);
+          await this.repository.Store(operation);
         }
         catch (KeyNotFoundException)
         {
@@ -94,7 +94,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       if (ModelState.IsValid)
       {
         var operation = this.mapper.Map<Operation>(model);
-        this.repository.Create(operation);
+        await this.repository.Store(operation);
 
         return RedirectToAction(nameof(Index));
       }
@@ -107,7 +107,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-      this.repository.Delete(Guid.Parse(id));
+      await this.repository.Delete(id);
 
       return RedirectToAction(nameof(Index));
     }
@@ -120,7 +120,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = this.repository.Read(Guid.Parse(id));
+      var operation = await this.repository.Get(id);
       // .Include(o => o.Units)
       // .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -149,7 +149,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = this.repository.Read(Guid.Parse(id));
+      var operation = await this.repository.Get(id);
       if (operation == null)
       {
         return NotFound();
@@ -179,7 +179,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         Operation operation = null;
         try
         {
-          operation = this.repository.Read(Guid.Parse(editModel.Id));
+          operation = await this.repository.Get(editModel.Id);
         }
         catch (KeyNotFoundException)
         {
@@ -194,7 +194,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         operation.HeadquarterContact = editModel.HeadquarterContact;
         operation.OperationLeader = editModel.OperationLeader;
 
-        this.repository.Update(operation);
+        await this.repository.Store(operation);
 
         return RedirectToAction(nameof(Details), new { id });
       }
@@ -205,7 +205,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     // GET: Operations
     public async Task<IActionResult> Index()
     {
-      var operationFiles = this.repository.Read();
+      var operationFiles = await this.repository.Get();
       var viewModel =
         mapper.Map<IEnumerable<OperationIndexViewModel>>(operationFiles);
       viewModel = viewModel.OrderByDescending(x=>x.Alert);
@@ -220,7 +220,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         return NotFound();
       }
 
-      var operation = this.repository.Read(Guid.Parse(id));
+      var operation = await this.repository.Get(id);
       //   .Include(o => o.OperationActions)
       //   .Include(o => o.Units)
       //   .Include(o => o.MissingPeople)
