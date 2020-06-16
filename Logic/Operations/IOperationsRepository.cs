@@ -8,7 +8,7 @@ namespace Olo42.SAROM.Logic.Operations
 {
   public interface IOperationsRepository
   {
-     Task<IEnumerable<Operation>> Get();
+    Task<IEnumerable<Operation>> Get();
 
     Task<Operation> Get(string id);
 
