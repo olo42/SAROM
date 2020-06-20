@@ -205,9 +205,9 @@ namespace Olo42.SAROM.WebApp.Controllers
     // GET: Operations
     public async Task<IActionResult> Index()
     {
-      var operationFiles = await this.repository.Get();
+      var operations = await this.repository.Get();
       var viewModel =
-        mapper.Map<IEnumerable<OperationIndexViewModel>>(operationFiles);
+        mapper.Map<IEnumerable<OperationIndexViewModel>>(operations);
       viewModel = viewModel.OrderByDescending(x=>x.Alert);
 
       return View(viewModel);
