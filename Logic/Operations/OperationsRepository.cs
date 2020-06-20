@@ -12,7 +12,7 @@ using Olo42.SFS.Repository.Abstractions;
 
 namespace Olo42.SAROM.Logic.Operations
 {
-  public class OperationsRepository
+  public class OperationsRepository : IOperationsRepository
   {
     private IRepository<Operation> fileRepository;
     private IConfiguration configuration;
@@ -55,6 +55,11 @@ namespace Olo42.SAROM.Logic.Operations
     public Task Write(Operation operation)
     {
       return this.fileRepository.Write(this.GetUri(operation), operation);
+    }
+
+    public Task Delete(string id)
+    {
+      throw new NotImplementedException();
     }
 
     private string GetOperationsDirectory()
