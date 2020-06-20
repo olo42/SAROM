@@ -53,16 +53,16 @@ namespace Tests
     }
 
     [Test]
-    public void Store_Operations()
+    public void Write_operation()
     {
       // Arrange
       var opr1 = new Operation("Operation 1", "1", DateTime.Now);
-
+      this.repositoryMock.Setup(r => r.Write(It.IsAny<Uri>(), opr1));
       // Act
-      
+      this.operationsRepository.Write(opr1);
 
       // Assert
-
+      this.repositoryMock.Verify(r => r.Write(It.IsAny<Uri>(), opr1), Times.Once);
     }
 
     [Test]

@@ -12,7 +12,7 @@ namespace Olo42.SAROM.Logic.Operations
 
     Task<Operation> Get(string id);
 
-    Task Store(Operation operation);
+    Task Write(Operation operation);
 
     Task Delete(string id);
   }

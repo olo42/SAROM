@@ -64,7 +64,7 @@ namespace Olo42.SAROM.WebApp.Controllers
 
         try
         {
-          await this.repository.Store(operation);
+          await this.repository.Write(operation);
         }
         catch (KeyNotFoundException)
         {
@@ -94,7 +94,7 @@ namespace Olo42.SAROM.WebApp.Controllers
       if (ModelState.IsValid)
       {
         var operation = this.mapper.Map<Operation>(model);
-        await this.repository.Store(operation);
+        await this.repository.Write(operation);
 
         return RedirectToAction(nameof(Index));
       }
@@ -194,7 +194,7 @@ namespace Olo42.SAROM.WebApp.Controllers
         operation.HeadquarterContact = editModel.HeadquarterContact;
         operation.OperationLeader = editModel.OperationLeader;
 
-        await this.repository.Store(operation);
+        await this.repository.Write(operation);
 
         return RedirectToAction(nameof(Details), new { id });
       }
