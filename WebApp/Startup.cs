@@ -107,7 +107,7 @@ namespace Olo42.SAROM.WebApp
 
       services.AddScoped<ISerialisalizer<Operation>, JsonSerializer<Operation>>();
       services.AddScoped<IRepository<Operation>, Repository<Operation>>();
-      
+      services.AddScoped<IOperationsRepository, OperationsRepository>();
 
 
       // services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
