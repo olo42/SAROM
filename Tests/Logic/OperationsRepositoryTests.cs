@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
@@ -63,6 +64,20 @@ namespace Tests
 
       // Assert
       this.repositoryMock.Verify(r => r.Write(It.IsAny<Uri>(), opr1), Times.Once);
+    }
+
+    [Test]
+    public void Get_operation()
+    {
+      // Arrange
+      var op = new Operation($"Operation 1", $"1", DateTime.Now);
+      this.repositoryMock.Setup(r => r.Read(It.IsAny<Uri>())).Returns(Task.FromResult(op));
+      
+      // Act
+      var result = this.operationsRepository.Get(op.Id.ToString()).Result;
+
+      // Assert
+      Assert.That(result, Is.EqualTo(op));
     }
 
     [Test]

@@ -25,6 +25,10 @@ namespace Olo42.SAROM.Logic.Operations
       this.configuration = configuration;
     }
 
+    public Task<Operation> Get(string id)
+    {
+      return this.fileRepository.Read(this.GetUri(id));
+    }
     public async Task<IEnumerable<Operation>> Get()
     {
       var dir = this.GetOperationsDirectory();
@@ -50,7 +54,7 @@ namespace Olo42.SAROM.Logic.Operations
 
     public Task Write(Operation operation)
     {
-      return this.fileRepository.Write(this.GetUri(operation) ,operation);
+      return this.fileRepository.Write(this.GetUri(operation), operation);
     }
 
     private string GetOperationsDirectory()
@@ -63,9 +67,17 @@ namespace Olo42.SAROM.Logic.Operations
 
     private Uri GetUri(Operation operation)
     {
-      var path = 
+      var path =
         Path.Combine(this.GetOperationsDirectory(), operation.Id + ".dat");
-      
+
+      return new Uri(path);
+    }
+
+    private Uri GetUri(string id)
+    {
+      var path =
+        Path.Combine(this.GetOperationsDirectory(), id + ".dat");
+
       return new Uri(path);
     }
   }
