@@ -32,7 +32,7 @@ namespace Olo42.SAROM.Logic.Operations
     public async Task<IEnumerable<Operation>> Get()
     {
       var dir = this.GetOperationsDirectory();
-      var files = Directory.GetFiles(dir, "*.dat");
+      var files = Directory.GetFiles(dir, $"*{this.GetFileExtension()}");
       var operations = new List<Operation>();
 
       for (int i = 0; i < files.Length; i++)
@@ -68,7 +68,7 @@ namespace Olo42.SAROM.Logic.Operations
     private Uri GetUri(Operation operation)
     {
       var path =
-        Path.Combine(this.GetOperationsDirectory(), operation.Id + ".dat");
+        Path.Combine(this.GetOperationsDirectory(), operation.Id + this.GetFileExtension());
 
       return new Uri(path);
     }
@@ -76,9 +76,17 @@ namespace Olo42.SAROM.Logic.Operations
     private Uri GetUri(string id)
     {
       var path =
-        Path.Combine(this.GetOperationsDirectory(), id + ".dat");
+        Path.Combine(this.GetOperationsDirectory(), id + this.GetFileExtension());
 
       return new Uri(path);
+    }
+
+    private string GetFileExtension()
+    {
+      var section = EConfigSection.SAROMSettings.ToString();
+      var key = EConfigKey.FileExtension.ToString();
+
+      return this.configuration.GetSection(section)[key];
     }
   }
 }

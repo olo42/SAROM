@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +27,7 @@ namespace Tests
     private string operationsDir;
     private Repository<Operation> fileRepository;
     private OperationsRepository operationsRepository;
+    private readonly string fileExtension = ".sof";
 
     [SetUp]
     public void Setup()
@@ -36,13 +36,18 @@ namespace Tests
       this.configurationMock = new Mock<IConfiguration>();
 
       var section = EConfigSection.SAROMSettings.ToString();
-      var key = EConfigKey.StoragePath.ToString();
+      var storagePathKey = EConfigKey.StoragePath.ToString();
+      var fileExtensionKey = EConfigKey.FileExtension.ToString();
 
       this.operationsDir = Path.Combine(Path.GetTempPath(), "SFSTestdir");
 
       this.configurationMock
-        .Setup(c => c.GetSection(section)[key])
+        .Setup(c => c.GetSection(section)[storagePathKey])
         .Returns(this.operationsDir);
+
+      this.configurationMock
+        .Setup(c => c.GetSection(section)[fileExtensionKey])
+        .Returns(this.fileExtension);
 
       this.operationsRepository = new OperationsRepository(
         this.repositoryMock.Object, 
@@ -72,7 +77,7 @@ namespace Tests
       // Arrange
       var op = new Operation($"Operation 1", $"1", DateTime.Now);
       this.repositoryMock.Setup(r => r.Read(It.IsAny<Uri>())).Returns(Task.FromResult(op));
-      
+
       // Act
       var result = this.operationsRepository.Get(op.Id.ToString()).Result;
 
@@ -87,7 +92,7 @@ namespace Tests
       for (int i = 0; i < 3; i++)
       {
         var op = new Operation($"Operation {i}", $"{i}", DateTime.Now);    
-        var path = Path.Combine(this.operationsDir, op.Id.ToString()+".dat");
+        var path = Path.Combine(this.operationsDir, op.Id.ToString() + this.fileExtension);
         this.fileRepository.Write(new Uri(path), op);
       }
 
