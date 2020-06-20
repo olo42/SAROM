@@ -26,6 +26,7 @@ namespace Tests
     private Mock<IConfiguration> configurationMock;
     private string operationsDir;
     private Repository<Operation> fileRepository;
+    private OperationsRepository operationsRepository;
 
     [SetUp]
     public void Setup()
@@ -41,6 +42,10 @@ namespace Tests
       this.configurationMock
         .Setup(c => c.GetSection(section)[key])
         .Returns(this.operationsDir);
+
+      this.operationsRepository = new OperationsRepository(
+        this.repositoryMock.Object, 
+        this.configurationMock.Object);
 
       ISerialisalizer<Operation> serialisalizer = new JsonSerializer<Operation>();
       IFileAccess fileAccess = new PhysicalFile();
@@ -71,12 +76,8 @@ namespace Tests
         this.fileRepository.Write(new Uri(path), op);
       }
 
-      var operationsRepository = new OperationsRepository(
-        this.repositoryMock.Object, 
-        this.configurationMock.Object);
-
       // Act
-      var operations = operationsRepository.Get().Result;
+      var operations = this.operationsRepository.Get().Result;
 
       // Assert
       Assert.That(operations.ToList().Count(), Is.EqualTo(3));
