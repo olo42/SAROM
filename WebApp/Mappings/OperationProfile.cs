@@ -13,15 +13,11 @@ namespace Olo42.SAROM.WebApp.Mappings
   {
     public OperationProfile()
     {
-      CreateMap<IEnumerable<OperationIndexViewModel>, IEnumerable<OperationFile>>();
-      CreateMap<OperationIndexViewModel, OperationFile>();
-      CreateMap<OperationFile, OperationIndexViewModel>();
       CreateMap<OperationCreateModel, Operation>();
       CreateMap<Operation, OperationDetailsViewModel>();
-
       CreateMap<Operation, OperationEditModel>();
-
       CreateMap<OperationViewModel, Operation>().ReverseMap();
+      CreateMap<Operation, OperationIndexViewModel>();
     }
   }
 }
