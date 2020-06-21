@@ -14,16 +14,16 @@ namespace Olo42.SAROM.Logic.Operations
 
     public Operation(string name, string number, DateTime alertDateTime)
     {
-      this.Id = Guid.NewGuid();
+      this.Id = Guid.NewGuid().ToString();
       this.Name = name;
       this.Number = number;
-      this.AlertDateTime = alertDateTime;
+      this.Alert = alertDateTime;
     }
 
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Number { get; set; }
-    public DateTime AlertDateTime { get; set; }
+    public DateTime Alert { get; set; }
     public bool IsClosed { get; set; }
     public string ClosingReport { get; set; }
     public string Headquarter { get; set; }

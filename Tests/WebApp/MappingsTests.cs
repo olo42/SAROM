@@ -19,8 +19,30 @@ namespace Olo42.SAROM.Tests.WebApp
 
       configuration.AssertConfigurationIsValid();
     }
-  }
 
+    [Test]
+    public void OperationViewModel_Operation_Test()
+    {
+
+      // Fails because the Unit mapping ist not configured here
+      // How to add another configuration here?
+      var configuration = 
+        new MapperConfiguration(
+          cfg => cfg.CreateMap<OperationViewModel, Operation>()
+          );
+
+      configuration.AssertConfigurationIsValid();
+    }
+
+    [Test]
+    public void UnitViewModel_Unit_Test()
+    {
+      var configuration = 
+        new MapperConfiguration(cfg => cfg.CreateMap<Unit, UnitViewModel>());
+
+      configuration.AssertConfigurationIsValid();
+    }
+  }
 }
 
 

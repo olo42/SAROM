@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper.Configuration.Annotations;
+using Olo42.SAROM.Logic.Operations;
 
 namespace Olo42.SAROM.WebApp.Models
 {
@@ -51,5 +52,7 @@ namespace Olo42.SAROM.WebApp.Models
     public string PoliceContactPhone { get; set; }
 
     public List<UnitViewModel> Units { get; set; }
+
+    public EStatus Status { get; set; }
   }
 }
