@@ -94,8 +94,8 @@ namespace Olo42.SAROM.WebApp
       // services.AddScoped<IFileDataAccess<IEnumerable<User>>,
       //   FormatterDataAccess<IEnumerable<User>>>();
 
-      services.AddScoped<ISerialisalizer<IEnumerable<User>>, JsonSerializer<IEnumerable<User>>>();  
-      services.AddScoped<IFileAccess, PhysicalFile>();  
+      services.AddScoped<ISerialisalizer<IEnumerable<User>>, JsonSerializer<IEnumerable<User>>>();
+      services.AddScoped<IFileAccess, PhysicalFile>();
       services.AddScoped<IRepository<IEnumerable<User>>, Repository<IEnumerable<User>>>();
       services.AddScoped<IUserManager, UsersManager>();
 
@@ -108,7 +108,7 @@ namespace Olo42.SAROM.WebApp
       services.AddScoped<ISerialisalizer<Operation>, JsonSerializer<Operation>>();
       services.AddScoped<IRepository<Operation>, Repository<Operation>>();
       services.AddScoped<IOperationsRepository, OperationsRepository>();
-
+      services.AddScoped<IUnitsRepository, UnitsRepository>();
 
       // services.AddScoped<IFileDataAccess<DataAccess.Contracts.Operation>, FormatterDataAccess<DataAccess.Contracts.Operation>>();
       // services.AddScoped<IFileDataAccess<DataAccess.Contracts.OperationsIndex>, FormatterDataAccess<DataAccess.Contracts.OperationsIndex>>();

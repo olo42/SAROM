@@ -72,7 +72,7 @@
       </td>
       <td>
         @*<a asp-action="Details" asp-route-id="@item.Id">@Localizer["anzeigen"]</a> |*@
-        <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["bearbeiten"]</a> @*|*@
+        <a asp-action="Edit" asp-route-id="@item.Id" asp-route-operationId="@ViewBag.OperationId">@Localizer["bearbeiten"]</a> @*|*@
         @*<a asp-action="Delete" asp-route-id="@item.Id">@Localizer["löschen"]</a>*@
       </td>
     </tr>
