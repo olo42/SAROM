@@ -5,7 +5,6 @@ using Olo42.SAROM.WebApp.Models;
 using Olo42.SAROM.Logic.Operations;
 using AutoMapper;
 using System.Collections.Generic;
-using System;
 
 namespace Olo42.SAROM.WebApp.Controllers
 {
@@ -33,7 +32,6 @@ namespace Olo42.SAROM.WebApp.Controllers
     }
 
     // GET: Units/Details/5
-    [HttpGet("Details/{operdationId}/{id}")]
     public async Task<IActionResult> Details(string operationId, string id)
     {
       var unit = await repository.Get(operationId, id);
@@ -91,7 +89,7 @@ namespace Olo42.SAROM.WebApp.Controllers
     {
       if (ModelState.IsValid)
       {
-        var unit = this.mapper.Map<Unit>(unitViewModel);  
+        var unit = this.mapper.Map<Unit>(unitViewModel);
         await this.repository.Write(unit.OperationId, unit);
 
         return RedirectToAction(nameof(Index), new { id = unit.OperationId });
