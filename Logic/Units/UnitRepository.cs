@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Olo42.SAROM.Logic.Operations
@@ -41,35 +40,19 @@ namespace Olo42.SAROM.Logic.Operations
 
     public async Task Write(string operationId, Unit unit)
     {
-      var operation = await this.GetOperationAsync(operationId);
       if (unit.Id == null)
       {
         unit.Id = Guid.NewGuid().ToString();
       }
-
+      var operation = await this.GetOperationAsync(operationId);
       var origin = this.GetUnit(operation, unit.Id);
-      if (origin == null)
-      {
-        operation.Units.Add(unit);
-      }
-      else
-      {
-        this.Update(origin, unit);
-      }
-      
-      await this.operationsRepository.Write(operation);
-    }
 
-    private void Update(Unit origin, Unit unit)
-    {
-      origin.Name = unit.Name;
-      origin.AreaSeeker = unit.AreaSeeker;
-      origin.DebrisSearcher = unit.DebrisSearcher;
-      origin.GroupLeader = unit.GroupLeader;
-      origin.Helpers = unit.Helpers;
-      origin.Mantrailer = unit.Mantrailer;
-      origin.PagerNumber = unit.PagerNumber;
-      origin.WaterLocators = unit.WaterLocators;
+      if (origin == null)
+        operation.Units.Add(unit);
+      else
+        this.Update(origin, unit);
+
+      await this.operationsRepository.Write(operation);
     }
 
     private async Task<Operation> GetOperationAsync(string operationId)
@@ -86,7 +69,19 @@ namespace Olo42.SAROM.Logic.Operations
         return null;
       }
 
-      return operation.Units?.Find(x => x.Id == unitId);
+      return operation.Units.Find(x => x.Id == unitId);
+    }
+
+    private void Update(Unit origin, Unit unit)
+    {
+      origin.Name = unit.Name;
+      origin.AreaSeeker = unit.AreaSeeker;
+      origin.DebrisSearcher = unit.DebrisSearcher;
+      origin.GroupLeader = unit.GroupLeader;
+      origin.Helpers = unit.Helpers;
+      origin.Mantrailer = unit.Mantrailer;
+      origin.PagerNumber = unit.PagerNumber;
+      origin.WaterLocators = unit.WaterLocators;
     }
   }
 }
